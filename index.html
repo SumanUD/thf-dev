@@ -29,18 +29,55 @@
 					</header>
 
 				<!-- Menu -->
-					<nav id="menu">
-						<ul class="links">
-							<li><a href="index.html">Home</a></li>
-							<li><a href="landing.html">Landing</a></li>
-							<li><a href="generic.html">Generic</a></li>
-							<li><a href="elements.html">Elements</a></li>
-						</ul>
-						<ul class="actions stacked">
-							<li><a href="#" class="button primary fit">Get Started</a></li>
-							<li><a href="#" class="button fit">Log In</a></li>
-						</ul>
-					</nav>
+				<nav id="menu">
+				<div class="menu-left">
+					<ul class="links">
+					<li><a href="#">Baklava</a></li>
+					<li><a href="#">Labon</a></li>
+					<li><a href="#">Dates</a></li>
+					<li><a href="#">Mewabite</a></li>
+					<li><a href="#">Assorted</a></li>
+					<li><a href="#">Collection</a></li>
+					<li><a href="#">The Gifting</a></li>
+					<li><a href="#">The Coffee</a></li>
+					<li><a href="#">THF</a></li>
+					</ul>
+
+					<ul class="links links2">
+					<li><a href="#">Merchandise</a></li>
+					<li><a href="#">The Jalghar</a></li>
+					<li><a href="#">About THF</a></li>
+					<li><a href="#">The Facility</a></li>
+					<li><a href="#">THF Catering</a></li>
+					<li><a href="#">The EC</a></li>
+					<li><a href="#">Store Locator</a></li>
+					<li><a href="#">Gifting</a></li>
+					<li><a href="#">Brochures</a></li>
+					<li><a href="#">Corporate</a></li>
+					</ul>
+
+					<ul class="actions stacked">
+					<li><a href="#" class="button primary fit">Sign Up</a></li>
+					<li><a href="#" class="button fit">Log In</a></li>
+					</ul>
+				</div>
+
+				<!-- ✅ Image Slider (right side) -->
+				<div class="menu-slider">
+					<h2>THF specials</h2>
+					<div class="slider">
+					<img src="./assets/images/baklava.png" class="slide active">
+					<img src="./assets/images/labon.png" class="slide">
+					<img src="./assets/images/mewabite.jpg" class="slide">
+
+					<!-- Arrows -->
+      <button class="arrow prev">&#10094;</button>
+      <button class="arrow nxxt">&#10095;</button>
+					</div>
+				</div>
+				</nav>
+
+
 
 				<!-- Banner -->
 				<section id="banner" class="major">
@@ -229,6 +266,54 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+
+
+<script>
+  const slides = document.querySelectorAll('.menu-slider .slide');
+  const prevBtn = document.querySelector('.menu-slider .prev');
+  const nextBtn = document.querySelector('.menu-slider .nxxt');
+  let current = 0;
+  let autoSlide;
+
+  function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    slides[index].classList.add('active');
+  }
+
+  function nextSlide() {
+    current = (current + 1) % slides.length;
+    showSlide(current);
+  }
+
+  function prevSlide() {
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide(current);
+  }
+
+  nextBtn.addEventListener('click', () => {
+    nextSlide();
+    resetAutoSlide();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    prevSlide();
+    resetAutoSlide();
+  });
+
+  function startAutoSlide() {
+    autoSlide = setInterval(nextSlide, 3000);
+  }
+
+  function resetAutoSlide() {
+    clearInterval(autoSlide);
+    startAutoSlide();
+  }
+
+  startAutoSlide();
+</script>
+
+
 
 	</body>
 </html>
