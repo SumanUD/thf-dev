@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scroll Text Change Banner</title>
+  <link rel="stylesheet" href="./assets/css/category.css">
+
+</head>
+
+<body>
+  <section class="video-banner">
+    <video autoplay muted loop playsinline>
+      <source src="./assets/images/banner1.mp4" type="video/mp4">
+    </video>
+
+    <div class="banner-texts">
+      <h1 class="active">Welcome to THF</h1>
+      <h1>Experience Luxury</h1>
+      <h1>Where Craft Meets Design</h1>
+      <h1>Redefining Spaces</h1>
+    </div>
+  </section>
+
+<section class="content">
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-image">
+        <img src="./assets/images/baklava.png" alt="Baklava">
+        <div class="overlay">
+          <button class="btn-cart">🛒 Add to Cart</button>
+          <button class="btn-wishlist">💖 Wishlist</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>Classic Baklava</h3>
+        <p>Handcrafted layers with pistachio & honey drizzle.</p>
+        <span class="price">₹599</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="./assets/images/labon.png" alt="Chocolate Dates">
+        <div class="overlay">
+          <button class="btn-cart">🛒 Add to Cart</button>
+          <button class="btn-wishlist">💖 Wishlist</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>Chocolate Dates</h3>
+        <p>Premium dates wrapped in dark Belgian chocolate.</p>
+        <span class="price">₹749</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="./assets/images/baklava.png" alt="Assorted Box">
+        <div class="overlay">
+          <button class="btn-cart">🛒 Add to Cart</button>
+          <button class="btn-wishlist">💖 Wishlist</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>Assorted Gift Box</h3>
+        <p>Curated collection of our finest sweet delights.</p>
+        <span class="price">₹999</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="./assets/images/mewabite.jpg" alt="Honey Bites">
+        <div class="overlay">
+          <button class="btn-cart">🛒 Add to Cart</button>
+          <button class="btn-wishlist">💖 Wishlist</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>Honey Bites</h3>
+        <p>Golden honey-coated bites with almond crunch.</p>
+        <span class="price">₹699</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="./assets/images/labon.png" alt="Nut Bar">
+        <div class="overlay">
+          <button class="btn-cart">🛒 Add to Cart</button>
+          <button class="btn-wishlist">💖 Wishlist</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>Nut Bar</h3>
+        <p>Caramelized almond and cashew blend bar.</p>
+        <span class="price">₹549</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="./assets/images/baklava.png" alt="Fruit Delight">
+        <div class="overlay">
+          <button class="btn-cart">🛒 Add to Cart</button>
+          <button class="btn-wishlist">💖 Wishlist</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>Fruit Delight</h3>
+        <p>Juicy candied fruits wrapped in soft syrup glaze.</p>
+        <span class="price">₹799</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const texts = gsap.utils.toArray(".banner-texts h1");
+
+    // Create a scroll-triggered animation for text swapping
+    let currentIndex = 0;
+
+    ScrollTrigger.create({
+      trigger: ".video-banner",
+      start: "top top",
+      end: () => "+=" + (texts.length * window.innerHeight),
+      pin: true,
+      scrub: true,
+      onUpdate: (self) => {
+        let index = Math.round(self.progress * (texts.length - 1));
+        if (index !== currentIndex) {
+          texts[currentIndex].classList.remove("active");
+          texts[index].classList.add("active");
+          currentIndex = index;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
