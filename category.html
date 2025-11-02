@@ -3,146 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scroll Text Change Banner</title>
+  <title>THF | Luxury Sweets</title>
   <link rel="stylesheet" href="./assets/css/category.css">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <!-- 🎥 Hero Section -->
   <section class="video-banner">
     <video autoplay muted loop playsinline>
       <source src="./assets/images/banner1.mp4" type="video/mp4">
     </video>
 
+    <div class="banner-overlay"></div>
+
     <div class="banner-texts">
-      <h1 class="active">Welcome to THF</h1>
-      <h1>Experience Luxury</h1>
-      <h1>Where Craft Meets Design</h1>
-      <h1>Redefining Spaces</h1>
+      <h1 class="active">Welcome to <span>THF</span></h1>
+      <h1>Experience <span>Luxury</span></h1>
+      <h1>Where <span>Craft Meets Design</span></h1>
+      <h1>Redefining <span>Sweet Spaces</span></h1>
     </div>
   </section>
 
+<!-- 🍬 Product Section -->
 <section class="content">
+  <div class="section-header">
+    <h2>Our Signature Sweets</h2>
+    <p>Handcrafted delicacies made with passion, precision, and pure indulgence.</p>
+  </div>
+
   <div class="product-grid">
+    <!-- 🍯 Product Card 1 -->
     <div class="product-card">
-      <div class="product-image">
-        <img src="./assets/images/baklava.png" alt="Baklava">
-        <div class="overlay">
-          <button class="btn-cart">🛒 Add to Cart</button>
-          <button class="btn-wishlist">💖 Wishlist</button>
+      <div class="card-image">
+        <img src="./assets/images/baklava.png" alt="Classic Baklava">
+        <div class="price-badge">₹599</div>
+        <div class="hover-actions">
+          <button><i>🛒</i> Add to Cart</button>
+          <button><i>💖</i> Wishlist</button>
         </div>
       </div>
-      <div class="product-info">
+      <div class="card-content">
         <h3>Classic Baklava</h3>
-        <p>Handcrafted layers with pistachio & honey drizzle.</p>
-        <span class="price">₹599</span>
+        <p>Delicate filo pastry with pistachio layers & honey drizzle.</p>
       </div>
     </div>
 
+    <!-- 🍫 Product Card 2 -->
     <div class="product-card">
-      <div class="product-image">
+      <div class="card-image">
         <img src="./assets/images/labon.png" alt="Chocolate Dates">
-        <div class="overlay">
-          <button class="btn-cart">🛒 Add to Cart</button>
-          <button class="btn-wishlist">💖 Wishlist</button>
+        <div class="price-badge">₹749</div>
+        <div class="hover-actions">
+          <button><i>🛒</i> Add to Cart</button>
+          <button><i>💖</i> Wishlist</button>
         </div>
       </div>
-      <div class="product-info">
+      <div class="card-content">
         <h3>Chocolate Dates</h3>
-        <p>Premium dates wrapped in dark Belgian chocolate.</p>
-        <span class="price">₹749</span>
+        <p>Premium dates covered in rich Belgian chocolate.</p>
       </div>
     </div>
 
+    <!-- 🍯 Product Card 3 -->
     <div class="product-card">
-      <div class="product-image">
-        <img src="./assets/images/baklava.png" alt="Assorted Box">
-        <div class="overlay">
-          <button class="btn-cart">🛒 Add to Cart</button>
-          <button class="btn-wishlist">💖 Wishlist</button>
-        </div>
-      </div>
-      <div class="product-info">
-        <h3>Assorted Gift Box</h3>
-        <p>Curated collection of our finest sweet delights.</p>
-        <span class="price">₹999</span>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <div class="product-image">
+      <div class="card-image">
         <img src="./assets/images/mewabite.jpg" alt="Honey Bites">
-        <div class="overlay">
-          <button class="btn-cart">🛒 Add to Cart</button>
-          <button class="btn-wishlist">💖 Wishlist</button>
+        <div class="price-badge">₹699</div>
+        <div class="hover-actions">
+          <button><i>🛒</i> Add to Cart</button>
+          <button><i>💖</i> Wishlist</button>
         </div>
       </div>
-      <div class="product-info">
+      <div class="card-content">
         <h3>Honey Bites</h3>
-        <p>Golden honey-coated bites with almond crunch.</p>
-        <span class="price">₹699</span>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <div class="product-image">
-        <img src="./assets/images/labon.png" alt="Nut Bar">
-        <div class="overlay">
-          <button class="btn-cart">🛒 Add to Cart</button>
-          <button class="btn-wishlist">💖 Wishlist</button>
-        </div>
-      </div>
-      <div class="product-info">
-        <h3>Nut Bar</h3>
-        <p>Caramelized almond and cashew blend bar.</p>
-        <span class="price">₹549</span>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <div class="product-image">
-        <img src="./assets/images/baklava.png" alt="Fruit Delight">
-        <div class="overlay">
-          <button class="btn-cart">🛒 Add to Cart</button>
-          <button class="btn-wishlist">💖 Wishlist</button>
-        </div>
-      </div>
-      <div class="product-info">
-        <h3>Fruit Delight</h3>
-        <p>Juicy candied fruits wrapped in soft syrup glaze.</p>
-        <span class="price">₹799</span>
+        <p>Crunchy almond bites dipped in golden honey glaze.</p>
       </div>
     </div>
   </div>
 </section>
 
 
+
+  <!-- ⚙️ Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
-
-    const texts = gsap.utils.toArray(".banner-texts h1");
-
-    // Create a scroll-triggered animation for text swapping
-    let currentIndex = 0;
-
-    ScrollTrigger.create({
-      trigger: ".video-banner",
-      start: "top top",
-      end: () => "+=" + (texts.length * window.innerHeight),
-      pin: true,
-      scrub: true,
-      onUpdate: (self) => {
-        let index = Math.round(self.progress * (texts.length - 1));
-        if (index !== currentIndex) {
-          texts[currentIndex].classList.remove("active");
-          texts[index].classList.add("active");
-          currentIndex = index;
-        }
-      }
-    });
-  </script>
+  <script src="./assets/js/category.js"></script>
 </body>
 </html>
