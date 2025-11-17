@@ -57,14 +57,13 @@
 
   function moveNext() {
     index += slidesPerView;
-    if (index >= total) index = 0; // 👈 loop back
+    if (index >= total) index = 0;
     updateTrack();
   }
 
   function movePrev() {
     index -= slidesPerView;
     if (index < 0) {
-      // 👈 go to last full slide set
       const remainder = total % slidesPerView;
       index = remainder === 0 ? total - slidesPerView : total - remainder;
     }
@@ -96,3 +95,21 @@
 
   init();
 })();
+
+
+
+
+  document.querySelector(".readmore-btn").addEventListener("click", function() {
+    const fullText = document.querySelector(".team-full-desc");
+    const shortText = document.querySelector(".short-text");
+
+    if (fullText.style.display === "block") {
+      fullText.style.display = "none";
+      shortText.style.display = "block";
+      this.innerText = "Read More";
+    } else {
+      fullText.style.display = "block";
+      shortText.style.display = "none";
+      this.innerText = "Show Less";
+    }
+  });

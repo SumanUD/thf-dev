@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Find a Cafe</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"Inter",sans-serif;
+    }
+    body{
+      background:#eef1f8;
+    }
+
+    /* HEADER BANNER */
+    .hero-banner{
+      width:100%;
+      height:360px;
+      background:url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070') center/cover no-repeat;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+    .hero-banner::after{
+      content:"";
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.45);
+      position:absolute;
+      top:0;
+      left:0;
+    }
+    .hero-content{
+      position:relative;
+      z-index:3;
+      color:white;
+      max-width:780px;
+      padding:0 20px;
+      animation:fadeIn 1.6s ease forwards;
+    }
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(20px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+    .hero-title{
+      font-size:3.4em;
+      font-weight:900;
+      letter-spacing:-1px;
+      margin-bottom:12px;
+      text-shadow:0 3px 18px rgba(0,0,0,0.3);
+    }
+    .hero-sub{
+      font-size:1.25em;
+      opacity:.92;
+      font-weight:500;
+    }
+
+    /* MAIN CONTAINER */
+    .container{
+      max-width:1350px;
+      margin:auto;
+      padding:40px 24px;
+      margin-top:-85px;
+      position:relative;
+      z-index:5;
+    }
+
+    /* CARD SHADOW WRAPPER */
+    .floating-card{
+      background:#ffffffee;
+      padding:34px;
+      border-radius:22px;
+      backdrop-filter:blur(8px);
+      box-shadow:0 20px 45px rgba(0,0,0,0.12);
+      animation:floatUp .9s ease forwards;
+    }
+
+    @keyframes floatUp{
+      from{opacity:0; transform:translateY(40px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+
+    /* HEADER */
+    .header-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:34px;
+      flex-wrap:wrap;
+      gap:20px;
+    }
+    .main-title{
+      font-size:2.3em;
+      font-weight:900;
+      color:#1e2635;
+    }
+
+    .map-btn{
+      padding:12px 26px;
+      border:none;
+      border-radius:14px;
+      background:#131e3c;
+      color:white;
+      font-weight:600;
+      font-size:1.1em;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      transition:.3s cubic-bezier(.25,.1,.25,1);
+    }
+    .map-btn:hover{
+      transform:translateY(-4px) scale(1.02);
+      background:#0b1530;
+    }
+
+    /* FILTER CARD */
+    .filter-card{
+      background:#f7f9ff;
+      padding:30px;
+      border-radius:18px;
+      margin-bottom:48px;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      gap:20px;
+      box-shadow:0 12px 32px rgba(0,0,0,0.06);
+    }
+
+    .location-btn{
+      background:#0b3fc1;
+      color:white;
+      padding:14px 26px;
+      border:none;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      transition:.25s;
+    }
+    .location-btn:hover{
+      transform:scale(1.05);
+    }
+
+    .filter-fields{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .filter-fields select,
+    .filter-fields input{
+      padding:12px 18px;
+      font-size:1em;
+      border-radius:12px;
+      border:1.5px solid #d1d5e6;
+      min-width:160px;
+      background:white;
+      box-shadow:0 4px 12px rgba(0,0,0,0.04);
+      transition:.2s;
+    }
+
+    .filter-fields select:focus{
+      border-color:#0b3fc1;
+      box-shadow:0 0 0 3px rgba(11,63,193,0.18);
+      outline:none;
+    }
+
+    .filter-fields button{
+      background:#131e3c;
+      color:white;
+      border:none;
+      padding:12px 24px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .filter-fields button:hover{
+      background:#0b1530;
+      transform:translateY(-2px);
+    }
+
+    .cafes-count{
+      font-size:1.2em;
+      font-weight:700;
+      color:#1e2635;
+      display:flex;
+      align-items:center;
+    }
+
+    /* SECTION TITLE */
+    .cafes-title{
+      font-size:2.2em;
+      font-weight:900;
+      margin-bottom:24px;
+      color:#1e2635;
+      letter-spacing:-.5px;
+      text-shadow:0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    /* LIST */
+    .cafes-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+      gap:34px;
+    }
+
+    /* CARD */
+    .cafe-card{
+      background:white;
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 16px 40px rgba(0,0,0,0.09);
+      transition:.35s ease;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .cafe-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 18px 50px rgba(0,0,0,0.15);
+    }
+
+    .cafe-image-wrap{
+      height:220px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .cafe-image{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:.45s ease;
+    }
+
+    .cafe-card:hover .cafe-image{
+      transform:scale(1.08);
+    }
+
+    .cafe-info{
+      padding:24px;
+    }
+
+    .cafe-header{
+      font-size:1.35em;
+      font-weight:800;
+      margin-bottom:6px;
+      color:#1e2635;
+    }
+
+    .cafe-locality{
+      font-size:1.1em;
+      font-weight:600;
+      color:#4e5363;
+      margin-bottom:16px;
+    }
+
+    .cafe-details{
+      color:#63667a;
+      font-size:1em;
+      margin-bottom:20px;
+    }
+
+    .details-row{
+      margin-bottom:8px;
+      line-height:1.6;
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+    }
+
+    .details-row i{
+      color:#0b3fc1;
+      margin-top:2px;
+    }
+
+    .open-now{
+      color:#1da678;
+      font-weight:800;
+      font-size:1.05em;
+    }
+
+    .cafe-actions{
+      display:flex;
+      gap:12px;
+    }
+
+    .cafe-actions button{
+      flex:1;
+      padding:12px;
+      border-radius:10px;
+      border:none;
+      font-weight:600;
+      cursor:pointer;
+      font-size:1em;
+      transition:.2s;
+    }
+
+    .cafe-actions button:first-child{
+      background:#0b3fc1;
+      color:white;
+    }
+
+    .cafe-actions button:first-child:hover{
+      background:#072f94;
+      transform:translateY(-2px);
+    }
+
+    .cafe-actions button:last-child{
+      background:#f4f6fc;
+      border:1px solid #dce2f7;
+      color:#0b3fc1;
+    }
+
+    .cafe-actions button:last-child:hover{
+      background:#e3eaff;
+      transform:translateY(-2px);
+    }
+
+    @media(max-width:760px){
+      .container{ padding:16px; margin-top:-40px; }
+      .filter-card{ flex-direction:column; }
+      .header-row{ flex-direction:column; align-items:flex-start; }
+      .hero-title{font-size:2.4em;}
+      .hero-banner{height:280px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div class="hero-banner">
+  <div class="hero-content">
+    <div class="hero-title">Discover THF Stores Around You</div>
+    <div class="hero-sub">Find the nearest premium sweets from THF.</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="floating-card">
+
+    <div class="header-row">
+      <span class="main-title">Explore Nearby Stores</span>
+      <button class="map-btn">&#128506; Map View</button>
+    </div>
+
+    <div class="filter-card">
+      <button class="location-btn">&#128205; Use My Current Location</button>
+
+      <div class="filter-fields">
+        <span style="font-weight:700;color:#0b3fc1;font-size:1.05em;">or</span>
+        <select><option>Select State</option></select>
+        <select><option>Select City</option></select>
+        <select><option>Select Locality</option></select>
+        <select><option>Select Radius</option></select>
+        <button>Search</button>
+      </div>
+
+      <span class="cafes-count">11 Stores</span>
+    </div>
+
+    <div class="cafes-title">Stores Near You</div>
+
+    <div class="cafes-list">
+
+      <div class="cafe-card">
+        <div class="cafe-image-wrap">
+          <img src="./assets/images/mewabites_banner.jpg" class="cafe-image">
+        </div>
+        <div class="cafe-info">
+          <div class="cafe-header">THIRD WAVE COFFEE</div>
+          <div class="cafe-locality">Khan Market</div>
+          <div class="cafe-details">
+            <div class="details-row"><i>&#128205;</i>Flat No 46, First Floor, Khan Market, New Delhi, 110003</div>
+            <div class="details-row"><i>&#128222;</i>0814 7738 370</div>
+            <div class="details-row"><i>&#128337;</i>08:00 AM – 12:00 AM</div>
+            <span class="open-now">Open Now</span>
+          </div>
+          <div class="cafe-actions">
+            <button>More Info</button>
+            <button>Get Direction</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cafe-card">
+        <div class="cafe-image-wrap">
+          <img src="./assets/images/labon_banner.jpg" class="cafe-image">
+        </div>
+        <div class="cafe-info">
+          <div class="cafe-header">THIRD WAVE COFFEE</div>
+          <div class="cafe-locality">Connaught Place</div>
+          <div class="cafe-details">
+            <div class="details-row"><i>&#128205;</i>E Block, Connaught Place, Delhi 110086</div>
+            <div class="details-row"><i>&#128222;</i>0809 5799 943</div>
+            <div class="details-row"><i>&#128337;</i>08:00 AM – 01:00 AM</div>
+            <span class="open-now">Open Now</span>
+          </div>
+          <div class="cafe-actions">
+            <button>More Info</button>
+            <button>Get Direction</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
