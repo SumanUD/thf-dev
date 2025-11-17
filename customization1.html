@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customise Your Sweet Box | The Hazelnut Factory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --light: #FFF8DC;
+            --accent: #FF6B6B;
+            --dark: #5D4037;
+            --ivory: #FFFFF0;
+            --pastel-pink: #FFD1DC;
+            --deep-blue: #1E3A5F;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M30,30 Q50,10 70,30 T90,50 T70,70 T50,90 T30,70 T10,50 T30,30 Z" fill="white"/></svg>');
+            background-size: 100px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .customization-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .steps-container {
+            flex: 1;
+            min-width: 350px;
+        }
+        
+        .preview-container {
+            flex: 1;
+            min-width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .step {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 5px solid transparent;
+        }
+        
+        .step.active {
+            border-left-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-size: 1rem;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .box-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .box-option {
+            text-align: center;
+            padding: 20px 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .box-option:hover {
+            border-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .box-option.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.05), rgba(210, 105, 30, 0.05));
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.1);
+        }
+        
+        .box-option h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .box-option p {
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .sweets-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .sweet-item {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 15px 10px;
+            background: white;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sweet-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--secondary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sweet-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sweet-item:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .sweet-item.selected {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+        }
+        
+        .sweet-item.selected::before {
+            transform: scaleX(1);
+            background: var(--accent);
+        }
+        
+        .sweet-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 3px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+        
+        .sweet-item.selected .sweet-image {
+            border-color: var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .sweet-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .sweet-price {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .color-options, .ribbon-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .color-option, .ribbon-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .color-option:hover, .ribbon-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.selected, .ribbon-option.selected {
+            border-color: var(--dark);
+            transform: scale(1.1);
+        }
+        
+        .color-option.selected::after, .ribbon-option.selected::after {
+            content: '✓';
+            color: white;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .color-ivory {
+            background-color: var(--ivory);
+        }
+        
+        .color-pink {
+            background-color: var(--pastel-pink);
+        }
+        
+        .color-blue {
+            background-color: var(--deep-blue);
+        }
+        
+        .ribbon-red {
+            background: linear-gradient(135deg, #FF6B6B, #FF5252);
+        }
+        
+        .ribbon-gold {
+            background: linear-gradient(135deg, var(--gold), #FFC400);
+        }
+        
+        .ribbon-green {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+        }
+        
+        .ribbon-purple {
+            background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+        }
+        
+        /* NEW BOX DESIGN WITH 3D EFFECT */
+        .preview-box-container {
+            position: relative;
+            margin-bottom: 40px;
+            perspective: 1200px;
+            width: 300px;
+            height: 220px;
+        }
+        
+        .box-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .preview-box {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: var(--ivory);
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 15px;
+            gap: 8px;
+            overflow: hidden;
+        }
+        
+        .box-base {
+            transform: translateZ(0px);
+            z-index: 1;
+        }
+        
+        .box-lid {
+            transform: rotateX(0deg) translateZ(110px);
+            transform-origin: bottom;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, var(--ivory), #f5f5dc);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .box-lid.closed {
+            transform: rotateX(-110deg) translateZ(110px);
+        }
+        
+        .preview-ribbon {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 25px;
+            background: linear-gradient(135deg, #FF6B6B, #FF5252);
+            border-radius: 12px 12px 0 0;
+            transition: all 0.5s ease;
+            z-index: 3;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .preview-ribbon::before, .preview-ribbon::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            width: 20px;
+            height: 15px;
+            background: inherit;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+        
+        .preview-ribbon::before {
+            left: 15px;
+        }
+        
+        .preview-ribbon::after {
+            right: 15px;
+        }
+        
+        .ribbon-bow {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: inherit;
+            border-radius: 50% 50% 50% 0;
+            transform: translateX(-50%) rotate(45deg);
+            z-index: 4;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .ribbon-bow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 50% 50% 0 50%;
+        }
+        
+        .sweet-slot {
+            flex: 1;
+            min-width: 30%;
+            height: 30%;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sweet-slot.filled {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            animation: sweetPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes sweetPop {
+            0% { transform: scale(0.8) rotate(-5deg); opacity: 0; }
+            70% { transform: scale(1.1) rotate(2deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        
+        .sweet-slot img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+        
+        .sweet-slot.filled:hover img {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .preview-bag {
+            width: 180px;
+            height: 220px;
+            background-color: var(--ivory);
+            border-radius: 8px 8px 40px 40px;
+            position: relative;
+            margin-top: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+        
+        .bag-handle {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 40px;
+            border: 8px solid #e0e0e0;
+            border-bottom: none;
+            border-radius: 50px 50px 0 0;
+        }
+        
+        .price-container {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+            z-index: 1;
+        }
+        
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .progress-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            color: var(--dark);
+            font-weight: bold;
+            border: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-step.active .progress-circle {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .progress-step.completed .progress-circle {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .progress-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-prev {
+            background-color: #f5f5f5;
+            color: var(--dark);
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-prev:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-3px);
+        }
+        
+        .btn-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
+        }
+        
+        .btn-next:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .completion-message {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .completion-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .completion-message h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: confetti-fall 5s linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            .customization-flow {
+                flex-direction: column;
+            }
+            
+            .preview-container {
+                order: -1;
+                margin-bottom: 20px;
+            }
+            
+            .box-options {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .preview-box-container {
+                width: 250px;
+                height: 180px;
+            }
+        }
+        
+        .sweet-counter {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .edit-box-btn {
+            margin-top: 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .edit-box-btn:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+        }
+        
+        .box-side {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to bottom, #d4b896, #c8a97e);
+            bottom: -20px;
+            transform-origin: top;
+            transform: rotateX(-90deg);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sweet-falling {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            animation: sweetFall 1s ease-in forwards;
+            z-index: 10;
+        }
+        
+        @keyframes sweetFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(0) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Hazelnut Factory</h1>
+            <p class="subtitle">Create Your Perfect Sweet Box - A Delicious Customization Experience</p>
+        </header>
+        
+        <div class="progress-bar">
+            <div class="progress-step active" data-step="1">
+                <div class="progress-circle">1</div>
+                <div class="progress-label">Box Size</div>
+            </div>
+            <div class="progress-step" data-step="2">
+                <div class="progress-circle">2</div>
+                <div class="progress-label">Select Sweets</div>
+            </div>
+            <div class="progress-step" data-step="3">
+                <div class="progress-circle">3</div>
+                <div class="progress-label">Box Colour</div>
+            </div>
+            <div class="progress-step" data-step="4">
+                <div class="progress-circle">4</div>
+                <div class="progress-label">Ribbon</div>
+            </div>
+        </div>
+        
+        <div class="customization-flow">
+            <div class="steps-container">
+                <!-- Step 1: Choose Box Size -->
+                <div class="step active" id="step-1">
+                    <h2><span class="step-number">1</span> Choose Box Size</h2>
+                    <p>Select the size of your sweet box</p>
+                    <div class="box-options">
+                        <div class="box-option" data-size="7" data-variants="7" data-quantity="1">
+                            <h3>7 pcs</h3>
+                            <p>7 different sweets</p>
+                            <p><strong>1 each</strong></p>
+                        </div>
+                        <div class="box-option" data-size="14" data-variants="7" data-quantity="2">
+                            <h3>14 pcs</h3>
+                            <p>7 different sweets</p>
+                            <p><strong>2 each</strong></p>
+                        </div>
+                        <div class="box-option" data-size="20" data-variants="5" data-quantity="4">
+                            <h3>20 pcs</h3>
+                            <p>5 different sweets</p>
+                            <p><strong>4 each</strong></p>
+                        </div>
+                        <div class="box-option" data-size="30" data-variants="6" data-quantity="5">
+                            <h3>30 pcs</h3>
+                            <p>6 different sweets</p>
+                            <p><strong>5 each</strong></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Select Sweets -->
+                <div class="step" id="step-2">
+                    <h2><span class="step-number">2</span> Select Sweets</h2>
+                    <p>Choose your sweets to fill the box. Select <span id="variants-count">0</span> out of <span id="max-variants">7</span> different varieties.</p>
+                    <div class="sweets-container" id="sweets-container">
+                        <!-- Sweets will be dynamically added here -->
+                    </div>
+                </div>
+                
+                <!-- Step 3: Choose Box Colour -->
+                <div class="step" id="step-3">
+                    <h2><span class="step-number">3</span> Choose Box Colour</h2>
+                    <p>Select a colour for your box and gift bag</p>
+                    <div class="color-options">
+                        <div class="color-option color-ivory selected" data-color="ivory"></div>
+                        <div class="color-option color-pink" data-color="pink"></div>
+                        <div class="color-option color-blue" data-color="blue"></div>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Choose Ribbon -->
+                <div class="step" id="step-4">
+                    <h2><span class="step-number">4</span> Choose Ribbon</h2>
+                    <p>Select a ribbon colour for your box</p>
+                    <div class="ribbon-options">
+                        <div class="ribbon-option ribbon-red selected" data-ribbon="red"></div>
+                        <div class="ribbon-option ribbon-gold" data-ribbon="gold"></div>
+                        <div class="ribbon-option ribbon-green" data-ribbon="green"></div>
+                        <div class="ribbon-option ribbon-purple" data-ribbon="purple"></div>
+                    </div>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="btn-prev" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="btn-next" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            
+            <div class="preview-container">
+                <div class="preview-box-container">
+                    <div class="box-wrapper">
+                        <div class="preview-box box-base" id="preview-box">
+                            <!-- Sweet slots will be dynamically added here -->
+                        </div>
+                        <div class="preview-box box-lid" id="box-lid">
+                            <i class="fas fa-gift" style="font-size: 2.5rem; color: var(--primary); opacity: 0.7;"></i>
+                        </div>
+                        <div class="preview-ribbon" id="preview-ribbon">
+                            <div class="ribbon-bow"></div>
+                        </div>
+                    </div>
+                    <div class="box-side"></div>
+                </div>
+                <div class="preview-bag" id="preview-bag">
+                    <div class="bag-handle"></div>
+                </div>
+                <div class="price-container">
+                    Total: ₹<span id="total-price">0.00</span>
+                </div>
+                <button class="edit-box-btn" id="edit-box-btn" style="display: none;">Edit Box</button>
+            </div>
+        </div>
+        
+        <div class="completion-message" id="completion-message">
+            <h2>Your Custom Sweet Box is Complete!</h2>
+            <p>Thank you for creating your perfect sweet box. Your order summary:</p>
+            <div id="order-summary"></div>
+            <button class="btn-next" style="margin-top: 20px;"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration data
+        const sweetsData = [
+            { id: 1, name: "Hazelnut Praline", price: 2.50, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#8B4513" },
+            { id: 2, name: "Chocolate Truffle", price: 2.00, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#5D4037" },
+            { id: 3, name: "Caramel Crunch", price: 1.80, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#D2691E" },
+            { id: 4, name: "Vanilla Cream", price: 1.50, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#FFF8DC" },
+            { id: 5, name: "Strawberry Delight", price: 1.70, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#FF6B6B" },
+            { id: 6, name: "Coffee Bean", price: 2.20, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#5D4037" },
+            { id: 7, name: "Coconut Dream", price: 1.90, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#FFFFFF" },
+            { id: 8, name: "Mint Chocolate", price: 2.10, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#4CAF50" },
+            { id: 9, name: "Orange Zest", price: 1.60, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#FF9800" },
+            { id: 10, name: "Raspberry Swirl", price: 1.80, image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", color: "#E91E63" }
+        ];
+
+        // State management
+        let currentStep = 1;
+        let selectedBoxSize = null;
+        let selectedSweets = [];
+        let selectedColor = 'ivory';
+        let selectedRibbon = 'red';
+        let boxClosed = false;
+
+        // DOM elements
+        const steps = document.querySelectorAll('.step');
+        const progressSteps = document.querySelectorAll('.progress-step');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const previewBox = document.getElementById('preview-box');
+        const boxLid = document.getElementById('box-lid');
+        const previewBag = document.getElementById('preview-bag');
+        const previewRibbon = document.getElementById('preview-ribbon');
+        const totalPriceElement = document.getElementById('total-price');
+        const sweetsContainer = document.getElementById('sweets-container');
+        const variantsCountElement = document.getElementById('variants-count');
+        const maxVariantsElement = document.getElementById('max-variants');
+        const completionMessage = document.getElementById('completion-message');
+        const orderSummary = document.getElementById('order-summary');
+        const editBoxBtn = document.getElementById('edit-box-btn');
+
+        // Initialize the application
+        function init() {
+            // Set up event listeners
+            document.querySelectorAll('.box-option').forEach(option => {
+                option.addEventListener('click', handleBoxSizeSelection);
+            });
+            
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', handleColorSelection);
+            });
+            
+            document.querySelectorAll('.ribbon-option').forEach(option => {
+                option.addEventListener('click', handleRibbonSelection);
+            });
+            
+            prevBtn.addEventListener('click', goToPreviousStep);
+            nextBtn.addEventListener('click', goToNextStep);
+            editBoxBtn.addEventListener('click', openBoxForEditing);
+            
+            // Initialize sweets display
+            renderSweets();
+            
+            // Update UI based on initial state
+            updateUI();
+        }
+
+        // Handle box size selection
+        function handleBoxSizeSelection(e) {
+            const boxOption = e.currentTarget;
+            
+            // Remove selected class from all options
+            document.querySelectorAll('.box-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            boxOption.classList.add('selected');
+            
+            // Update selected box size
+            selectedBoxSize = {
+                size: parseInt(boxOption.dataset.size),
+                variants: parseInt(boxOption.dataset.variants),
+                quantity: parseInt(boxOption.dataset.quantity)
+            };
+            
+            // Update max variants display
+            maxVariantsElement.textContent = selectedBoxSize.variants;
+            
+            // Reset selected sweets when box size changes
+            selectedSweets = [];
+            variantsCountElement.textContent = '0';
+            
+            // Update preview box
+            updatePreviewBox();
+            
+            // Update price
+            updatePrice();
+            
+            // Enable next button if we have a selection
+            nextBtn.disabled = false;
+            
+            // Open the box if it was closed
+            if (boxClosed) {
+                boxLid.classList.remove('closed');
+                boxClosed = false;
+                editBoxBtn.style.display = 'none';
+            }
+        }
+
+        // Handle sweet selection
+        function handleSweetSelection(e) {
+            if (boxClosed) return;
+            
+            const sweetId = parseInt(e.currentTarget.dataset.id);
+            const sweet = sweetsData.find(s => s.id === sweetId);
+            
+            // Check if sweet is already selected
+            const existingIndex = selectedSweets.findIndex(s => s.id === sweetId);
+            
+            if (existingIndex !== -1) {
+                // Sweet is already selected, remove it
+                selectedSweets.splice(existingIndex, 1);
+                e.currentTarget.classList.remove('selected');
+                e.currentTarget.querySelector('.sweet-counter').remove();
+            } else {
+                // Check if we can add more sweets
+                if (selectedSweets.length < selectedBoxSize.variants) {
+                    // Add sweet with the appropriate quantity
+                    selectedSweets.push({
+                        ...sweet,
+                        quantity: selectedBoxSize.quantity
+                    });
+                    e.currentTarget.classList.add('selected');
+                    
+                    // Add counter to sweet
+                    const counter = document.createElement('div');
+                    counter.className = 'sweet-counter';
+                    counter.textContent = selectedBoxSize.quantity;
+                    e.currentTarget.appendChild(counter);
+                    
+                    // Create falling sweet animation
+                    createFallingSweet(sweet);
+                } else {
+                    // Show message that box is full
+                    alert(`You can only select ${selectedBoxSize.variants} different sweets for this box size.`);
+                    return;
+                }
+            }
+            
+            // Update variants count
+            variantsCountElement.textContent = selectedSweets.length;
+            
+            // Update preview box
+            updatePreviewBox();
+            
+            // Update price
+            updatePrice();
+            
+            // Enable next button if box is full
+            nextBtn.disabled = selectedSweets.length < selectedBoxSize.variants;
+            
+            // Close the box automatically when full
+            if (selectedSweets.length === selectedBoxSize.variants) {
+                setTimeout(() => {
+                    boxLid.classList.add('closed');
+                    boxClosed = true;
+                    editBoxBtn.style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        // Create falling sweet animation
+        function createFallingSweet(sweet) {
+            const container = document.querySelector('.preview-box-container');
+            const fallingSweet = document.createElement('div');
+            fallingSweet.className = 'sweet-falling';
+            fallingSweet.style.background = sweet.color;
+            fallingSweet.style.left = Math.random() * 80 + 10 + '%';
+            fallingSweet.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+            
+            container.appendChild(fallingSweet);
+            
+            // Remove element after animation completes
+            setTimeout(() => {
+                container.removeChild(fallingSweet);
+            }, 1000);
+        }
+
+        // Handle color selection
+        function handleColorSelection(e) {
+            const colorOption = e.currentTarget;
+            
+            // Remove selected class from all options
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            colorOption.classList.add('selected');
+            
+            // Update selected color
+            selectedColor = colorOption.dataset.color;
+            
+            // Update preview
+            updatePreviewColors();
+        }
+
+        // Handle ribbon selection
+        function handleRibbonSelection(e) {
+            const ribbonOption = e.currentTarget;
+            
+            // Remove selected class from all options
+            document.querySelectorAll('.ribbon-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            ribbonOption.classList.add('selected');
+            
+            // Update selected ribbon
+            selectedRibbon = ribbonOption.dataset.ribbon;
+            
+            // Update preview
+            updatePreviewRibbon();
+        }
+
+        // Render sweets in the selection area
+        function renderSweets() {
+            sweetsContainer.innerHTML = '';
+            
+            sweetsData.forEach(sweet => {
+                const sweetElement = document.createElement('div');
+                sweetElement.className = 'sweet-item';
+                sweetElement.dataset.id = sweet.id;
+                
+                sweetElement.innerHTML = `
+                    <img src="${sweet.image}" alt="${sweet.name}" class="sweet-image">
+                    <div class="sweet-name">${sweet.name}</div>
+                    <div class="sweet-price">₹${sweet.price.toFixed(2)}</div>
+                `;
+                
+                sweetElement.addEventListener('click', handleSweetSelection);
+                sweetsContainer.appendChild(sweetElement);
+            });
+        }
+
+        // Update the preview box with selected sweets
+        function updatePreviewBox() {
+            // Clear existing slots
+            previewBox.innerHTML = '';
+            
+            if (!selectedBoxSize) return;
+            
+            // Create slots based on box size
+            const totalSlots = selectedBoxSize.size;
+            
+            // Create slots
+            for (let i = 0; i < totalSlots; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'sweet-slot';
+                
+                // Check if this slot should be filled
+                let sweetIndex = -1;
+                let slotInSweet = -1;
+                
+                if (selectedSweets.length > 0) {
+                    let cumulativeCount = 0;
+                    for (let j = 0; j < selectedSweets.length; j++) {
+                        cumulativeCount += selectedSweets[j].quantity;
+                        if (i < cumulativeCount) {
+                            sweetIndex = j;
+                            slotInSweet = i - (cumulativeCount - selectedSweets[j].quantity);
+                            break;
+                        }
+                    }
+                }
+                
+                if (sweetIndex !== -1) {
+                    slot.classList.add('filled');
+                    const sweet = selectedSweets[sweetIndex];
+                    slot.innerHTML = `<img src="${sweet.image}" alt="${sweet.name}">`;
+                    
+                    // Add slight delay for animation effect
+                    slot.style.animationDelay = `${i * 0.05}s`;
+                }
+                
+                previewBox.appendChild(slot);
+            }
+        }
+
+        // Update preview colors
+        function updatePreviewColors() {
+            let colorValue;
+            switch(selectedColor) {
+                case 'ivory':
+                    colorValue = 'var(--ivory)';
+                    break;
+                case 'pink':
+                    colorValue = 'var(--pastel-pink)';
+                    break;
+                case 'blue':
+                    colorValue = 'var(--deep-blue)';
+                    break;
+                default:
+                    colorValue = 'var(--ivory)';
+            }
+            
+            previewBox.style.backgroundColor = colorValue;
+            boxLid.style.background = `linear-gradient(to bottom, ${colorValue}, ${adjustColor(colorValue, -20)})`;
+            previewBag.style.backgroundColor = colorValue;
+        }
+
+        // Helper function to adjust color brightness
+        function adjustColor(color, amount) {
+            // This is a simplified version - in a real app you'd use a color library
+            return color;
+        }
+
+        // Update preview ribbon
+        function updatePreviewRibbon() {
+            let ribbonColor;
+            switch(selectedRibbon) {
+                case 'red':
+                    ribbonColor = 'linear-gradient(135deg, #FF6B6B, #FF5252)';
+                    break;
+                case 'gold':
+                    ribbonColor = 'linear-gradient(135deg, var(--gold), #FFC400)';
+                    break;
+                case 'green':
+                    ribbonColor = 'linear-gradient(135deg, #4CAF50, #388E3C)';
+                    break;
+                case 'purple':
+                    ribbonColor = 'linear-gradient(135deg, #9C27B0, #7B1FA2)';
+                    break;
+                default:
+                    ribbonColor = 'linear-gradient(135deg, #FF6B6B, #FF5252)';
+            }
+            
+            previewRibbon.style.background = ribbonColor;
+            document.querySelector('.ribbon-bow').style.background = ribbonColor;
+        }
+
+        // Update total price
+        function updatePrice() {
+            let total = 0;
+            
+            // Add base box price based on size
+            if (selectedBoxSize) {
+                switch(selectedBoxSize.size) {
+                    case 7:
+                        total += 5.00;
+                        break;
+                    case 14:
+                        total += 8.00;
+                        break;
+                    case 20:
+                        total += 12.00;
+                        break;
+                    case 30:
+                        total += 16.00;
+                        break;
+                }
+            }
+            
+            // Add sweet prices
+            selectedSweets.forEach(sweet => {
+                total += sweet.price * sweet.quantity;
+            });
+            
+            totalPriceElement.textContent = total.toFixed(2);
+        }
+
+        // Navigate to the next step
+        function goToNextStep() {
+            if (currentStep < 4) {
+                // Validate current step before proceeding
+                if (currentStep === 1 && !selectedBoxSize) {
+                    alert('Please select a box size before proceeding.');
+                    return;
+                }
+                
+                if (currentStep === 2 && selectedSweets.length < selectedBoxSize.variants) {
+                    alert(`Please select ${selectedBoxSize.variants} different sweets to fill your box.`);
+                    return;
+                }
+                
+                // Move to next step
+                steps[currentStep - 1].classList.remove('active');
+                progressSteps[currentStep - 1].classList.remove('active');
+                
+                currentStep++;
+                
+                steps[currentStep - 1].classList.add('active');
+                progressSteps[currentStep - 1].classList.add('active');
+                
+                // Update UI
+                updateUI();
+            } else {
+                // Final step - show completion message
+                document.querySelector('.customization-flow').style.display = 'none';
+                document.querySelector('.progress-bar').style.display = 'none';
+                completionMessage.style.display = 'block';
+                
+                // Generate order summary
+                generateOrderSummary();
+                
+                // Create confetti effect
+                createConfetti();
+            }
+        }
+
+        // Navigate to the previous step
+        function goToPreviousStep() {
+            if (currentStep > 1) {
+                steps[currentStep - 1].classList.remove('active');
+                progressSteps[currentStep - 1].classList.remove('active');
+                
+                currentStep--;
+                
+                steps[currentStep - 1].classList.add('active');
+                progressSteps[currentStep - 1].classList.add('active');
+                
+                // Update UI
+                updateUI();
+            }
+        }
+
+        // Update UI based on current step
+        function updateUI() {
+            // Show/hide navigation buttons
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
+            
+            // Update next button text
+            nextBtn.textContent = currentStep === 4 ? 'Complete Order' : 'Next';
+            
+            // Enable/disable next button based on step completion
+            if (currentStep === 1) {
+                nextBtn.disabled = !selectedBoxSize;
+            } else if (currentStep === 2) {
+                nextBtn.disabled = !selectedBoxSize || selectedSweets.length < selectedBoxSize.variants;
+            } else {
+                nextBtn.disabled = false;
+            }
+        }
+
+        // Generate order summary
+        function generateOrderSummary() {
+            let summaryHTML = `
+                <div style="text-align: left; margin-top: 20px; background: #f9f9f9; padding: 20px; border-radius: 10px;">
+                    <p style="font-size: 1.2rem; margin-bottom: 15px;"><strong>Order Details:</strong></p>
+                    <p><strong>Box Size:</strong> ${selectedBoxSize.size} pieces</p>
+                    <p><strong>Box Color:</strong> ${selectedColor}</p>
+                    <p><strong>Ribbon Color:</strong> ${selectedRibbon}</p>
+                    <p style="margin-top: 15px;"><strong>Selected Sweets:</strong></p>
+                    <ul style="margin-left: 20px;">
+            `;
+            
+            selectedSweets.forEach(sweet => {
+                summaryHTML += `<li>${sweet.name} (${sweet.quantity} pieces) - ₹${(sweet.price * sweet.quantity).toFixed(2)}</li>`;
+            });
+            
+            summaryHTML += `
+                    </ul>
+                    <p style="margin-top: 15px; font-size: 1.3rem; border-top: 2px solid var(--primary); padding-top: 10px;"><strong>Total: ₹${totalPriceElement.textContent}</strong></p>
+                </div>
+            `;
+            
+            orderSummary.innerHTML = summaryHTML;
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#FF6B6B', '#4CAF50', '#2196F3', '#FFD700', '#9C27B0'];
+            const container = document.querySelector('.completion-message');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                container.appendChild(confetti);
+            }
+        }
+
+        // Open box for editing
+        function openBoxForEditing() {
+            boxLid.classList.remove('closed');
+            boxClosed = false;
+            editBoxBtn.style.display = 'none';
+        }
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
