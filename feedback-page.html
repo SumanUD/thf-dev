@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THF - Share Your Feedback</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --rich-brown: #5D4037;
+            --cream: #FFF8F0;
+            --soft-peach: #FFE5D9;
+            --deep-burgundy: #8B4513;
+            --text-dark: #2C1810;
+            --text-light: #666;
+            --success-green: #2E7D32;
+            --error-red: #C62828;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #FFF8F0 0%, #FFF 100%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Hero Banner */
+        .hero-feedback {
+            position: relative;
+            height: 60vh;
+            background: linear-gradient(135deg, var(--rich-brown) 0%, var(--deep-burgundy) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        .hero-feedback::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 800px;
+            color: white;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Text Section */
+        .text-section {
+            padding: 80px 20px;
+            background: #fff;
+        }
+
+        .text-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .text-container h2 {
+            font-size: 2.8rem;
+            color: var(--rich-brown);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .text-container p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, var(--cream) 0%, #fff 100%);
+            border-left: 4px solid var(--primary-gold);
+            padding: 40px;
+            margin: 40px 0;
+            text-align: left;
+            border-radius: 0 16px 16px 0;
+        }
+
+        .quote-box p {
+            font-size: 1.3rem;
+            color: var(--rich-brown);
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .quote-author {
+            font-weight: 600;
+            color: var(--deep-burgundy);
+            font-size: 1.1rem;
+        }
+
+        /* Feedback Form Section */
+        .form-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #FFF 0%, var(--cream) 100%);
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--deep-burgundy));
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .form-title h2 {
+            font-size: 2.5rem;
+            color: var(--rich-brown);
+            margin-bottom: 15px;
+        }
+
+        .form-title p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--rich-brown);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-label .required {
+            color: var(--error-red);
+            margin-left: 4px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 18px 24px;
+            border: 2px solid #E8DED0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 160px;
+            line-height: 1.6;
+        }
+
+        /* Order Details Section - Conditional */
+        .conditional-section {
+            background: linear-gradient(135deg, var(--cream) 0%, #fff 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 2px dashed var(--primary-gold);
+            display: none;
+        }
+
+        .conditional-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .conditional-section h3 {
+            font-size: 1.4rem;
+            color: var(--rich-brown);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .conditional-section h3::before {
+            content: '📋';
+            font-size: 1.6rem;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: linear-gradient(135deg, #f9f9f9 0%, #fff 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 2px solid #E8DED0;
+        }
+
+        .upload-section h3 {
+            font-size: 1.4rem;
+            color: var(--rich-brown);
+            margin-bottom: 20px;
+        }
+
+        .upload-description {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .upload-zone {
+            border: 3px dashed #E8DED0;
+            border-radius: 12px;
+            padding: 60px 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-gold);
+            background: var(--cream);
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--primary-gold);
+            background: var(--cream);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary-gold);
+        }
+
+        .upload-text {
+            margin-bottom: 15px;
+            color: var(--rich-brown);
+            font-weight: 500;
+        }
+
+        .upload-subtext {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: var(--primary-gold);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .upload-btn:hover {
+            background: #C19A2E;
+            transform: translateY(-2px);
+        }
+
+        .file-preview {
+            margin-top: 30px;
+        }
+
+        .file-preview h4 {
+            font-size: 1.1rem;
+            color: var(--rich-brown);
+            margin-bottom: 15px;
+        }
+
+        .preview-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .preview-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #E8DED0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 300px;
+        }
+
+        .preview-icon {
+            font-size: 1.5rem;
+        }
+
+        .preview-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .preview-name {
+            font-weight: 500;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .preview-size {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .remove-file {
+            color: var(--error-red);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .remove-file:hover {
+            background: rgba(198, 40, 40, 0.1);
+        }
+
+        /* Real-Time Support */
+        .support-panel {
+            background: linear-gradient(135deg, var(--rich-brown) 0%, var(--deep-burgundy) 100%);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 60px 0 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .support-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .support-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .support-icon {
+            font-size: 2.5rem;
+        }
+
+        .support-header h3 {
+            font-size: 1.8rem;
+            color: white;
+            margin: 0;
+        }
+
+        .support-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .support-channel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .support-channel:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .channel-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .support-channel h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .support-channel p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .channel-link {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .channel-link:hover {
+            color: white;
+            gap: 12px;
+        }
+
+        /* Submit Button */
+        .submit-section {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #C19A2E 100%);
+            color: white;
+            padding: 20px 60px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Success Page */
+        .success-page {
+            display: none;
+            text-align: center;
+            padding: 100px 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .success-page.active {
+            display: block;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success-green);
+            margin-bottom: 30px;
+        }
+
+        .success-page h1 {
+            font-size: 3rem;
+            color: var(--rich-brown);
+            margin-bottom: 20px;
+        }
+
+        .success-page p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .btn-home {
+            background: var(--rich-brown);
+            color: white;
+            padding: 18px 48px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+
+        .btn-home:hover {
+            background: var(--deep-burgundy);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(93, 64, 55, 0.3);
+        }
+
+        .btn-explore {
+            background: transparent;
+            color: var(--rich-brown);
+            padding: 18px 48px;
+            font-size: 1.1rem;
+            border: 2px solid var(--rich-brown);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+
+        .btn-explore:hover {
+            background: var(--rich-brown);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--rich-brown) 0%, var(--deep-burgundy) 100%);
+            color: white;
+            padding: 60px 20px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            line-height: 2;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-gold);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-gold);
+            transform: translateY(-4px);
+            border-color: var(--primary-gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .text-container h2 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 40px 30px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-title h2 {
+                font-size: 2rem;
+            }
+            
+            .success-page h1 {
+                font-size: 2.2rem;
+            }
+            
+            .success-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .support-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .quote-box {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Banner -->
+    <section class="hero-feedback">
+        <div class="hero-content">
+            <h1>Your Feedback Matters</h1>
+            <p class="subtitle">Help us create sweeter experiences for you</p>
+            <p class="subtitle">Every suggestion helps us grow and serve you better</p>
+        </div>
+    </section>
+
+    <!-- Text Section -->
+    <section class="text-section">
+        <div class="text-container">
+            <h2>Shaping Excellence Together</h2>
+            <p>At THF, we believe that every customer's voice is essential to our journey. Your feedback helps us refine our products, improve our services, and continue crafting moments of sweetness that matter.</p>
+            
+            <div class="quote-box">
+                <p>"Our commitment to quality isn't just in our ingredients—it's in every interaction we have with our valued customers. Your experiences shape our future."</p>
+                <div class="quote-author">— THF Customer Experience Team</div>
+            </div>
+            
+            <p>Whether it's praise for what you loved or constructive feedback for improvement, we're here to listen and respond. Your insights drive our innovation and help us maintain the highest standards of excellence.</p>
+        </div>
+    </section>
+
+    <!-- Feedback Form -->
+    <section class="form-section">
+        <div class="form-container">
+            <div class="form-title">
+                <h2>Share Your Experience</h2>
+                <p>We typically respond within 24 hours</p>
+            </div>
+
+            <!-- Form starts here -->
+            <form id="feedbackForm">
+                <!-- Section A: Basic Info -->
+                <h3 style="color: var(--rich-brown); margin-bottom: 30px; font-size: 1.4rem;">A. Basic Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" class="form-input" placeholder="you@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number <span class="required">*</span></label>
+                        <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">How should we address you?</label>
+                        <input type="text" class="form-input" placeholder="Preferred name (optional)">
+                    </div>
+                </div>
+
+                <!-- Section B: Category -->
+                <h3 style="color: var(--rich-brown); margin: 50px 0 30px; font-size: 1.4rem;">B. What is this about?</h3>
+                <div class="form-group">
+                    <label class="form-label">Category <span class="required">*</span></label>
+                    <select class="form-select" id="categorySelect" required>
+                        <option value="">Select a category</option>
+                        <option value="online-order">Online Order (Website)</option>
+                        <option value="cafe-experience">Café Experience</option>
+                        <option value="product-gifting">Product/Gifting</option>
+                        <option value="delivery-issue">Delivery Issue</option>
+                        <option value="payment-refund">Payment/Refund</option>
+                        <option value="custom-orders">Custom Orders</option>
+                        <option value="general-suggestion">General Suggestion</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Section C: Order Details (Conditional) -->
+                <div class="conditional-section" id="orderDetailsSection">
+                    <h3>C. Order Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Order ID / Reference Number</label>
+                            <input type="text" class="form-input" placeholder="THF-XXXX-XXXX (if available)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Order Date</label>
+                            <input type="date" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Order Value</label>
+                            <input type="text" class="form-input" placeholder="Approximate amount">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section D: Message Box -->
+                <h3 style="color: var(--rich-brown); margin: 50px 0 30px; font-size: 1.4rem;">D. Tell Us More</h3>
+                <div class="form-group">
+                    <label class="form-label">Tell us what happened (or what you loved) <span class="required">*</span></label>
+                    <textarea class="form-textarea" placeholder="Please share the details of your experience. What went well? What could we improve? How can we make it better next time?" required></textarea>
+                </div>
+
+                <!-- Section E: Upload Section -->
+                <h3 style="color: var(--rich-brown); margin: 50px 0 30px; font-size: 1.4rem;">E. Attachments (Optional)</h3>
+                <div class="upload-section">
+                    <h3>Upload Photos or Videos</h3>
+                    <p class="upload-description">You can upload product photos, packaging images, bills, screenshots, or short videos to help us understand better. Max file size: 10MB each.</p>
+                    
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-icon">📎</div>
+                        <div class="upload-text">Drag & drop files here</div>
+                        <div class="upload-subtext">or</div>
+                        <label for="fileInput" class="upload-btn">Browse Files</label>
+                        <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
+                    </div>
+                    
+                    <div class="file-preview" id="filePreview" style="display: none;">
+                        <h4>Selected Files:</h4>
+                        <div class="preview-list" id="previewList"></div>
+                    </div>
+                </div>
+
+                <!-- Real-Time Support -->
+                <div class="support-panel">
+                    <div class="support-header">
+                        <div class="support-icon">💬</div>
+                        <h3>Need Quick Help?</h3>
+                    </div>
+                    <div class="support-content">
+                        <div class="support-channel">
+                            <div class="channel-icon">📱</div>
+                            <h4>WhatsApp Support</h4>
+                            <p>Get instant responses for urgent issues</p>
+                            <a href="https://wa.me/919876543210" class="channel-link" target="_blank">
+                                Chat Now →
+                            </a>
+                        </div>
+                        <div class="support-channel">
+                            <div class="channel-icon">📧</div>
+                            <h4>Email Support</h4>
+                            <p>For detailed queries and documentation</p>
+                            <a href="mailto:support@thf.com" class="channel-link">
+                                support@thf.com →
+                            </a>
+                        </div>
+                        <div class="support-channel">
+                            <div class="channel-icon">📞</div>
+                            <h4>Phone Support</h4>
+                            <p>Mon-Sat, 9AM-7PM for immediate assistance</p>
+                            <a href="tel:+919876543210" class="channel-link">
+                                +91 98765 43210 →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="submit-section">
+                    <button type="submit" class="btn-submit">Submit Feedback</button>
+                </div>
+            </form>
+
+            <!-- Success Page (Hidden initially) -->
+            <div class="success-page" id="successPage">
+                <div class="success-icon">✅</div>
+                <h1>Thank You!</h1>
+                <p>We've received your feedback and appreciate you taking the time to share your experience with us.</p>
+                <p>Our team will review your submission and get back to you within 24 hours. Your insights help us create better experiences for everyone.</p>
+                
+                <div class="success-actions">
+                    <a href="/" class="btn-home">Return to Home</a>
+                    <a href="/products" class="btn-explore">Explore Products</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>THF Feedback</h3>
+                <p>Your voice shapes our journey. We're committed to listening, learning, and improving based on your valuable feedback.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">📱</a>
+                    <a href="#" class="social-icon">💼</a>
+                    <a href="#" class="social-icon">📧</a>
+                    <a href="#" class="social-icon">📞</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="#feedbackForm">Submit Feedback</a>
+                    <a href="/corporate">Corporate Gifting</a>
+                    <a href="/products">Our Products</a>
+                    <a href="/contact">Contact Us</a>
+                    <a href="/faq">FAQ</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Information</h3>
+                <p>📍 THF Headquarters</p>
+                <p>123 Sweet Street, Mumbai, India</p>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 feedback@thf.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Our Commitment</h3>
+                <p>We respond to all feedback within 24 hours and take every suggestion seriously as we strive for excellence in every sweet moment we create.</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 THF. All rights reserved. | Privacy Policy | Terms of Service | Feedback Policy</p>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const feedbackForm = document.getElementById('feedbackForm');
+        const successPage = document.getElementById('successPage');
+        const orderDetailsSection = document.getElementById('orderDetailsSection');
+        const categorySelect = document.getElementById('categorySelect');
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const filePreview = document.getElementById('filePreview');
+        const previewList = document.getElementById('previewList');
+        
+        // Files array to store uploaded files
+        let uploadedFiles = [];
+
+        // Category change handler - show/hide order details
+        categorySelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const orderCategories = ['online-order', 'delivery-issue', 'payment-refund', 'custom-orders'];
+            
+            if (orderCategories.includes(selectedValue)) {
+                orderDetailsSection.classList.add('active');
+            } else {
+                orderDetailsSection.classList.remove('active');
+            }
+        });
+
+        // File upload handling
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`File ${file.name} is too large. Maximum size is 10MB.`);
+                    return;
+                }
+                
+                uploadedFiles.push(file);
+                updateFilePreview();
+            });
+        }
+
+        function updateFilePreview() {
+            if (uploadedFiles.length > 0) {
+                filePreview.style.display = 'block';
+                previewList.innerHTML = '';
+                
+                uploadedFiles.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'preview-item';
+                    
+                    const icon = getFileIcon(file.type);
+                    const size = formatFileSize(file.size);
+                    
+                    fileItem.innerHTML = `
+                        <div class="preview-icon">${icon}</div>
+                        <div class="preview-info">
+                            <div class="preview-name">${file.name}</div>
+                            <div class="preview-size">${size}</div>
+                        </div>
+                        <button class="remove-file" onclick="removeFile(${index})">×</button>
+                    `;
+                    
+                    previewList.appendChild(fileItem);
+                });
+            } else {
+                filePreview.style.display = 'none';
+            }
+        }
+
+        function getFileIcon(fileType) {
+            if (fileType.startsWith('image/')) return '🖼️';
+            if (fileType.startsWith('video/')) return '🎬';
+            return '📄';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            updateFilePreview();
+        }
+
+        // Form submission
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate form
+            if (!this.checkValidity()) {
+                this.reportValidity();
+                return;
+            }
+            
+            // Collect form data
+            const formData = new FormData(this);
+            uploadedFiles.forEach(file => {
+                formData.append('attachments', file);
+            });
+            
+            // In a real application, you would send this to your backend
+            console.log('Feedback submitted:', Object.fromEntries(formData));
+            
+            // Show success page
+            this.style.display = 'none';
+            successPage.classList.add('active');
+            
+            // Reset form after submission
+            setTimeout(() => {
+                this.reset();
+                uploadedFiles = [];
+                updateFilePreview();
+                orderDetailsSection.classList.remove('active');
+            }, 3000);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THF Corporate Gifting - Sweeten Every Occasion</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --rich-brown: #5D4037;
+            --cream: #FFF8F0;
+            --soft-peach: #FFE5D9;
+            --deep-burgundy: #8B4513;
+            --text-dark: #2C1810;
+            --text-light: #666;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: #fff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Hero Banner */
+        .hero {
+            position: relative;
+            height: 90vh;
+            background: linear-gradient(135deg, #FFF8F0 0%, #FFE5D9 50%, #FFD4C4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: var(--rich-brown);
+            margin-bottom: 24px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #C19A2E 100%);
+            color: #fff;
+            padding: 18px 48px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--rich-brown);
+            padding: 18px 48px;
+            font-size: 1.1rem;
+            border: 2px solid var(--rich-brown);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--rich-brown);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        /* Floating Elements */
+        .hero-decoration {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .deco-1 {
+            top: 10%;
+            left: 5%;
+            background: var(--primary-gold);
+            animation-delay: 0s;
+        }
+
+        .deco-2 {
+            top: 60%;
+            right: 8%;
+            background: var(--deep-burgundy);
+            animation-delay: 2s;
+        }
+
+        .deco-3 {
+            bottom: 15%;
+            left: 15%;
+            background: var(--primary-gold);
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Number Band */
+        .number-band {
+            background: linear-gradient(135deg, var(--rich-brown) 0%, var(--deep-burgundy) 100%);
+            color: #fff;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .number-band::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.4;
+        }
+
+        .number-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .number-item {
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .number-item:nth-child(1) { animation-delay: 0.1s; }
+        .number-item:nth-child(2) { animation-delay: 0.2s; }
+        .number-item:nth-child(3) { animation-delay: 0.3s; }
+        .number-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            display: block;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .number-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* Logo Slider */
+        .logo-slider-section {
+            background: var(--cream);
+            padding: 100px 20px;
+            overflow: hidden;
+        }
+
+        .logo-slider-section h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--rich-brown);
+            margin-bottom: 60px;
+            font-weight: 600;
+        }
+
+        .logo-slider-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding: 40px 0;
+        }
+
+        .logo-slider-wrapper::before,
+        .logo-slider-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .logo-slider-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, var(--cream), transparent);
+        }
+
+        .logo-slider-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, var(--cream), transparent);
+        }
+
+        .logo-track {
+            display: flex;
+            gap: 80px;
+            animation: scroll 40s linear infinite;
+            width: fit-content;
+        }
+
+        .logo-item {
+            flex-shrink: 0;
+            width: 180px;
+            height: 90px;
+            background: #fff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
+            padding: 20px;
+        }
+
+        .logo-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        }
+
+        .logo-item img {
+            max-width: 100%;
+            max-height: 100%;
+            opacity: 0.7;
+            filter: grayscale(100%);
+            transition: all 0.4s ease;
+        }
+
+        .logo-item:hover img {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* How to Customize */
+        .customize-section {
+            padding: 120px 20px;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .customize-section h2 {
+            text-align: center;
+            font-size: 3.2rem;
+            color: var(--rich-brown);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .customize-section .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 70px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+            margin-bottom: 70px;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, #FFF8F0 0%, #FFF 100%);
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.5s ease;
+            position: relative;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--deep-burgundy));
+            border-radius: 24px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+
+        .step-card:hover::before {
+            opacity: 1;
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-gold), #C19A2E);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 30px;
+            font-family: 'Playfair Display', serif;
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+        }
+
+        .step-icon {
+            font-size: 3.5rem;
+            margin-bottom: 24px;
+        }
+
+        .step-card h3 {
+            font-size: 1.6rem;
+            color: var(--rich-brown);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .step-card p {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .customize-cta {
+            text-align: center;
+        }
+
+        /* Why Choose THF */
+        .why-choose-section {
+            background: linear-gradient(135deg, var(--soft-peach) 0%, var(--cream) 100%);
+            padding: 120px 20px;
+            position: relative;
+        }
+
+        .why-choose-section h2 {
+            text-align: center;
+            font-size: 3.2rem;
+            color: var(--rich-brown);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .why-choose-section .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 70px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 45px 35px;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            background: linear-gradient(180deg, var(--primary-gold), var(--deep-burgundy));
+            transition: height 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: var(--rich-brown);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Contact Form */
+        .form-section {
+            padding: 120px 20px;
+            background: #fff;
+        }
+
+        .form-section h2 {
+            text-align: center;
+            font-size: 3.2rem;
+            color: var(--rich-brown);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-section .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 60px;
+        }
+
+        .form-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--cream) 0%, #fff 100%);
+            border-radius: 24px;
+            padding: 60px;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.08);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--rich-brown);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #E8DED0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .form-submit {
+            text-align: center;
+            margin-top: 36px;
+        }
+
+        .form-submit .btn-primary {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--rich-brown) 0%, var(--deep-burgundy) 100%);
+            color: #fff;
+            padding: 80px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 60px;
+            margin-bottom: 50px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            line-height: 2;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-gold);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-gold);
+            transform: translateY(-4px);
+            border-color: var(--primary-gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .number {
+                font-size: 3rem;
+            }
+
+            .customize-section h2,
+            .why-choose-section h2,
+            .form-section h2 {
+                font-size: 2.2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-wrapper {
+                padding: 40px 30px;
+            }
+
+            .steps-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="hero-decoration deco-1"></div>
+        <div class="hero-decoration deco-2"></div>
+        <div class="hero-decoration deco-3"></div>
+        
+        <div class="hero-content">
+            <h1>Sweeten Every Corporate Moment</h1>
+            <p class="subtitle">Premium handcrafted sweets & treats for clients, teams, and celebrations. Elevate your corporate gifting with authentic flavors and thoughtful presentation.</p>
+            <div class="hero-cta">
+                <a href="#contact-form" class="btn-primary">Get Started</a>
+                <a href="#why-choose" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Number Band -->
+    <section class="number-band">
+        <div class="number-container">
+            <div class="number-item">
+                <span class="number">500+</span>
+                <span class="number-label">Happy Corporate Clients</span>
+            </div>
+            <div class="number-item">
+                <span class="number">50K+</span>
+                <span class="number-label">Gifts Delivered</span>
+            </div>
+            <div class="number-item">
+                <span class="number">100%</span>
+                <span class="number-label">Handcrafted Quality</span>
+            </div>
+            <div class="number-item">
+                <span class="number">24hr</span>
+                <span class="number-label">Quick Turnaround</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logo Slider -->
+    <section class="logo-slider-section">
+        <h2>Trusted by Industry Leaders</h2>
+        <div class="logo-slider-wrapper">
+            <div class="logo-track">
+                <!-- First set -->
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Google" alt="Google">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Microsoft" alt="Microsoft">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Amazon" alt="Amazon">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Infosys" alt="Infosys">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=TCS" alt="TCS">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Wipro" alt="Wipro">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=HCL" alt="HCL">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Accenture" alt="Accenture">
+                </div>
+                <!-- Duplicate set for seamless loop -->
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Google" alt="Google">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Microsoft" alt="Microsoft">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Amazon" alt="Amazon">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Infosys" alt="Infosys">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=TCS" alt="TCS">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Wipro" alt="Wipro">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=HCL" alt="HCL">
+                </div>
+                <div class="logo-item">
+                    <img src="https://via.placeholder.com/150x60/ffffff/8B4513?text=Accenture" alt="Accenture">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Customize -->
+    <section class="customize-section">
+        <div class="container">
+            <h2>Build Your Perfect Gift Hamper</h2>
+            <p class="section-subtitle">Your Budget, Your Branding, Our Expertise - Create memorable gifts in three simple steps</p>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📦</div>
+                    <h3>Choose Your Budget & Packaging</h3>
+                    <p>Select from our range of premium packaging options and set your budget. We offer flexible solutions from ₹500 to ₹5000+ per hamper.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🎨</div>
+                    <h3>Add Your Brand Identity</h3>
+                    <p>Customize with your logo on boxes, sleeves, cards, or stickers. We offer gold foiling, UV printing, and premium finishing options.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">🎁</div>
+                    <h3>Include Special Extras</h3>
+                    <p>Add branded merchandise, personalized notes, or premium add-ons to make your gift truly unforgettable.</p>
+                </div>
+            </div>
+
+            <div class="customize-cta">
+                <a href="#contact-form" class="btn-primary">Talk to Our Team</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose THF -->
+    <section id="why-choose" class="why-choose-section">
+        <h2>Why Choose THF?</h2>
+        <p class="section-subtitle">Simple, reliable corporate gifting — built for teams & clients with authentic flavors and uncompromising quality</p>
+        
+        <div class="features-grid">
+                <!-- Continuing from the Why Choose THF section -->
+
+                <div class="feature-card">
+                    <span class="feature-icon">🎁</span>
+                    <h3>Flexible Gifting Solutions</h3>
+                    <p>Customizable hampers for every budget and occasion. Perfect for client appreciation, employee rewards, and festive celebrations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🚚</span>
+                    <h3>Pan-India Delivery</h3>
+                    <p>Free shipping for bulk orders across India. Hand-delivered freshness with temperature-controlled packaging.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Quick Turnaround</h3>
+                    <p>24-48 hour processing for most orders. Perfect for last-minute gifting needs and urgent corporate requirements.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🏷️</span>
+                    <h3>Premium Branding Options</h3>
+                    <p>Gold foil stamping, custom sleeves, branded ribbons, and personalized notes to elevate your corporate identity.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">⭐</span>
+                    <h3>White-Glove Service</h3>
+                    <p>Dedicated account manager, custom proposals, and end-to-end gifting solutions for hassle-free corporate gifting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact-form" class="form-section">
+        <div class="container">
+            <h2>Get Your Custom Quote</h2>
+            <p class="section-subtitle">Fill in your details and our gifting expert will reach out within 2 hours</p>
+            
+            <div class="form-wrapper">
+                <form id="corporate-gifting-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="full-name">Full Name *</label>
+                            <input type="text" id="full-name" name="full_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-name">Company Name *</label>
+                            <input type="text" id="company-name" name="company_name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Work Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="occasion">What's the occasion?</label>
+                        <select id="occasion" name="occasion">
+                            <option value="">Select an occasion</option>
+                            <option value="client-gifting">Client Gifting</option>
+                            <option value="employee-rewards">Employee Rewards</option>
+                            <option value="festival-gifting">Festival Gifting (Diwali, Christmas, etc.)</option>
+                            <option value="new-launch">Product/Service Launch</option>
+                            <option value="conference">Conference/Event</option>
+                            <option value="anniversary">Company Anniversary</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="budget">Approximate Budget Range</label>
+                            <select id="budget" name="budget">
+                                <option value="">Select budget range</option>
+                                <option value="500-1000">₹500 - ₹1,000 per hamper</option>
+                                <option value="1000-2500">₹1,000 - ₹2,500 per hamper</option>
+                                <option value="2500-5000">₹2,500 - ₹5,000 per hamper</option>
+                                <option value="5000+">₹5,000+ per hamper</option>
+                                <option value="custom">Custom Quote Needed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Approximate Quantity</label>
+                            <select id="quantity" name="quantity">
+                                <option value="">Select quantity</option>
+                                <option value="10-50">10-50 hampers</option>
+                                <option value="50-100">50-100 hampers</option>
+                                <option value="100-250">100-250 hampers</option>
+                                <option value="250-500">250-500 hampers</option>
+                                <option value="500+">500+ hampers</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="requirements">Specific Requirements / Additional Notes</label>
+                        <textarea id="requirements" name="requirements" placeholder="Tell us about your specific needs, branding requirements, delivery timeline, dietary restrictions, etc."></textarea>
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="submit" class="btn-primary">Get Your Custom Proposal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>THF Corporate Gifting</h3>
+                <p>Premium handcrafted sweets and treats for discerning corporate clients. Elevating relationships through thoughtful gifting since 2010.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">📱</a>
+                    <a href="#" class="social-icon">💼</a>
+                    <a href="#" class="social-icon">📧</a>
+                    <a href="#" class="social-icon">📞</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="#contact-form">Get a Quote</a>
+                    <a href="#why-choose">Why Choose Us</a>
+                    <a href="#">Corporate Catalog</a>
+                    <a href="#">Bulk Order Terms</a>
+                    <a href="#">Delivery Information</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Our Products</h3>
+                <div class="footer-links">
+                    <a href="#">Festive Hampers</a>
+                    <a href="#">Client Gifting</a>
+                    <a href="#">Employee Rewards</a>
+                    <a href="#">Custom Branding</a>
+                    <a href="#">Seasonal Specials</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>📍 Corporate Office: 123 Business District, Mumbai, India</p>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 corporate@thf.com</p>
+                <p>🕒 Mon-Sat: 9AM - 7PM</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 THF Corporate Gifting. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handling
+        document.getElementById('corporate-gifting-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // In a real application, you would send this to your backend
+            console.log('Form submitted:', data);
+            
+            // Show success message
+            alert('Thank you! Our corporate gifting expert will contact you within 2 hours.');
+            
+            // Reset form
+            this.reset();
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Logo slider animation
+        const logoSlider = document.querySelector('.logo-track');
+        let animationFrame;
+        
+        function animateLogos() {
+            const scrollSpeed = 1; // Adjust speed here
+            logoSlider.style.transform = `translateX(-${scrollSpeed}px)`;
+            
+            // Reset position when scrolled half the width
+            if (logoSlider.offsetLeft <= -logoSlider.scrollWidth / 2) {
+                logoSlider.style.transform = 'translateX(0)';
+            }
+            
+            animationFrame = requestAnimationFrame(animateLogos);
+        }
+        
+        // Start animation when page loads
+        window.addEventListener('load', () => {
+            animateLogos();
+        });
+        
+        // Stop animation when tab is not visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animationFrame);
+            } else {
+                animateLogos();
+            }
+        });
+    </script>
+</body>
+</html>
