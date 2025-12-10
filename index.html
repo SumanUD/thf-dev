@@ -17,6 +17,94 @@
 	<noscript>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 	</noscript>
+
+	<style>
+		        /* Logo Slider */
+        .logo-slider-section {
+            background: var(--cream);
+            padding: 100px 20px;
+            overflow: hidden;
+        }
+
+        .logo-slider-section h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--rich-brown);
+            margin-bottom: 60px;
+            font-weight: 600;
+        }
+
+        .logo-slider-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding: 40px 0;
+        }
+
+        .logo-slider-wrapper::before,
+        .logo-slider-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .logo-slider-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, var(--cream), transparent);
+        }
+
+        .logo-slider-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, var(--cream), transparent);
+        }
+
+        .logo-track {
+            display: flex;
+            gap: 80px;
+            animation: scroll 40s linear infinite;
+            width: fit-content;
+        }
+
+        .logo-item {
+            flex-shrink: 0;
+            width: 180px;
+            height: 90px;
+            background: #fff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
+            padding: 20px;
+        }
+
+        .logo-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        }
+
+        .logo-item img {
+            max-width: 100%;
+            max-height: 100%;
+            opacity: 0.7;
+            filter: grayscale(100%);
+            transition: all 0.4s ease;
+        }
+
+        .logo-item:hover img {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+	</style>
 </head>
 
 <body class="is-preload">
@@ -275,14 +363,26 @@
 				<header class="major">
 					<h1>Hi, this is THF</h1>
 				</header>
-				<div class="content">
-					<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi quam nulla libero quae</p>
-					<ul class="actions">
-						<li><a href="#one" class="button next scrolly">Get Started</a></li>
-					</ul>
-				</div>
+				
 			</div>
 		</section>
+
+					<!-- Two -->
+			<section id="two">
+				<div class="inner">
+					<header class="major">
+						<h2>Massa libero</h2>
+					</header>
+					<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna
+						magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna.
+						Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem
+						consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus
+						amet pharetra et feugiat tempus.</p>
+					<ul class="actions">
+						<li><a href="landing.html" class="button next">Get Started</a></li>
+					</ul>
+				</div>
+			</section>
 
 
 		<!-- Main -->
@@ -292,7 +392,7 @@
 			<section class="category-hero" style="background-image: url('/assets/images/baklava_banner.jpg');">
 
 				<!-- Info Icon -->
-				<div class="info-icon-wrapper">
+				<!-- <div class="info-icon-wrapper">
 					<div class="info-icon" title="More Info"><i class="fas fa-info"></i></div>
 					<div class="info-box">
 						<h4>About Baklava</h4>
@@ -301,7 +401,7 @@
 							nuts, and honey syrup — symbolizing celebration and heritage.
 						</p>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- Blurred Background Layer -->
 				<div class="category-bg-blur"></div>
@@ -309,10 +409,9 @@
 				<!-- Content Section -->
 				<div class="category-overlay">
 					<div class="category-content">
-						<h1 class="category-title">Baklava</h1>
+						<h1 class="category-title">HANDCRAFTED BAKLAVAS</h1>
 						<p class="category-desc">
-							A sweet symphony of crisp layers and golden honey, handcrafted to perfection to melt in your
-							mouth.
+						Made with premium ingredients, our artisanal baklava delivers a refined balance of flavour and texture.
 						</p>
 						<a href="category.html" class="category-btn">Discover More</a>
 					</div>
@@ -328,7 +427,7 @@
 			<section class="category-hero" style="background-image: url('/assets/images/labon_banner.jpg');">
 
 				<!-- Info Icon -->
-				<div class="info-icon-wrapper">
+				<!-- <div class="info-icon-wrapper">
 					<div class="info-icon" title="More Info"><i class="fas fa-info"></i></div>
 					<div class="info-box">
 						<h4>About labon</h4>
@@ -338,7 +437,7 @@
 							nuts, and honey syrup — symbolizing celebration and heritage.
 						</p>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- Blurred Background Layer -->
 				<div class="category-bg-blur"></div>
@@ -346,10 +445,9 @@
 				<!-- Content Section -->
 				<div class="category-overlay">
 					<div class="category-content">
-						<h1 class="category-title">Labon</h1>
+						<h1 class="category-title">SIGNATURE LABONS®</h1>
 						<p class="category-desc">
-							A sweet symphony of crisp layers and golden honey, handcrafted to perfection to melt in your
-							mouth.
+							THF LABON®,a registered product, is an innovative twist of the traditional Indian laddoo and delectable French Bon Bon.
 						</p>
 						<a href="category.html" class="category-btn">Discover More</a>
 					</div>
@@ -365,7 +463,7 @@
 			<section class="category-hero" style="background-image: url('/assets/images/mewabites_banner.jpg');">
 
 				<!-- Info Icon -->
-				<div class="info-icon-wrapper">
+				<!-- <div class="info-icon-wrapper">
 					<div class="info-icon" title="More Info"><i class="fas fa-info"></i></div>
 					<div class="info-box">
 						<h4>About Mewabite</h4>
@@ -374,8 +472,8 @@
 							pastry,
 							nuts, and honey syrup — symbolizing celebration and heritage.
 						</p>
-					</div>
-				</div>
+					</div> -->
+				<!-- </div> -->
 
 				<!-- Blurred Background Layer -->
 				<div class="category-bg-blur"></div>
@@ -383,11 +481,9 @@
 				<!-- Content Section -->
 				<div class="category-overlay">
 					<div class="category-content">
-						<h1 class="category-title">Mewabite</h1>
+						<h1 class="category-title">ARTISAN MEWABITES</h1>
 						<p class="category-desc">
-							A sweet symphony of crisp layers and golden honey, handcrafted to perfection to melt in your
-							mouth.
-						</p>
+							A premium dry fruit assortment, expertly crafted to highlight natural flavours with every wholesome bite.						</p>
 						<a href="category.html" class="category-btn">Discover More</a>
 					</div>
 				</div>
@@ -402,7 +498,7 @@
 			<section class="category-hero" style="background-image: url('/assets/images/dates_banner.jpg');">
 
 				<!-- Info Icon -->
-				<div class="info-icon-wrapper">
+				<!-- <div class="info-icon-wrapper">
 					<div class="info-icon" title="More Info"><i class="fas fa-info"></i></div>
 					<div class="info-box">
 						<h4>About Dates</h4>
@@ -412,7 +508,7 @@
 							nuts, and honey syrup — symbolizing celebration and heritage.
 						</p>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- Blurred Background Layer -->
 				<div class="category-bg-blur"></div>
@@ -420,10 +516,10 @@
 				<!-- Content Section -->
 				<div class="category-overlay">
 					<div class="category-content">
-						<h1 class="category-title">Dates</h1>
+						<h1 class="category-title">ROYAL DATES</h1>
 						<p class="category-desc">
-							A sweet symphony of crisp layers and golden honey, handcrafted to perfection to melt in your
-							mouth.
+							Discover the pure sweetness and rich texture of our premium dates. Each variety delivers a naturally delicious treat, perfect for a nutritious indulgence.
+
 						</p>
 						<a href="category.html" class="category-btn">Discover More</a>
 					</div>
@@ -436,20 +532,61 @@
 
 			</section>
 
-			<!-- Two -->
-			<section id="two">
-				<div class="inner">
-					<header class="major">
-						<h2>Massa libero</h2>
-					</header>
-					<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna
-						magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna.
-						Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem
-						consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus
-						amet pharetra et feugiat tempus.</p>
-					<ul class="actions">
-						<li><a href="landing.html" class="button next">Get Started</a></li>
-					</ul>
+			<!-- Logo Slider -->
+			<section class="logo-slider-section">
+				<div class="logo-slider-wrapper">
+					<div class="logo-track">
+						<!-- First set -->
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="Google">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Microsoft">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="Amazon">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="Infosys">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="TCS">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="Wipro">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="HCL">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="Accenture">
+						</div>
+						<!-- Duplicate set for seamless loop -->
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="Google">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Microsoft">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Amazon">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Infosys">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="TCS">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Wipro">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="HCL">
+						</div>
+						<div class="logo-item">
+							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="Accenture">
+						</div>
+					</div>
 				</div>
 			</section>
 
@@ -736,7 +873,73 @@
 		startAutoSlide();
 	</script>
 
-
+    <script>
+        // Form submission handling
+        document.getElementById('corporate-gifting-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // In a real application, you would send this to your backend
+            console.log('Form submitted:', data);
+            
+            // Show success message
+            alert('Thank you! Our corporate gifting expert will contact you within 2 hours.');
+            
+            // Reset form
+            this.reset();
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Logo slider animation
+        const logoSlider = document.querySelector('.logo-track');
+        let animationFrame;
+        
+        function animateLogos() {
+            const scrollSpeed = 1; // Adjust speed here
+            logoSlider.style.transform = `translateX(-${scrollSpeed}px)`;
+            
+            // Reset position when scrolled half the width
+            if (logoSlider.offsetLeft <= -logoSlider.scrollWidth / 2) {
+                logoSlider.style.transform = 'translateX(0)';
+            }
+            
+            animationFrame = requestAnimationFrame(animateLogos);
+        }
+        
+        // Start animation when page loads
+        window.addEventListener('load', () => {
+            animateLogos();
+        });
+        
+        // Stop animation when tab is not visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animationFrame);
+            } else {
+                animateLogos();
+            }
+        });
+    </script>
 
 </body>
 
