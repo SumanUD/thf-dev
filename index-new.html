@@ -46,8 +46,10 @@
         }
 
         .header .logo img {
-            width: 400px;
+            width: 280px;
+            height: auto;
             transition: transform 0.3s ease;
+            max-width: 100%;
         }
 
         .header .logo img:hover {
@@ -115,6 +117,8 @@
             text-decoration: none;
             position: relative;
             padding: 10px 0;
+            display: flex;
+            align-items: center;
         }
 
         /* Right side: Updated Navigation Links */
@@ -123,7 +127,7 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
         .nav-link {
@@ -136,6 +140,7 @@
             padding: 8px 0;
             position: relative;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .nav-link::after {
@@ -157,7 +162,7 @@
             width: 100%;
         }
 
-        /* Shop and About dropdowns in nav-right */
+        /* Improved Shop and About dropdowns */
         .nav-dropdown {
             position: relative;
         }
@@ -166,22 +171,39 @@
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
+            pointer-events: all;
         }
 
         .dropdown-content {
             position: absolute;
-            top: 100%;
-            right: 0;
-            background: rgba(0, 0, 0, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            top: calc(100% + 10px);
+            right: -20px;
+            background: rgba(0, 0, 0, 0.98);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
             padding: 20px;
-            min-width: 200px;
+            min-width: 220px;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1001;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 40px;
+            width: 16px;
+            height: 16px;
+            background: rgba(0, 0, 0, 0.98);
+            transform: rotate(45deg);
+            border-left: 1px solid rgba(212, 175, 55, 0.2);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .dropdown-link {
@@ -189,35 +211,53 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 300;
-            padding: 8px 0;
+            padding: 12px 0;
             display: block;
             transition: all 0.2s ease;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            padding-left: 10px;
         }
 
         .dropdown-link:last-child {
             border-bottom: none;
         }
 
-        .dropdown-link:hover {
+        .dropdown-link::before {
+            content: '›';
+            position: absolute;
+            left: -10px;
+            opacity: 0;
             color: #d4af37;
-            transform: translateX(5px);
+            transition: all 0.3s ease;
         }
 
-        /* Mega Menu */
+        .dropdown-link:hover {
+            color: #d4af37;
+            transform: translateX(10px);
+        }
+
+        .dropdown-link:hover::before {
+            left: 0;
+            opacity: 1;
+        }
+
+        /* Enhanced Mega Menu with full-width layout */
         .mega-menu {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.98);
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(20, 20, 20, 0.95));
             z-index: 999;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-20px);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+            overflow-y: auto; /* Changed to auto for scrollable content */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
         .mega-menu.active {
@@ -228,24 +268,28 @@
 
         .mega-panel {
             display: flex;
-            height: 100%;
+            flex-direction: column;
+            min-height: 100vh; /* Changed to min-height */
             padding: 120px 60px 60px;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
         }
 
-        /* Left: Menu Links */
+        /* Left: Menu Links - Full width with 5 columns */
         .menu-left {
-            flex: 1;
+            width: 100%;
             display: flex;
-            gap: 60px;
-            padding-right: 60px;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: space-between;
+            gap: 40px; /* Reduced gap for 5 columns */
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
         }
 
         .links-col {
             flex: 1;
-            min-width: 200px;
+            min-width: 180px; /* Reduced min-width for 5 columns */
         }
 
         .col-title {
@@ -256,6 +300,19 @@
             letter-spacing: 2px;
             margin-bottom: 30px;
             opacity: 0.7;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .col-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background: #d4af37;
+            opacity: 0.5;
         }
 
         .links-col ul {
@@ -263,18 +320,30 @@
         }
 
         .links-col li {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .links-col a {
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 300;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
-            padding: 5px 0;
+            padding: 8px 0;
             display: block;
+            position: relative;
+        }
+
+        .links-col a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #d4af37;
+            transition: width 0.3s ease;
         }
 
         .links-col a:hover {
@@ -282,27 +351,45 @@
             transform: translateX(10px);
         }
 
-        /* Right: Gallery with Arrows */
+        .links-col a:hover::before {
+            width: 100%;
+        }
+
+        /* Right: Enhanced Gallery - Below and full width, fixed height */
         .menu-gallery {
-            flex: 1;
-            padding-left: 60px;
+            width: 100%;
             display: flex;
             flex-direction: column;
+            max-height: 500px; /* Fixed max height */
         }
 
         .gallery-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px; /* Reduced margin */
+            padding-bottom: 15px; /* Reduced padding */
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
 
         .gallery-header h3 {
             font-size: 24px;
             font-weight: 300;
             letter-spacing: 1px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .gallery-header h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #d4af37;
+            border-radius: 50%;
         }
 
         .gallery-controls {
@@ -311,8 +398,8 @@
         }
 
         .g-arrow {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             background: transparent;
@@ -322,39 +409,72 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .g-arrow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #d4af37;
+            transform: scale(0);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .g-arrow i {
+            position: relative;
+            z-index: 1;
         }
 
         .g-arrow:hover {
             border-color: #d4af37;
-            color: #d4af37;
+            color: #000;
             transform: scale(1.1);
         }
 
+        .g-arrow:hover::after {
+            transform: scale(1);
+        }
+
         .gallery-viewport {
-            flex: 1;
+            width: 100%;
+            height: 350px; /* Fixed height */
             overflow: hidden;
             position: relative;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            flex-shrink: 0; /* Prevent shrinking */
         }
 
         .gallery-track {
             display: flex;
             gap: 30px;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
         }
 
         .gallery-item {
-            min-width: 280px;
-            height: 350px;
+            min-width: 280px; /* Reduced width */
+            height: 100%;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             overflow: hidden;
             position: relative;
             transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1);
         }
 
         .gallery-item:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
         }
 
         .gallery-item img {
@@ -373,39 +493,39 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
             padding: 20px;
             color: white;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 400;
             letter-spacing: 0.5px;
         }
 
-        /* Arrow indicators for bestsellers */
-        .arrow-indicators {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 15px;
+        .item-caption strong {
+            color: #d4af37;
+            font-weight: 500;
         }
 
-        .arrow-indicator {
-            width: 20px;
-            height: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
+        /* Gallery indicators */
+        .gallery-indicators {
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
+            gap: 10px;
+            margin-top: 20px; /* Reduced margin */
         }
 
-        .arrow-indicator.active {
+        .gallery-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-indicator.active {
             background: #d4af37;
-            border-color: #d4af37;
-            color: #000;
+            transform: scale(1.3);
         }
 
         /* Main Content */
@@ -812,25 +932,27 @@
             transition: opacity 1.5s ease;
         }
 
-        /* Footer */
+        /* Enhanced Footer - Semi-transparent overlay */
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.85);
             color: #fff;
             padding: 40px 20px 20px;
             z-index: 5;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             transform: translateY(100%);
-            transition: transform 0.5s ease;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
         }
 
         .footer.show {
             transform: translateY(0);
+            pointer-events: all;
         }
 
         .footer-content {
@@ -848,6 +970,18 @@
             color: #d4af37;
             font-weight: 500;
             letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background: #d4af37;
         }
 
         .footer-section p,
@@ -925,14 +1059,24 @@
             scrollbar-width: none;
         }
 
-        /* Responsive */
+        /* Enhanced Responsive Design */
+        @media (max-width: 1400px) {
+            .header .logo img {
+                width: 240px;
+            }
+        }
+
         @media (max-width: 1200px) {
             .header {
-                padding: 0 20px;
+                padding: 0 30px;
             }
             
             .header .logo img {
-                width: 300px;
+                width: 200px;
+            }
+            
+            .nav-right {
+                gap: 20px;
             }
             
             .mega-panel {
@@ -940,12 +1084,9 @@
             }
             
             .menu-left {
-                gap: 40px;
-                padding-right: 40px;
-            }
-            
-            .menu-gallery {
-                padding-left: 40px;
+                gap: 30px;
+                padding-bottom: 40px;
+                margin-bottom: 40px;
             }
             
             .content-section {
@@ -978,14 +1119,13 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .header {
-                height: 60px;
-                padding: 0 15px;
+                padding: 0 20px;
             }
             
             .header .logo img {
-                width: 200px;
+                width: 180px;
             }
             
             .nav-right {
@@ -993,18 +1133,65 @@
             }
             
             .nav-link {
+                font-size: 13px;
+                letter-spacing: 0.5px;
+            }
+            
+            .menu-left {
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+            
+            .links-col {
+                flex: 1 0 calc(33.333% - 40px);
+                min-width: 200px;
+            }
+            
+            .content-section {
+                max-width: 600px;
+            }
+            
+            .list-heading {
+                font-size: 3.5rem;
+            }
+            
+            .item-content {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: 70px;
+                padding: 0 15px;
+            }
+            
+            .header .logo img {
+                width: 150px;
+            }
+            
+            .nav-right {
+                gap: 12px;
+            }
+            
+            .nav-link {
                 font-size: 12px;
+                letter-spacing: 0;
             }
             
             .dropdown-content {
                 position: fixed;
-                top: 60px;
+                top: 70px;
                 left: 0;
                 right: 0;
                 width: 100%;
                 border-radius: 0;
                 border: none;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                border-top: 1px solid rgba(212, 175, 55, 0.1);
+            }
+            
+            .dropdown-content::before {
+                display: none;
             }
             
             .mega-menu {
@@ -1012,26 +1199,28 @@
             }
             
             .mega-panel {
-                flex-direction: column;
                 padding: 80px 20px 40px;
             }
             
             .menu-left {
-                border-right: none;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                padding-right: 0;
-                padding-bottom: 40px;
-                margin-bottom: 40px;
+                flex-direction: column;
                 gap: 30px;
             }
             
-            .menu-gallery {
-                padding-left: 0;
+            .links-col {
+                flex: 1 0 100%;
+            }
+            
+            .links-col a {
+                font-size: 16px;
+            }
+            
+            .gallery-viewport {
+                height: 300px;
             }
             
             .gallery-item {
-                min-width: 200px;
-                height: 250px;
+                min-width: 250px;
             }
             
             .content-section {
@@ -1075,17 +1264,25 @@
         }
 
         @media (max-width: 480px) {
+            .header {
+                height: 60px;
+                padding: 0 10px;
+            }
+            
+            .header .logo img {
+                width: 120px;
+            }
+            
             .nav-right {
-                gap: 10px;
+                gap: 8px;
             }
             
             .nav-link {
                 font-size: 11px;
-                letter-spacing: 0.5px;
             }
             
-            .header .logo img {
-                width: 150px;
+            .menu-toggle {
+                padding: 5px;
             }
             
             .content-section {
@@ -1122,6 +1319,42 @@
                 font-size: 0.9rem;
                 max-width: 300px;
             }
+            
+            .gallery-item {
+                min-width: 220px;
+            }
+            
+            .g-arrow {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Specific fix for small laptops (1024px range) */
+        @media (max-width: 1100px) and (min-width: 769px) {
+            .header .logo img {
+                width: 160px;
+            }
+            
+            .nav-right {
+                gap: 18px;
+            }
+            
+            .nav-link {
+                font-size: 12px;
+            }
+            
+            .content-section {
+                max-width: 600px;
+            }
+            
+            .list-heading {
+                font-size: 3.5rem;
+            }
+            
+            .item-content {
+                font-size: 1.5rem;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;500&display=swap" rel="stylesheet">
@@ -1151,24 +1384,24 @@
                     <a href="#" class="dropdown-link">THF MERCHANDISE</a>
                 </div>
             </div>
-            <div class="nav-dropdown">
+            <!-- <div class="nav-dropdown">
                 <a href="#" class="nav-link">ABOUT THF</a>
                 <div class="dropdown-content">
                     <a href="#" class="dropdown-link">THF FACILITIES</a>
                     <a href="#" class="dropdown-link">LIFE AT THF</a>
                     <a href="#" class="dropdown-link">CAREER AT THF</a>
                 </div>
-            </div>
+            </div> -->
             <a href="#" class="nav-link">STORE LOCATOR</a>
-            <a href="#" class="nav-link">EVENTS @ THF</a>
-            <a href="#" class="nav-link">CONTACT US</a>
+            <!-- <a href="#" class="nav-link">EVENTS @ THF</a> -->
+            <a href="#" class="nav-link">SIGN IN</a>
         </div>
     </header>
 
-    <!-- Mega Menu (Original) -->
+    <!-- Mega Menu (Enhanced) -->
     <nav class="mega-menu">
         <div class="mega-panel">
-            <!-- Left: Menu Links -->
+            <!-- Left: Menu Links - Full Width with 5 columns -->
             <div class="menu-left">
                 <div class="links-col">
                     <div class="col-title">Sweets</div>
@@ -1193,6 +1426,28 @@
                 </div>
                 
                 <div class="links-col">
+                    <div class="col-title">Seasonal</div>
+                    <ul>
+                        <li><a href="#">Festive Hampers</a></li>
+                        <li><a href="#">Diwali Specials</a></li>
+                        <li><a href="#">Eid Collection</a></li>
+                        <li><a href="#">Christmas Treats</a></li>
+                        <li><a href="#">New Year Gifting</a></li>
+                    </ul>
+                </div>
+                
+                <div class="links-col">
+                    <div class="col-title">Corporate</div>
+                    <ul>
+                        <li><a href="#">Bulk Orders</a></li>
+                        <li><a href="#">Custom Branding</a></li>
+                        <li><a href="#">Employee Gifting</a></li>
+                        <li><a href="#">Client Appreciation</a></li>
+                        <li><a href="#">Corporate Catalog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="links-col">
                     <div class="col-title">Services & Info</div>
                     <ul>
                         <li><a href="#">About Us</a></li>
@@ -1204,7 +1459,7 @@
                 </div>
             </div>
 
-            <!-- Right: Gallery -->
+            <!-- Right: Gallery - Below and Fixed Height -->
             <div class="menu-gallery">
                 <div class="gallery-header">
                     <h3>Bestsellers</h3>
@@ -1241,6 +1496,11 @@
                             <div class="item-caption"><strong>Artisanal Treasure Box</strong></div>
                         </div>
                     </div>
+                </div>
+                <div class="gallery-indicators">
+                    <div class="gallery-indicator active" data-index="0"></div>
+                    <div class="gallery-indicator" data-index="1"></div>
+                    <div class="gallery-indicator" data-index="2"></div>
                 </div>
             </div>
         </div>
@@ -1300,7 +1560,7 @@
             </div>
         </div>
         
-        <div class="grid-overlay"></div>
+        <div class="grid-overlay"></grid-overlay>
         
         <!-- Auto-scroll Loader -->
         <div class="auto-scroll-loader hidden">
@@ -1405,10 +1665,11 @@
                 this.galleryTrack = document.querySelector('.gallery-track');
                 this.prevBtn = document.querySelector('.prev');
                 this.nextBtn = document.querySelector('.next');
+                this.indicators = document.querySelectorAll('.gallery-indicator');
                 this.galleryItems = document.querySelectorAll('.gallery-item');
                 this.currentSlide = 0;
                 this.slideWidth = 280 + 30; // item width + gap
-                this.maxSlides = this.galleryItems.length - 3;
+                this.maxSlides = Math.max(0, this.galleryItems.length - 3);
                 
                 this.init();
             }
@@ -1436,6 +1697,11 @@
                 // Gallery navigation
                 this.prevBtn.addEventListener('click', () => this.prevSlide());
                 this.nextBtn.addEventListener('click', () => this.nextSlide());
+                
+                // Indicators
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                });
                 
                 // Header scroll effect
                 window.addEventListener('scroll', () => this.handleScroll());
@@ -1470,9 +1736,25 @@
                 }
             }
             
+            goToSlide(index) {
+                if (index <= this.maxSlides) {
+                    this.currentSlide = index;
+                    this.updateGallery();
+                }
+            }
+            
             updateGallery() {
                 const translateX = -this.currentSlide * this.slideWidth;
                 this.galleryTrack.style.transform = `translateX(${translateX}px)`;
+                
+                // Update indicators
+                this.indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === this.currentSlide);
+                });
+                
+                // Update arrow states
+                this.prevBtn.style.opacity = this.currentSlide === 0 ? '0.5' : '1';
+                this.nextBtn.style.opacity = this.currentSlide === this.maxSlides ? '0.5' : '1';
             }
             
             handleScroll() {
@@ -1484,7 +1766,7 @@
             }
         }
 
-        // Luxury Gifting Scroll Controller with Auto-scroll
+        // Luxury Gifting Scroll Controller with Fixed Auto-scroll
         class LuxuryGiftingScroll {
             constructor() {
                 // Video elements
@@ -1519,19 +1801,22 @@
                 
                 // State variables
                 this.currentIndex = 0;
-                this.maxIndex = 5; // 0: intro, 1: mission, 2-5: categories
+                this.maxIndex = 6; // 0: intro, 1: text overlay, 2-5: categories (4 items), 6: footer
                 this.isAnimating = false;
                 this.animationDuration = 1200;
                 this.lastScrollTime = 0;
                 this.scrollDelay = 800;
                 
-                // Auto-scroll variables
-                this.autoScrollInterval = null;
+                // Auto-scroll variables - FIXED
                 this.autoScrollProgress = 0;
-                this.autoScrollSpeed = 0.2; // % per second
+                this.autoScrollSpeed = 0.33; // % per second (3 seconds for 100%)
                 this.isUserInteracting = false;
                 this.userInactiveTimer = null;
                 this.rafId = null;
+                this.lastUserActionTime = Date.now();
+                this.autoScrollDelay = 5000; // 5 seconds delay after user interaction
+                this.isAutoScrolling = true;
+                this.shouldAutoScroll = true;
                 
                 this.init();
             }
@@ -1543,7 +1828,8 @@
                 // Collect category text elements
                 this.collectCategoryText();
                 
-                // Set initial state
+                // Set initial state - Show the "LUXURY GIFTING '25" text immediately
+                this.headingText.classList.add('visible');
                 this.updateDisplay();
                 
                 // Handle interactions
@@ -1551,13 +1837,8 @@
                 this.handleKeys();
                 this.handleTouch();
                 
-                // Show footer when reaching bottom
-                this.setupFooter();
-                
-                // Start auto-scroll after 2 seconds
-                setTimeout(() => {
-                    this.startAutoScroll();
-                }, 2000);
+                // Start auto-scroll
+                this.startAutoScroll();
             }
             
             collectCategoryText() {
@@ -1577,7 +1858,7 @@
                     if (now - this.lastScrollTime < this.scrollDelay || this.isAnimating) return;
                     
                     this.lastScrollTime = now;
-                    this.resetAutoScroll();
+                    this.handleUserInteraction();
                     
                     const velocity = Math.abs(e.deltaY);
                     if (velocity > 5) {
@@ -1597,7 +1878,7 @@
                     const now = Date.now();
                     if (now - this.lastScrollTime < 500) return;
                     
-                    this.resetAutoScroll();
+                    this.handleUserInteraction();
                     
                     if (e.key === 'ArrowDown' || e.key === ' ') {
                         e.preventDefault();
@@ -1615,7 +1896,7 @@
                 
                 document.addEventListener('touchstart', (e) => {
                     touchStartY = e.touches[0].clientY;
-                    this.resetAutoScroll();
+                    this.handleUserInteraction();
                 }, { passive: true });
                 
                 document.addEventListener('touchend', (e) => {
@@ -1625,7 +1906,7 @@
                     const touchDiff = touchStartY - touchEndY;
                     
                     if (Math.abs(touchDiff) > swipeThreshold) {
-                        this.resetAutoScroll();
+                        this.handleUserInteraction();
                         if (touchDiff > 0) {
                             this.nextItem();
                         } else {
@@ -1633,6 +1914,29 @@
                         }
                     }
                 }, { passive: true });
+            }
+            
+            handleUserInteraction() {
+                this.isUserInteracting = true;
+                this.lastUserActionTime = Date.now();
+                
+                // Stop current auto-scroll
+                if (this.rafId) {
+                    cancelAnimationFrame(this.rafId);
+                    this.rafId = null;
+                }
+                
+                // Hide loader
+                this.loader.classList.add('hidden');
+                this.autoScrollProgress = 0;
+                this.updateLoader();
+                
+                // Restart auto-scroll after 5 seconds of inactivity
+                clearTimeout(this.userInactiveTimer);
+                this.userInactiveTimer = setTimeout(() => {
+                    this.isUserInteracting = false;
+                    this.startAutoScroll();
+                }, this.autoScrollDelay);
             }
             
             nextItem() {
@@ -1661,19 +1965,32 @@
             }
             
             updateDisplay() {
-                // Show/hide footer based on current section
+                // Only show footer on the last index (index 6)
                 if (this.currentIndex === this.maxIndex) {
                     this.footer.classList.add('show');
+                    // Keep the last gallery item visible behind the footer
+                    this.imageGallery.style.opacity = '1';
+                    this.imageGallery.style.zIndex = '1';
+                    this.videoSection.style.opacity = '0';
+                    
+                    // Show the last category (Dates) behind the footer
+                    this.updateGalleryWithText(true);
+                    
+                    // Hide text content
+                    this.listItem.classList.remove('visible', 'active');
+                    this.scrollIndicator.style.opacity = '0.2';
                 } else {
                     this.footer.classList.remove('show');
-                }
-                
-                if (this.currentIndex === 0) {
-                    this.resetToInitialState();
-                } else if (this.currentIndex === 1) {
-                    this.showTextWithVideo();
-                } else {
-                    this.showCategoryGallery();
+                    
+                    if (this.currentIndex === 0) {
+                        // Initial state - show video with text overlay
+                        this.resetToInitialState();
+                    } else if (this.currentIndex === 1) {
+                        // Show the text with video (this is what was missing before)
+                        this.showTextWithVideo();
+                    } else if (this.currentIndex >= 2 && this.currentIndex <= 5) {
+                        this.showCategoryGallery();
+                    }
                 }
             }
             
@@ -1686,7 +2003,8 @@
                 this.imageGallery.style.zIndex = '0';
                 this.resetAllCategoryText();
                 
-                this.headingText.classList.remove('visible');
+                // Show the heading text
+                this.headingText.classList.add('visible');
                 this.listItem.classList.remove('visible', 'active');
                 this.textLine.style.transform = 'translateY(100%)';
                 this.textLine.style.opacity = '0';
@@ -1706,6 +2024,7 @@
                 this.imageGallery.style.zIndex = '0';
                 this.resetAllCategoryText();
                 
+                // Keep heading text visible
                 this.headingText.classList.add('visible');
                 this.listItem.classList.add('visible', 'active');
                 
@@ -1728,11 +2047,12 @@
                 this.imageGallery.style.opacity = '1';
                 this.imageGallery.style.zIndex = '1';
                 
+                // Hide the heading text when showing categories
                 this.headingText.classList.remove('visible');
                 this.listItem.classList.remove('visible', 'active');
                 this.scrollIndicator.style.opacity = '0.2';
                 
-                this.updateGalleryWithText();
+                this.updateGalleryWithText(false);
             }
             
             resetAllCategoryText() {
@@ -1745,9 +2065,14 @@
                     subtitle.style.opacity = '0';
                     subtitle.style.transform = 'translateY(30px)';
                 });
+                
+                // Reset all gallery items
+                this.galleryItems.forEach(item => {
+                    item.classList.remove('active', 'past');
+                });
             }
             
-            updateGalleryWithText() {
+            updateGalleryWithText(forFooter = false) {
                 this.galleryItems.forEach(item => {
                     item.classList.remove('active', 'past');
                     
@@ -1763,7 +2088,7 @@
                     }
                 });
                 
-                const galleryIndex = this.currentIndex - 2;
+                const galleryIndex = forFooter ? 3 : this.currentIndex - 2; // Show last category for footer
                 if (galleryIndex >= 0 && galleryIndex < this.galleryItems.length) {
                     const currentItem = this.galleryItems[galleryIndex];
                     currentItem.classList.add('active');
@@ -1773,12 +2098,12 @@
                         const subtitle = currentItem.querySelector('.category-subtitle');
                         
                         if (title) {
-                            title.style.opacity = '1';
+                            title.style.opacity = forFooter ? '0.7' : '1';
                             title.style.transform = 'translateY(0)';
                         }
                         
                         if (subtitle) {
-                            subtitle.style.opacity = '1';
+                            subtitle.style.opacity = forFooter ? '0.7' : '1';
                             subtitle.style.transform = 'translateY(0)';
                         }
                     }, 300);
@@ -1789,58 +2114,36 @@
                 }
             }
             
-            setupFooter() {
-                // Footer shows only on last section
-                this.footer.classList.remove('show');
-            }
-            
-            // Auto-scroll functionality
+            // Fixed Auto-scroll functionality - one way only
             startAutoScroll() {
                 this.loader.classList.remove('hidden');
                 this.autoScrollProgress = 0;
                 this.updateLoader();
                 
                 const animate = () => {
-                    if (!this.isUserInteracting && this.autoScrollProgress < 100) {
-                        this.autoScrollProgress += this.autoScrollSpeed;
-                        this.updateLoader();
-                        
-                        if (this.autoScrollProgress >= 100) {
-                            this.autoScrollProgress = 0;
-                            if (this.currentIndex < this.maxIndex) {
-                                this.nextItem();
-                            } else {
-                                this.currentIndex = 0;
-                                this.animateTransition();
+                    const now = Date.now();
+                    const timeSinceLastAction = now - this.lastUserActionTime;
+                    
+                    if (!this.isUserInteracting && timeSinceLastAction >= this.autoScrollDelay) {
+                        if (this.autoScrollProgress < 100) {
+                            this.autoScrollProgress += this.autoScrollSpeed;
+                            this.updateLoader();
+                            
+                            if (this.autoScrollProgress >= 100) {
+                                this.autoScrollProgress = 0;
+                                // Auto-scroll only forward, not back to top
+                                if (this.currentIndex < this.maxIndex) {
+                                    this.nextItem();
+                                }
+                                // When at maxIndex, stop auto-scrolling (don't go back to top)
                             }
                         }
-                        
-                        this.rafId = requestAnimationFrame(animate);
                     }
+                    
+                    this.rafId = requestAnimationFrame(animate);
                 };
                 
                 this.rafId = requestAnimationFrame(animate);
-            }
-            
-            resetAutoScroll() {
-                this.isUserInteracting = true;
-                
-                // Stop animation
-                if (this.rafId) {
-                    cancelAnimationFrame(this.rafId);
-                }
-                
-                // Hide loader
-                this.loader.classList.add('hidden');
-                this.autoScrollProgress = 0;
-                this.updateLoader();
-                
-                // Restart after 10 seconds of inactivity
-                clearTimeout(this.userInactiveTimer);
-                this.userInactiveTimer = setTimeout(() => {
-                    this.isUserInteracting = false;
-                    this.startAutoScroll();
-                }, 10000);
             }
             
             updateLoader() {
