@@ -1,946 +1,2185 @@
-<!DOCTYPE HTML>
-<!--
-	Forty by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>T.H.F</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<link rel="stylesheet" href="assets/css/new-main.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The HazleNut Factory</title>
+    <style>
 
-	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" />
-	</noscript>
+        @font-face {
+        font-family: "Century";
+        src: url("Fonts/Fonts/forum/Forum-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+        }
 
-	<style>
-		        /* Logo Slider */
-        .logo-slider-section {
-            background: var(--cream);
-            padding: 100px 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Forum-Regular", serif;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            height: 100vh;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-family: "Forum-Regular", serif;
         }
 
-        .logo-slider-section h2 {
-            text-align: center;
-            font-size: 2.8rem;
-            color: var(--rich-brown);
-            margin-bottom: 60px;
-            font-weight: 600;
-        }
-
-        .logo-slider-wrapper {
+        .container {
+            height: 100vh;
             position: relative;
-            overflow: hidden;
-            padding: 40px 0;
         }
 
-        .logo-slider-wrapper::before,
-        .logo-slider-wrapper::after {
+        /* Navigation Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            z-index: 1000;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .header .logo img {
+            width: 280px;
+            height: auto;
+            transition: transform 0.3s ease;
+            max-width: 100%;
+        }
+
+        .header .logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .header.scrolled {
+            background: rgba(0, 0, 0, 0.9);
+            height: 70px;
+        }
+
+        /* Left side: Hamburger */
+        .nav-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .menu-toggle:hover {
+            color: #d4af37;
+            transform: scale(1.1);
+        }
+
+        .menu-toggle .bar {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: white;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        .menu-toggle.active .bar:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 5px);
+        }
+
+        .menu-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active .bar:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -5px);
+        }
+
+        /* Center: Logo */
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            position: relative;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Right side: Updated Navigation Links */
+        .nav-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 8px 0;
+            position: relative;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link::after {
             content: '';
             position: absolute;
-            top: 0;
-            width: 100px;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .logo-slider-wrapper::before {
+            bottom: 0;
             left: 0;
-            background: linear-gradient(to right, var(--cream), transparent);
+            width: 0;
+            height: 1px;
+            background: #d4af37;
+            transition: width 0.3s ease;
         }
 
-        .logo-slider-wrapper::after {
-            right: 0;
-            background: linear-gradient(to left, var(--cream), transparent);
+        .nav-link:hover {
+            color: white;
         }
 
-        .logo-track {
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Improved Shop and About dropdowns */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: -20px;
+            background: rgba(0, 0, 0, 0.98);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 40px;
+            width: 16px;
+            height: 16px;
+            background: rgba(0, 0, 0, 0.98);
+            transform: rotate(45deg);
+            border-left: 1px solid rgba(212, 175, 55, 0.2);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .dropdown-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            padding: 12px 0;
+            display: block;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .dropdown-link:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-link::before {
+            content: '›';
+            position: absolute;
+            left: -10px;
+            opacity: 0;
+            color: #d4af37;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-link:hover {
+            color: #d4af37;
+            transform: translateX(10px);
+        }
+
+        .dropdown-link:hover::before {
+            left: 0;
+            opacity: 1;
+        }
+
+        /* Enhanced Mega Menu with full-width layout */
+        .mega-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(20, 20, 20, 0.95));
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto; /* Changed to auto for scrollable content */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .mega-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mega-panel {
             display: flex;
-            gap: 80px;
-            animation: scroll 40s linear infinite;
-            width: fit-content;
+            flex-direction: column;
+            min-height: 100vh; /* Changed to min-height */
+            padding: 120px 60px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
         }
 
-        .logo-item {
-            flex-shrink: 0;
-            width: 180px;
-            height: 90px;
-            background: #fff;
-            border-radius: 16px;
+        /* Left: Menu Links - Full width with 5 columns */
+        .menu-left {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px; /* Reduced gap for 5 columns */
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .links-col {
+            flex: 1;
+            min-width: 180px; /* Reduced min-width for 5 columns */
+        }
+
+        .col-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            opacity: 0.7;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .col-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background: #d4af37;
+            opacity: 0.5;
+        }
+
+        .links-col ul {
+            list-style: none;
+        }
+
+        .links-col li {
+            margin-bottom: 20px;
+        }
+
+        .links-col a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+            display: block;
+            position: relative;
+        }
+
+        .links-col a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #d4af37;
+            transition: width 0.3s ease;
+        }
+
+        .links-col a:hover {
+            color: #d4af37;
+            transform: translateX(10px);
+        }
+
+        .links-col a:hover::before {
+            width: 100%;
+        }
+
+        /* Right: Enhanced Gallery - Below and full width, fixed height */
+        .menu-gallery {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            max-height: 500px; /* Fixed max height */
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px; /* Reduced margin */
+            padding-bottom: 15px; /* Reduced padding */
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .gallery-header h3 {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .gallery-header h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #d4af37;
+            border-radius: 50%;
+        }
+
+        .gallery-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .g-arrow {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            background: transparent;
+            color: white;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .g-arrow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #d4af37;
+            transform: scale(0);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .g-arrow i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .g-arrow:hover {
+            border-color: #d4af37;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .g-arrow:hover::after {
+            transform: scale(1);
+        }
+
+        .gallery-viewport {
+            width: 100%;
+            height: 350px; /* Fixed height */
+            overflow: hidden;
+            position: relative;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .gallery-track {
+            display: flex;
+            gap: 30px;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+        }
+
+        .gallery-item {
+            min-width: 280px; /* Reduced width */
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .item-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
             padding: 20px;
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
         }
 
-        .logo-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        .item-caption strong {
+            color: #d4af37;
+            font-weight: 500;
         }
 
-        .logo-item img {
-            max-width: 100%;
-            max-height: 100%;
-            opacity: 0.7;
-            filter: grayscale(100%);
-            transition: all 0.4s ease;
+        /* Gallery indicators */
+        .gallery-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px; /* Reduced margin */
         }
 
-        .logo-item:hover img {
+        .gallery-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-indicator.active {
+            background: #d4af37;
+            transform: scale(1.3);
+        }
+
+        /* Main Content */
+        .video-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            transition: opacity 1.5s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        #background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            filter: none;
+            transition: all 1.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+            opacity: 0;
+            transition: opacity 1.5s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        /* Image Gallery Section */
+        .image-gallery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 1.5s cubic-bezier(0.76, 0, 0.24, 1);
+            pointer-events: none;
+        }
+
+        .gallery-item-main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .gallery-item-main.active {
             opacity: 1;
-            filter: grayscale(0%);
+            transform: translateY(0);
+            z-index: 1;
         }
 
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        .gallery-item-main.past {
+            opacity: 0;
+            transform: translateY(-100%);
         }
-	</style>
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        /* Category Text Overlay */
+        .category-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 100px;
+            z-index: 2;
+        }
+
+        .category-title {
+            font-size: 4.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.76, 0, 0.24, 1) 0.3s;
+            text-transform: uppercase;
+            line-height: 1.1;
+            max-width: 800px;
+        }
+
+        .category-subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.76, 0, 0.24, 1) 0.5s;
+            max-width: 600px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .gallery-item-main.active .category-title,
+        .gallery-item-main.active .category-subtitle {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Content Section - Centered */
+        .content-section {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .list-heading {
+            font-size: 5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: -2px;
+            position: relative;
+            overflow: hidden;
+            height: 120px;
+        }
+
+        .heading-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+            transform-origin: center bottom;
+            filter: blur(10px);
+            width: 100%;
+        }
+
+        .heading-text.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        .item-list {
+            list-style: none;
+            position: relative;
+        }
+
+        .list-item {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            overflow: hidden;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(80px) scale(0.95);
+            transition: all 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+            will-change: transform, opacity;
+        }
+
+        .item-content {
+            font-size: 1.8rem;
+            font-weight: 300;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+            position: relative;
+            display: inline-block;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Number styling */
+        .list-item-number {
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            display: block;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .number-text {
+            display: inline-block;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.2s;
+        }
+
+        /* Text masking effect - From Bottom */
+        .text-mask {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            padding-bottom: 5px;
+        }
+
+        .text-line {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        /* Item states */
+        .list-item.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .list-item.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .list-item.active .text-line {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .list-item.active .number-text {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Active item special effects */
+        .list-item.active {
+            z-index: 2;
+        }
+
+        .list-item.active .item-content {
+            color: #fff;
+            text-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.2),
+                0 0 60px rgba(255, 255, 255, 0.1);
+        }
+
+        .list-item.active .text-line {
+            animation: textGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% {
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 255, 0.2),
+                    0 0 40px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                text-shadow: 
+                    0 0 30px rgba(255, 255, 255, 0.3),
+                    0 0 60px rgba(255, 255, 255, 0.15),
+                    0 0 90px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            opacity: 0.9;
+            transition: all 1s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .scroll-text {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            height: 20px;
+        }
+
+        .scroll-text-inner {
+            display: inline-block;
+            transform: translateY(0);
+            transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .scroll-arrow {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arrow-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            stroke: rgba(255, 255, 255, 0.8);
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawArrow 2s ease-in-out infinite;
+        }
+
+        @keyframes drawArrow {
+            0%, 100% {
+                stroke-dashoffset: 100;
+            }
+            50% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Auto-scroll Loader */
+        .auto-scroll-loader {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .loader-circle {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .loader-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .loader-bg-circle {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 4;
+        }
+
+        .loader-progress-circle {
+            fill: none;
+            stroke: #d4af37;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        .auto-scroll-loader.hidden {
+            opacity: 0;
+        }
+
+        /* Background grid */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 2;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+
+        /* Enhanced Footer - Semi-transparent overlay */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 40px 20px 20px;
+            z-index: 5;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .footer.show {
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #d4af37;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background: #d4af37;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #d4af37;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icon:hover {
+            background: #d4af37;
+            transform: translateY(-3px);
+            border-color: #d4af37;
+            color: #000;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom a {
+            color: #d4af37;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hide scrollbar */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Enhanced Responsive Design */
+        @media (max-width: 1400px) {
+            .header .logo img {
+                width: 240px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .header {
+                padding: 0 30px;
+            }
+            
+            .header .logo img {
+                width: 200px;
+            }
+            
+            .nav-right {
+                gap: 20px;
+            }
+            
+            .mega-panel {
+                padding: 100px 40px 40px;
+            }
+            
+            .menu-left {
+                gap: 30px;
+                padding-bottom: 40px;
+                margin-bottom: 40px;
+            }
+            
+            .content-section {
+                max-width: 700px;
+            }
+            
+            .list-heading {
+                font-size: 4rem;
+                height: 100px;
+                margin-bottom: 30px;
+            }
+            
+            .item-content {
+                font-size: 1.6rem;
+                max-width: 600px;
+            }
+            
+            .category-content {
+                padding: 0 60px;
+            }
+            
+            .category-title {
+                font-size: 3.5rem;
+                max-width: 600px;
+            }
+            
+            .category-subtitle {
+                font-size: 1.2rem;
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .header {
+                padding: 0 20px;
+            }
+            
+            .header .logo img {
+                width: 180px;
+            }
+            
+            .nav-right {
+                gap: 15px;
+            }
+            
+            .nav-link {
+                font-size: 13px;
+                letter-spacing: 0.5px;
+            }
+            
+            .menu-left {
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+            
+            .links-col {
+                flex: 1 0 calc(33.333% - 40px);
+                min-width: 200px;
+            }
+            
+            .content-section {
+                max-width: 600px;
+            }
+            
+            .list-heading {
+                font-size: 3.5rem;
+            }
+            
+            .item-content {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: 70px;
+                padding: 0 15px;
+            }
+            
+            .header .logo img {
+                width: 150px;
+            }
+            
+            .nav-right {
+                gap: 12px;
+            }
+            
+            .nav-link {
+                font-size: 12px;
+                letter-spacing: 0;
+            }
+            
+            .dropdown-content {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                width: 100%;
+                border-radius: 0;
+                border: none;
+                border-top: 1px solid rgba(212, 175, 55, 0.1);
+            }
+            
+            .dropdown-content::before {
+                display: none;
+            }
+            
+            .mega-menu {
+                overflow-y: auto;
+            }
+            
+            .mega-panel {
+                padding: 80px 20px 40px;
+            }
+            
+            .menu-left {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .links-col {
+                flex: 1 0 100%;
+            }
+            
+            .links-col a {
+                font-size: 16px;
+            }
+            
+            .gallery-viewport {
+                height: 300px;
+            }
+            
+            .gallery-item {
+                min-width: 250px;
+            }
+            
+            .content-section {
+                max-width: 500px;
+            }
+            
+            .list-heading {
+                font-size: 3rem;
+                margin-bottom: 30px;
+                height: 80px;
+            }
+            
+            .item-content {
+                font-size: 1.4rem;
+                max-width: 450px;
+                line-height: 1.4;
+            }
+            
+            .list-item {
+                transform: translateY(60px) scale(0.95);
+            }
+            
+            .category-content {
+                padding: 0 40px;
+            }
+            
+            .category-title {
+                font-size: 2.8rem;
+                max-width: 400px;
+            }
+            
+            .category-subtitle {
+                font-size: 1.1rem;
+                max-width: 400px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                height: 60px;
+                padding: 0 10px;
+            }
+            
+            .header .logo img {
+                width: 120px;
+            }
+            
+            .nav-right {
+                gap: 8px;
+            }
+            
+            .nav-link {
+                font-size: 11px;
+            }
+            
+            .menu-toggle {
+                padding: 5px;
+            }
+            
+            .content-section {
+                max-width: 350px;
+            }
+            
+            .list-heading {
+                font-size: 2.2rem;
+                margin-bottom: 20px;
+                height: 70px;
+            }
+            
+            .item-content {
+                font-size: 1.1rem;
+                max-width: 320px;
+                line-height: 1.3;
+            }
+            
+            .list-item {
+                transform: translateY(40px) scale(0.95);
+            }
+            
+            .category-content {
+                padding: 0 20px;
+            }
+            
+            .category-title {
+                font-size: 2rem;
+                max-width: 300px;
+                margin-bottom: 15px;
+            }
+            
+            .category-subtitle {
+                font-size: 0.9rem;
+                max-width: 300px;
+            }
+            
+            .gallery-item {
+                min-width: 220px;
+            }
+            
+            .g-arrow {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Specific fix for small laptops (1024px range) */
+        @media (max-width: 1100px) and (min-width: 769px) {
+            .header .logo img {
+                width: 160px;
+            }
+            
+            .nav-right {
+                gap: 18px;
+            }
+            
+            .nav-link {
+                font-size: 12px;
+            }
+            
+            .content-section {
+                max-width: 600px;
+            }
+            
+            .list-heading {
+                font-size: 3.5rem;
+            }
+            
+            .item-content {
+                font-size: 1.5rem;
+            }
+        }
+
+        .hamburger-logo {
+            height: 40px;
+        }
+    </style>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-
-<body class="is-preload">
-
-	<!-- Wrapper -->
-	<div id="wrapper">
-
-		<!-- Header -->
-		<header id="header" class="alt">
-			<a href="index.html" class="logo"><img src="./assets/images/THF Logo Png.png" alt="" width="100"
-					height="110"></a>
-			<nav>
-				<a href="./blog.html">Blog</a>
-				<a href="./faq.html">FAQ</a>
-				<a href="./contact.html">Contact</a>
-				<a href="./recepie.html">Recepie</a>
-				<!-- <a href="./faq.html">FAQ</a> -->
-
-				<a href="#menu"></a>
-
-			</nav>
-		</header>
-
-		<!-- Menu -->
-		<nav id="menu" class="mega-menu">
-			<div class="mega-panel">
-				<!-- Left: three link columns -->
-				<div class="menu-left">
-					<ul class="links col">
-						<!-- <li class="col-title">Sweets</li> -->
-						<li><a href="#">Baklava</a></li>
-						<li><a href="#">Labon</a></li>
-						<li><a href="#">Dates</a></li>
-						<li><a href="#">Mewabite</a></li>
-						<li><a href="#">Assorted Collection</a></li>
-					</ul>
-
-					<ul class="links col">
-						<!-- <li class="">Collections</li> -->
-						<li><a href="#">THF Gifting</a></li>
-						<li><a href="#">THF Coffee</a></li>
-						<li><a href="#">THF Merchandise</a></li>
-						<li><a href="#">Corporate Gifting</a></li>
-						<li><a href="#">Gifting Brochures</a></li>
-
-
-					</ul>
-
-					<ul class="links col">
-						<!-- <li class="col-title">Services & Info</li> -->
-						<li><a href="#">About THF</a></li>
-						<li><a href="#">THF Facilities</a></li>
-						<li><a href="#">THF Catering</a></li>
-						<li><a href="#">THF JalGhar</a></li>
-						<li><a href="#">THF EC</a></li>
-						<li><a href="#">Store Locator</a></li>
-
-					</ul>
-
-					<!-- Auth actions -->
-					<ul class="actions col actions-vertical">
-						<li><a href="#" class="btn primary">SIGN UP</a></li>
-						<li><a href="#" class="btn">LOG IN</a></li>
-					</ul>
-				</div>
-
-				<!-- Right: large gallery / slider -->
-				<div class="menu-gallery" aria-label="Featured items">
-					<div class="gallery-header">
-						<h3>Bestsellers</h3>
-						<div class="gallery-controls">
-							<button class="g-arrow prev" aria-label="Previous">
-								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-									fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
-									stroke-linejoin="round">
-									<polyline points="15 18 9 12 15 6"></polyline>
-								</svg>
-							</button>
-
-							<button class="g-arrow next" aria-label="Next">
-								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-									fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
-									stroke-linejoin="round">
-									<polyline points="9 18 15 12 9 6"></polyline>
-								</svg>
-							</button>
-						</div>
-
-					</div>
-
-					<div class="gallery-viewport">
-						<div class="gallery-track">
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/THF Baklava Delight Box.jpg" alt="Baklava">
-								<div class="item-caption"><strong>Baklava Delight Box</strong>
-								</div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Labon Delight Box.jpg" alt="Labon">
-								<div class="item-caption"><strong>Labon Delight Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/THF Royal Treat Box.jpg" alt="THF Royal Treat Box">
-								<div class="item-caption"><strong>Royal Treat Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Collective Box.jpg" alt="Collective Box">
-								<div class="item-caption"><strong>Collective Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Artisanal Treasure Box.jpg" alt="Artisanal Treasure Box">
-								<div class="item-caption"><strong>Artisanal Treasure Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Assorted Date Box.jpg" alt="Assorted Date Box">
-								<div class="item-caption"><strong>Assorted Date Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Glorious Box.jpg" alt="Glorious Box">
-								<div class="item-caption"><strong>Glorious Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/THF Baklava Delight Box.jpg" alt="Baklava">
-								<div class="item-caption"><strong>Baklava Delight Box</strong>
-								</div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Labon Delight Box.jpg" alt="Labon">
-								<div class="item-caption"><strong>Labon Delight Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/THF Royal Treat Box.jpg" alt="THF Royal Treat Box">
-								<div class="item-caption"><strong>Royal Treat Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Collective Box.jpg" alt="Collective Box">
-								<div class="item-caption"><strong>Collective Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Artisanal Treasure Box.jpg" alt="Artisanal Treasure Box">
-								<div class="item-caption"><strong>Artisanal Treasure Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Assorted Date Box.jpg" alt="Assorted Date Box">
-								<div class="item-caption"><strong>Assorted Date Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Glorious Box.jpg" alt="Glorious Box">
-								<div class="item-caption"><strong>Glorious Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/THF Baklava Delight Box.jpg" alt="Baklava">
-								<div class="item-caption"><strong>Baklava Delight Box</strong>
-								</div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Labon Delight Box.jpg" alt="Labon">
-								<div class="item-caption"><strong>Labon Delight Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/THF Royal Treat Box.jpg" alt="THF Royal Treat Box">
-								<div class="item-caption"><strong>Royal Treat Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Collective Box.jpg" alt="Collective Box">
-								<div class="item-caption"><strong>Collective Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Artisanal Treasure Box.jpg" alt="Artisanal Treasure Box">
-								<div class="item-caption"><strong>Artisanal Treasure Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Assorted Date Box.jpg" alt="Assorted Date Box">
-								<div class="item-caption"><strong>Assorted Date Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Glorious Box.jpg" alt="Glorious Box">
-								<div class="item-caption"><strong>Glorious Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/THF Baklava Delight Box.jpg" alt="Baklava">
-								<div class="item-caption"><strong>Baklava Delight Box</strong>
-								</div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Labon Delight Box.jpg" alt="Labon">
-								<div class="item-caption"><strong>Labon Delight Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/THF Royal Treat Box.jpg" alt="THF Royal Treat Box">
-								<div class="item-caption"><strong>Royal Treat Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Collective Box.jpg" alt="Collective Box">
-								<div class="item-caption"><strong>Collective Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Artisanal Treasure Box.jpg" alt="Artisanal Treasure Box">
-								<div class="item-caption"><strong>Artisanal Treasure Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Assorted Date Box.jpg" alt="Assorted Date Box">
-								<div class="item-caption"><strong>Assorted Date Box</strong></div>
-							</div>
-
-							<div class="gallery-item">
-								<img src="./assets/images/best_seller/Glorious Box.jpg" alt="Glorious Box">
-								<div class="item-caption"><strong>Glorious Box</strong></div>
-							</div>
-
-
-						</div>
-					</div>
-
-					<div class="gallery-dots" role="tablist"></div>
-				</div>
-			</div>
-		</nav>
-
-
-
-		<!-- Banner -->
-		<section id="banner" class="major">
-			<video autoplay muted loop playsinline id="bannerVideo">
-				<source src="/assets/images/banner1.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-
-			<div class="inner">
-				<header class="major">
-					<h1>Hi, this is THF</h1>
-				</header>
-				
-			</div>
-		</section>
-
-					<!-- Two -->
-			<section id="two">
-				<div class="inner">
-					<header class="major">
-						<h2>Massa libero</h2>
-					</header>
-					<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna
-						magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna.
-						Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem
-						consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus
-						amet pharetra et feugiat tempus.</p>
-					<ul class="actions">
-						<li><a href="landing.html" class="button next">Get Started</a></li>
-					</ul>
-				</div>
-			</section>
-
-
-		<!-- Main -->
-		<div id="main">
-
-			<!-- CATEGORY HERO SECTION WITH FOCUSED OVERLAY IMAGE -->
-			<section class="category-hero" style="background-image: url('/assets/images/baklava_banner.jpg');">
-
-				<!-- Info Icon -->
-				<!-- <div class="info-icon-wrapper">
-					<div class="info-icon" title="More Info"><i class="fas fa-info"></i></div>
-					<div class="info-box">
-						<h4>About Baklava</h4>
-						<p>
-							Originating from the Ottoman Empire, Baklava is a rich, layered dessert made of filo pastry,
-							nuts, and honey syrup — symbolizing celebration and heritage.
-						</p>
-					</div>
-				</div> -->
-
-				<!-- Blurred Background Layer -->
-				<div class="category-bg-blur"></div>
-
-				<!-- Content Section -->
-				<div class="category-overlay">
-					<div class="category-content">
-						<h1 class="category-title">HANDCRAFTED BAKLAVAS</h1>
-						<p class="category-desc">
-						Made with premium ingredients, our artisanal baklava delivers a refined balance of flavour and texture.
-						</p>
-						<a href="category.html" class="category-btn">Discover More</a>
-					</div>
-				</div>
-
-				<!-- Focused Front Image -->
-				<!-- <div class="category-image-overlay">
-					<img src="/assets/images/baklava.png" alt="Baklava Closeup">
-				</div> -->
-
-			</section>
-
-			<section class="category-hero" style="background-image: url('/assets/images/labon_banner.jpg');">
-
-				<!-- Info Icon -->
-				<!-- <div class="info-icon-wrapper">
-					<div class="info-icon" title="More Info"><i class="fas fa-info"></i></div>
-					<div class="info-box">
-						<h4>About labon</h4>
-						<p>
-							Originating from the Ottoman Empire, Mewabite is a rich, layered dessert made of filo
-							pastry,
-							nuts, and honey syrup — symbolizing celebration and heritage.
-						</p>
-					</div>
-				</div> -->
-
-				<!-- Blurred Background Layer -->
-				<div class="category-bg-blur"></div>
-
-				<!-- Content Section -->
-				<div class="category-overlay">
-					<div class="category-content">
-						<h1 class="category-title">SIGNATURE LABONS®</h1>
-						<p class="category-desc">
-							THF LABON®,a registered product, is an innovative twist of the traditional Indian laddoo and delectable French Bon Bon.
-						</p>
-						<a href="category.html" class="category-btn">Discover More</a>
-					</div>
-				</div>
-
-				<!-- Focused Front Image -->
-				<!-- <div class="category-image-overlay">
-					<img src="/assets/images/labon.png" alt="Baklava Closeup">
-				</div> -->
-
-			</section>
-
-			<section class="category-hero" style="background-image: url('/assets/images/mewabites_banner.jpg');">
-
-				<!-- Info Icon -->
-				<!-- <div class="info-icon-wrapper">
-					<div class="info-icon" title="More Info"><i class="fas fa-info"></i></div>
-					<div class="info-box">
-						<h4>About Mewabite</h4>
-						<p>
-							Originating from the Ottoman Empire, Mewabite is a rich, layered dessert made of filo
-							pastry,
-							nuts, and honey syrup — symbolizing celebration and heritage.
-						</p>
-					</div> -->
-				<!-- </div> -->
-
-				<!-- Blurred Background Layer -->
-				<div class="category-bg-blur"></div>
-
-				<!-- Content Section -->
-				<div class="category-overlay">
-					<div class="category-content">
-						<h1 class="category-title">ARTISAN MEWABITES</h1>
-						<p class="category-desc">
-							A premium dry fruit assortment, expertly crafted to highlight natural flavours with every wholesome bite.						</p>
-						<a href="category.html" class="category-btn">Discover More</a>
-					</div>
-				</div>
-
-				<!-- Focused Front Image -->
-				<!-- <div class="category-image-overlay">
-					<img src="/assets/images/labon.png" alt="Baklava Closeup">
-				</div> -->
-
-			</section>
-
-			<section class="category-hero" style="background-image: url('/assets/images/dates_banner.jpg');">
-
-				<!-- Info Icon -->
-				<!-- <div class="info-icon-wrapper">
-					<div class="info-icon" title="More Info"><i class="fas fa-info"></i></div>
-					<div class="info-box">
-						<h4>About Dates</h4>
-						<p>
-							Originating from the Ottoman Empire, Mewabite is a rich, layered dessert made of filo
-							pastry,
-							nuts, and honey syrup — symbolizing celebration and heritage.
-						</p>
-					</div>
-				</div> -->
-
-				<!-- Blurred Background Layer -->
-				<div class="category-bg-blur"></div>
-
-				<!-- Content Section -->
-				<div class="category-overlay">
-					<div class="category-content">
-						<h1 class="category-title">ROYAL DATES</h1>
-						<p class="category-desc">
-							Discover the pure sweetness and rich texture of our premium dates. Each variety delivers a naturally delicious treat, perfect for a nutritious indulgence.
-
-						</p>
-						<a href="category.html" class="category-btn">Discover More</a>
-					</div>
-				</div>
-
-				<!-- Focused Front Image -->
-				<!-- <div class="category-image-overlay">
-					<img src="/assets/images/labon.png" alt="Baklava Closeup">
-				</div> -->
-
-			</section>
-
-			<!-- Logo Slider -->
-			<section class="logo-slider-section">
-				<div class="logo-slider-wrapper">
-					<div class="logo-track">
-						<!-- First set -->
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="Google">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Microsoft">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="Amazon">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="Infosys">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="TCS">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="Wipro">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="HCL">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/Z6c6KBy6cNXnDYNv7PhWQA2lSskIw1ykcUY9s6IsIoY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/LmNvbS9pbWFnZS1j/ZG4vaW1hZ2VzL2t0/czkyOHBkL3Byb2R1/Y3Rpb24vNjk2ZTJk/NGM4MzBlZWFkMjdi/ZjFjYjBlZjFmZTY2/YzY3MTdiMTZiYS04/MDB4ODAwLndlYnA_/dz0xOTIwJnE9NzAm/Zm09d2VicA" alt="Accenture">
-						</div>
-						<!-- Duplicate set for seamless loop -->
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="Google">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Microsoft">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Amazon">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Infosys">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="TCS">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/NelQp2xJVw7SDbsZ3nwGYqflxkJmOS5JqT9cAu5_thA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90ZW1w/bGF0ZS5jYW52YS5j/b20vRUFEYXBFZC14/UHcvMi8wLzQwMHct/LTNvaTk3S2g1dVku/anBn" alt="Wipro">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="HCL">
-						</div>
-						<div class="logo-item">
-							<img src="https://imgs.search.brave.com/m5egOLRzinTZnIA5uS_FQnbSre0Tn5GQmIsoGRcyPAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/Ym5haWwuaW1nYmlu/LmNvbS83LzE3LzEy/L2ltZ2Jpbi1wZXJm/ZWN0bHktcG9zaC11/bml0ZWQtc3RhdGVz/LWxvZ28tcHJvZHVj/dC1zYW1wbGUtdW5p/dGVkLXN0YXRlcy1i/c0RrU1h5cWJpRlc3/MVVZVXA1ZHNNZHhB/X3QuanBn" alt="Accenture">
-						</div>
-					</div>
-				</div>
-			</section>
-
-		</div>
-
-		<!-- Contact -->
-		<section id="contact">
-			<div class="inner">
-				<section>
-					<form method="post" action="#">
-						<div class="fields">
-							<div class="field half">
-								<label for="name">Name</label>
-								<input type="text" name="name" id="name" />
-							</div>
-							<div class="field half">
-								<label for="email">Email</label>
-								<input type="text" name="email" id="email" />
-							</div>
-							<div class="field">
-								<label for="message">Message</label>
-								<textarea name="message" id="message" rows="6"></textarea>
-							</div>
-						</div>
-						<ul class="actions">
-							<li><input type="submit" value="Send Message" class="primary" /></li>
-							<li><input type="reset" value="Clear" /></li>
-						</ul>
-					</form>
-				</section>
-				<section class="split">
-					<section>
-						<div class="contact-method">
-							<span class="icon solid alt fa-envelope"></span>
-							<h3>Email</h3>
-							<a href="#">information@untitled.tld</a>
-						</div>
-					</section>
-					<section>
-						<div class="contact-method">
-							<span class="icon solid alt fa-phone"></span>
-							<h3>Phone</h3>
-							<span>(000) 000-0000 x12387</span>
-						</div>
-					</section>
-					<section>
-						<div class="contact-method">
-							<span class="icon solid alt fa-home"></span>
-							<h3>Address</h3>
-							<span>1234 Somewhere Road #5432<br />
-								Nashville, TN 00000<br />
-								United States of America</span>
-						</div>
-					</section>
-				</section>
-			</div>
-		</section>
-
-		<!-- Footer -->
-<footer id="footer" style="background: radial-gradient(circle at top left, #141b2d, #0a0d14); color: white; font-family: 'Poppins', sans-serif; position: relative; overflow: hidden; padding: 50px 30px 25px;">
-  <div class="container">
-
-    <div class="row gy-4 align-items-start text-md-start text-center">
-
-      <!-- Brand Overview -->
-      <div class="col-lg-3 col-md-6">
-        <h4 style="font-weight:700; letter-spacing:1px; margin-bottom:15px;">THF</h4>
-        <p style="font-size:0.88rem; line-height:1.6; opacity:0.85;">
-          Redefining luxury gifting with craftsmanship and creativity. Visit our stores or shop online for timeless treats and experiences.
-        </p>
-        <div class="d-flex justify-content-md-start justify-content-center gap-3 mt-3">
-          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="nav-left">
+            <button class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <img src="/assets/images/logo-transparent.png" alt="" srcset="" class="hamburger-logo">
         </div>
-      </div>
-
-      <!-- Navigation Links -->
-      <div class="col-lg-6 col-md-6">
-        <div class="row">
-          <div class="col-6">
-            <h6 class="footer-heading">Explore</h6>
-            <ul class="footer-links">
-              <li><a href="#">Shop (All)</a></li>
-              <li><a href="#">Wedding Collection</a></li>
-              <li><a href="#">Corporate Gifting</a></li>
-              <li><a href="#">Store Locator</a></li>
-              <li><a href="#">Bulk Order</a></li>
-              <li><a href="#">Blogs</a></li>
-            </ul>
-          </div>
-          <div class="col-6">
-            <h6 class="footer-heading">Support</h6>
-            <ul class="footer-links">
-              <li><a href="#">Recipes</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms & Conditions</a></li>
-              <li><a href="#">Returns & Refunds</a></li>
-            </ul>
-          </div>
+        
+        <div class="nav-center">
+            <a href="#" class="logo"><img src="./assets/images/name-logo.png" alt="The HazleNut Factory"></a>
         </div>
-      </div>
+        
+        <div class="nav-right">
+            <div class="nav-dropdown">
+                <a href="#" class="nav-link">SHOP</a>
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-link">THF GIFTING</a>
+                    <a href="#" class="dropdown-link">THF COFFEE</a>
+                    <a href="#" class="dropdown-link">THF MERCHANDISE</a>
+                </div>
+            </div>
+            <!-- <div class="nav-dropdown">
+                <a href="#" class="nav-link">ABOUT THF</a>
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-link">THF FACILITIES</a>
+                    <a href="#" class="dropdown-link">LIFE AT THF</a>
+                    <a href="#" class="dropdown-link">CAREER AT THF</a>
+                </div>
+            </div> -->
+            <a href="store.html" class="nav-link">STORE LOCATOR</a>
+            <!-- <a href="#" class="nav-link">EVENTS @ THF</a> -->
+            <a href="#" class="nav-link">SIGN IN</a>
+        </div>
+    </header>
 
-      <!-- Contact -->
-      <div class="col-lg-3 col-md-12">
-        <h6 class="footer-heading">Contact</h6>
-        <p style="font-size:0.9rem; line-height:1.8; opacity:0.85;">
-          support@thf.in<br>
-          +91 98765 43210<br>
-          Mon – Sat, 10 AM – 7 PM
-        </p>
-      </div>
+    <!-- Mega Menu (Enhanced) -->
+    <nav class="mega-menu">
+        <div class="mega-panel">
+            <!-- Left: Menu Links - Full Width with 5 columns -->
+            <div class="menu-left">
+                <div class="links-col">
+                    <div class="col-title">Sweets</div>
+                    <ul>
+                        <li><a href="category.html">Baklava</a></li>
+                        <li><a href="category.html">Labon</a></li>
+                        <li><a href="category.html">Dates</a></li>
+                        <li><a href="category.html">Mewabite</a></li>
+                        <li><a href="category.html">Assorted Collection</a></li>
+                    </ul>
+                </div>
+                
+                <div class="links-col">
+                    <div class="col-title">Collections</div>
+                    <ul>
+                        <li><a href="#">Luxury Gifting</a></li>
+                        <li><a href="#">Premium Coffee</a></li>
+                        <li><a href="#">Merchandise</a></li>
+                        <li><a href="#">Corporate Gifting</a></li>
+                        <li><a href="#">Gifting Brochures</a></li>
+                    </ul>
+                </div>
+                
+                <div class="links-col">
+                    <div class="col-title">Seasonal</div>
+                    <ul>
+                        <li><a href="#">Festive Hampers</a></li>
+                        <li><a href="#">Diwali Specials</a></li>
+                        <li><a href="#">Eid Collection</a></li>
+                        <li><a href="#">Christmas Treats</a></li>
+                        <li><a href="#">New Year Gifting</a></li>
+                    </ul>
+                </div>
+                
+                <div class="links-col">
+                    <div class="col-title">Corporate</div>
+                    <ul>
+                        <li><a href="#">Bulk Orders</a></li>
+                        <li><a href="#">Custom Branding</a></li>
+                        <li><a href="#">Employee Gifting</a></li>
+                        <li><a href="#">Client Appreciation</a></li>
+                        <li><a href="#">Corporate Catalog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="links-col">
+                    <div class="col-title">Services & Info</div>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Facilities</a></li>
+                        <li><a href="#">Catering</a></li>
+                        <li><a href="#">JalGhar</a></li>
+                        <li><a href="store.html">Store Locator</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right: Gallery - Below and Fixed Height -->
+            <div class="menu-gallery">
+                <div class="gallery-header">
+                    <h3>Bestsellers</h3>
+                    <div class="gallery-controls">
+                        <button class="g-arrow prev" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="g-arrow next" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="gallery-viewport">
+                    <div class="gallery-track">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Baklava Delight Box">
+                            <div class="item-caption"><strong>Baklava Delight Box</strong></div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Labon Delight Box">
+                            <div class="item-caption"><strong>Labon Delight Box</strong></div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Royal Treat Box">
+                            <div class="item-caption"><strong>Royal Treat Box</strong></div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1540420828642-fca2c5c18abb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Collective Box">
+                            <div class="item-caption"><strong>Collective Box</strong></div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Artisanal Treasure Box">
+                            <div class="item-caption"><strong>Artisanal Treasure Box</strong></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-indicators">
+                    <div class="gallery-indicator active" data-index="0"></div>
+                    <div class="gallery-indicator" data-index="1"></div>
+                    <div class="gallery-indicator" data-index="2"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Video Section -->
+        <div class="video-section">
+            <video id="background-video" autoplay muted loop playsinline>
+                <source src="/assets/images/banner1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+        
+        <!-- Image Gallery with Category Text -->
+        <div class="image-gallery">
+            <!-- Premium Collection -->
+            <div class="gallery-item-main" data-category="premium">
+                <img src="/assets/images/baklava_banner.jpg" 
+                     alt="HANDCRAFTED BAKLAVAS" class="gallery-image">
+                <div class="category-content">
+                    <h2 class="category-title">HANDCRAFTED BAKLAVAS</h2>
+                    <p class="category-subtitle">Made with premium ingredients, our artisanal baklava delivers a refined balance of flavour and texture.</p>
+                </div>
+            </div>
+            
+            <!-- Corporate Gifting -->
+            <div class="gallery-item-main" data-category="corporate">
+                <img src="/assets/images/labon_banner.jpg" 
+                     alt="SIGNATURE LABONS" class="gallery-image">
+                <div class="category-content">
+                    <h2 class="category-title">SIGNATURE LABONS®</h2>
+                    <p class="category-subtitle">THF LABON® ,a registered product, is an innovative twist of the traditional Indian laddoo and delectable French Bon Bon.</p>
+                </div>
+            </div>
+            
+            <!-- Artisan Mewabites -->
+            <div class="gallery-item-main" data-category="packaging">
+                <img src="/assets/images/mewabites_banner.jpg" 
+                     alt="ARTISAN MEWABITES" class="gallery-image">
+                <div class="category-content">
+                    <h2 class="category-title">ARTISAN MEWABITES</h2>
+                    <p class="category-subtitle">A premium dry fruit assortment, expertly crafted to highlight natural flavours with every wholesome bite.</p>
+                </div>
+            </div>
+            
+            <!-- Royal Dates -->
+            <div class="gallery-item-main" data-category="personalized">
+                <img src="/assets/images/dates_banner.jpg" 
+                     alt="ROYAL DATES" class="gallery-image">
+                <div class="category-content">
+                    <h2 class="category-title">ROYAL DATES</h2>
+                    <p class="category-subtitle">Premium dates, naturally sweet, perfect for nutritious indulgence</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid-overlay"></grid-overlay>
+        
+        <!-- Auto-scroll Loader -->
+        <div class="auto-scroll-loader hidden">
+            <div class="loader-circle">
+                <svg class="loader-svg" viewBox="0 0 100 100">
+                    <circle class="loader-bg-circle" cx="50" cy="50" r="45"></circle>
+                    <circle class="loader-progress-circle" cx="50" cy="50" r="45"></circle>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Centered Content -->
+        <div class="content-section">
+            <h1 class="list-heading">
+                <span class="heading-text">LUXURY GIFTING '25</span>
+            </h1>
+            
+            <ul class="item-list">
+                <li class="list-item" data-index="1">
+                    <span class="list-item-number">
+                        <span class="number-text">01</span>
+                    </span>
+                    <div class="item-content">
+                        <span class="text-mask">
+                            <span class="text-line">Handcrafted Luxury gifting, customized to make every celebration unforgettable.</span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-text">
+                <span class="scroll-text-inner">SCROLL TO REVEAL</span>
+            </div>
+            <div class="scroll-arrow">
+                <svg viewBox="0 0 24 24">
+                    <path class="arrow-path" d="M7,10L12,15L17,10"/>
+                </svg>
+            </div>
+        </div>
     </div>
 
-    <hr style="border-color:rgba(255,255,255,0.09); margin:30px 0;">
-
-    <!-- Bottom Bar -->
-    <div class="text-center" style="font-size:0.85rem; opacity:0.7;">
-      © 2025 THF. All Rights Reserved | Designed by THF Creative Lab
-    </div>
-  </div>
-
-  <!-- Floating Back-to-Top Button -->
-  <button id="scrollTopBtn" title="Go to top">
-    <i class="fas fa-arrow-up"></i>
-  </button>
-
-  <style>
-    .footer-heading {
-      font-weight:600; 
-      margin-bottom:10px;
-      color:#d8b96f;
-      font-size:0.95rem;
-    }
-
-    .footer-links {
-      list-style:none;
-      padding:0;
-      margin:0;
-    }
-    .footer-links li {
-      margin-bottom:6px;
-    }
-    .footer-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 0.88rem;
-      opacity: 0.75;
-      transition: color 0.3s, opacity 0.3s;
-    }
-    .footer-links a:hover {
-      color: #d8b96f;
-      opacity: 1;
-    }
-
-    .social-link {
-      color: white;
-      font-size: 1.1rem;
-      transition: color 0.3s, transform 0.3s;
-    }
-    .social-link:hover {
-      color: #d8b96f;
-      transform: scale(1.15);
-    }
-
-    #scrollTopBtn {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: #d8b96f;
-      color: #111;
-      border: none;
-      padding: 10px 12px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1rem;
-      display: none;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-      transition: background 0.3s, transform 0.3s;
-    }
-    #scrollTopBtn:hover {
-      background: #e1c67c;
-      transform: translateY(-3px);
-    }
-
-    /* Simple fade-up on scroll */
-    [data-fade] {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease-out;
-    }
-    [data-fade].active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
-
-  <script src="https://kit.fontawesome.com/a2d6a3217b.js" crossorigin="anonymous"></script>
-  <script>
-    // Scroll to top button behavior
-    const scrollBtn = document.getElementById("scrollTopBtn");
-    window.onscroll = function() {
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        scrollBtn.style.display = "block";
-      } else {
-        scrollBtn.style.display = "none";
-      }
-    };
-    scrollBtn.onclick = function() {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    };
-
-    // Fade animation when scrolling into view
-    const fadeEls = document.querySelectorAll("[data-fade]");
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("active");
-      });
-    });
-    fadeEls.forEach(el => observer.observe(el));
-  </script>
-</footer>
-
-
-	</div>
-
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/jquery.scrollex.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
-	<script src="assets/js/new-main.js"></script>
-
-
-
-
-	<script>
-		const slides = document.querySelectorAll('.menu-slider .slide');
-		const prevBtn = document.querySelector('.menu-slider .prev');
-		const nextBtn = document.querySelector('.menu-slider .nxxt');
-		let current = 0;
-		let autoSlide;
-
-		function showSlide(index) {
-			slides.forEach(slide => slide.classList.remove('active'));
-			slides[index].classList.add('active');
-		}
-
-		function nextSlide() {
-			current = (current + 1) % slides.length;
-			showSlide(current);
-		}
-
-		function prevSlide() {
-			current = (current - 1 + slides.length) % slides.length;
-			showSlide(current);
-		}
-
-		nextBtn.addEventListener('click', () => {
-			nextSlide();
-			resetAutoSlide();
-		});
-
-		prevBtn.addEventListener('click', () => {
-			prevSlide();
-			resetAutoSlide();
-		});
-
-		function startAutoSlide() {
-			autoSlide = setInterval(nextSlide, 3000);
-		}
-
-		function resetAutoSlide() {
-			clearInterval(autoSlide);
-			startAutoSlide();
-		}
-
-		startAutoSlide();
-	</script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>THF Corporate Gifting</h3>
+                <p>Premium handcrafted sweets and treats for discerning corporate clients. Elevating relationships through thoughtful gifting since 2010.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="#contact-form">Get a Quote</a>
+                    <a href="#why-choose">Why Choose Us</a>
+                    <a href="#">Corporate Catalog</a>
+                    <a href="#">Bulk Order Terms</a>
+                    <a href="#">Delivery Information</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Our Products</h3>
+                <div class="footer-links">
+                    <a href="#">Festive Hampers</a>
+                    <a href="#">Client Gifting</a>
+                    <a href="#">Employee Rewards</a>
+                    <a href="#">Custom Branding</a>
+                    <a href="#">Seasonal Specials</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>📍 Corporate Office: 123 Business District, Mumbai, India</p>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 corporate@thf.com</p>
+                <p>🕒 Mon-Sat: 9AM - 7PM</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 THF Corporate Gifting. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
 
     <script>
-        // Form submission handling
-        document.getElementById('corporate-gifting-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // In a real application, you would send this to your backend
-            console.log('Form submitted:', data);
-            
-            // Show success message
-            alert('Thank you! Our corporate gifting expert will contact you within 2 hours.');
-            
-            // Reset form
-            this.reset();
-        });
-        
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        // Menu Toggle Functionality
+        class MenuController {
+            constructor() {
+                this.menuToggle = document.querySelector('.menu-toggle');
+                this.megaMenu = document.querySelector('.mega-menu');
+                this.header = document.querySelector('.header');
+                this.galleryTrack = document.querySelector('.gallery-track');
+                this.prevBtn = document.querySelector('.prev');
+                this.nextBtn = document.querySelector('.next');
+                this.indicators = document.querySelectorAll('.gallery-indicator');
+                this.galleryItems = document.querySelectorAll('.gallery-item');
+                this.currentSlide = 0;
+                this.slideWidth = 280 + 30; // item width + gap
+                this.maxSlides = Math.max(0, this.galleryItems.length - 3);
                 
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
+                this.init();
+            }
+            
+            init() {
+                // Menu toggle
+                this.menuToggle.addEventListener('click', () => this.toggleMenu());
                 
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+                // Close menu on click outside
+                document.addEventListener('click', (e) => {
+                    if (!this.megaMenu.contains(e.target) && 
+                        !this.menuToggle.contains(e.target) && 
+                        this.megaMenu.classList.contains('active')) {
+                        this.closeMenu();
+                    }
+                });
+                
+                // Close menu on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.megaMenu.classList.contains('active')) {
+                        this.closeMenu();
+                    }
+                });
+                
+                // Gallery navigation
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+                
+                // Indicators
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                });
+                
+                // Header scroll effect
+                window.addEventListener('scroll', () => this.handleScroll());
+                
+                // Initialize gallery position
+                this.updateGallery();
+            }
+            
+            toggleMenu() {
+                this.megaMenu.classList.toggle('active');
+                this.menuToggle.classList.toggle('active');
+                document.body.style.overflow = this.megaMenu.classList.contains('active') ? 'hidden' : '';
+            }
+            
+            closeMenu() {
+                this.megaMenu.classList.remove('active');
+                this.menuToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
+            prevSlide() {
+                if (this.currentSlide > 0) {
+                    this.currentSlide--;
+                    this.updateGallery();
                 }
-            });
-        });
-        
-        // Logo slider animation
-        const logoSlider = document.querySelector('.logo-track');
-        let animationFrame;
-        
-        function animateLogos() {
-            const scrollSpeed = 1; // Adjust speed here
-            logoSlider.style.transform = `translateX(-${scrollSpeed}px)`;
-            
-            // Reset position when scrolled half the width
-            if (logoSlider.offsetLeft <= -logoSlider.scrollWidth / 2) {
-                logoSlider.style.transform = 'translateX(0)';
             }
             
-            animationFrame = requestAnimationFrame(animateLogos);
+            nextSlide() {
+                if (this.currentSlide < this.maxSlides) {
+                    this.currentSlide++;
+                    this.updateGallery();
+                }
+            }
+            
+            goToSlide(index) {
+                if (index <= this.maxSlides) {
+                    this.currentSlide = index;
+                    this.updateGallery();
+                }
+            }
+            
+            updateGallery() {
+                const translateX = -this.currentSlide * this.slideWidth;
+                this.galleryTrack.style.transform = `translateX(${translateX}px)`;
+                
+                // Update indicators
+                this.indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === this.currentSlide);
+                });
+                
+                // Update arrow states
+                this.prevBtn.style.opacity = this.currentSlide === 0 ? '0.5' : '1';
+                this.nextBtn.style.opacity = this.currentSlide === this.maxSlides ? '0.5' : '1';
+            }
+            
+            handleScroll() {
+                if (window.scrollY > 50) {
+                    this.header.classList.add('scrolled');
+                } else {
+                    this.header.classList.remove('scrolled');
+                }
+            }
         }
-        
-        // Start animation when page loads
-        window.addEventListener('load', () => {
-            animateLogos();
-        });
-        
-        // Stop animation when tab is not visible
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                cancelAnimationFrame(animationFrame);
-            } else {
-                animateLogos();
+
+        // Luxury Gifting Scroll Controller with Fixed Auto-scroll
+        class LuxuryGiftingScroll {
+            constructor() {
+                // Video elements
+                this.video = document.getElementById('background-video');
+                this.videoSection = document.querySelector('.video-section');
+                this.videoOverlay = document.querySelector('.video-overlay');
+                
+                // Image gallery elements
+                this.imageGallery = document.querySelector('.image-gallery');
+                this.galleryItems = document.querySelectorAll('.gallery-item-main');
+                
+                // Content elements
+                this.headingText = document.querySelector('.heading-text');
+                this.listItem = document.querySelector('.list-item');
+                this.textLine = document.querySelector('.text-line');
+                this.numberText = document.querySelector('.number-text');
+                
+                // Scroll indicator
+                this.scrollIndicator = document.querySelector('.scroll-indicator');
+                this.scrollText = document.querySelector('.scroll-text-inner');
+                
+                // Auto-scroll elements
+                this.loader = document.querySelector('.auto-scroll-loader');
+                this.progressCircle = document.querySelector('.loader-progress-circle');
+                
+                // Footer
+                this.footer = document.querySelector('.footer');
+                
+                // Category text elements
+                this.categoryTitles = [];
+                this.categorySubtitles = [];
+                
+                // State variables
+                this.currentIndex = 0;
+                this.maxIndex = 6; // 0: intro, 1: text overlay, 2-5: categories (4 items), 6: footer
+                this.isAnimating = false;
+                this.animationDuration = 1200;
+                this.lastScrollTime = 0;
+                this.scrollDelay = 800;
+                
+                // Auto-scroll variables - FIXED
+                this.autoScrollProgress = 0;
+                this.autoScrollSpeed = 0.33; // % per second (3 seconds for 100%)
+                this.isUserInteracting = false;
+                this.userInactiveTimer = null;
+                this.rafId = null;
+                this.lastUserActionTime = Date.now();
+                this.autoScrollDelay = 5000; // 5 seconds delay after user interaction
+                this.isAutoScrolling = true;
+                this.shouldAutoScroll = true;
+                
+                this.init();
             }
+            
+            init() {
+                // Start video
+                this.video.play().catch(console.log);
+                
+                // Collect category text elements
+                this.collectCategoryText();
+                
+                // Set initial state - Show the "LUXURY GIFTING '25" text immediately
+                this.headingText.classList.add('visible');
+                this.updateDisplay();
+                
+                // Handle interactions
+                this.handleWheel();
+                this.handleKeys();
+                this.handleTouch();
+                
+                // Start auto-scroll
+                this.startAutoScroll();
+            }
+            
+            collectCategoryText() {
+                this.galleryItems.forEach(item => {
+                    const title = item.querySelector('.category-title');
+                    const subtitle = item.querySelector('.category-subtitle');
+                    if (title) this.categoryTitles.push(title);
+                    if (subtitle) this.categorySubtitles.push(subtitle);
+                });
+            }
+            
+            handleWheel() {
+                window.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    
+                    const now = Date.now();
+                    if (now - this.lastScrollTime < this.scrollDelay || this.isAnimating) return;
+                    
+                    this.lastScrollTime = now;
+                    this.handleUserInteraction();
+                    
+                    const velocity = Math.abs(e.deltaY);
+                    if (velocity > 5) {
+                        if (e.deltaY > 0) {
+                            this.nextItem();
+                        } else {
+                            this.previousItem();
+                        }
+                    }
+                }, { passive: false });
+            }
+            
+            handleKeys() {
+                document.addEventListener('keydown', (e) => {
+                    if (this.isAnimating) return;
+                    
+                    const now = Date.now();
+                    if (now - this.lastScrollTime < 500) return;
+                    
+                    this.handleUserInteraction();
+                    
+                    if (e.key === 'ArrowDown' || e.key === ' ') {
+                        e.preventDefault();
+                        this.nextItem();
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        this.previousItem();
+                    }
+                });
+            }
+            
+            handleTouch() {
+                let touchStartY = 0;
+                const swipeThreshold = 80;
+                
+                document.addEventListener('touchstart', (e) => {
+                    touchStartY = e.touches[0].clientY;
+                    this.handleUserInteraction();
+                }, { passive: true });
+                
+                document.addEventListener('touchend', (e) => {
+                    if (this.isAnimating) return;
+                    
+                    const touchEndY = e.changedTouches[0].clientY;
+                    const touchDiff = touchStartY - touchEndY;
+                    
+                    if (Math.abs(touchDiff) > swipeThreshold) {
+                        this.handleUserInteraction();
+                        if (touchDiff > 0) {
+                            this.nextItem();
+                        } else {
+                            this.previousItem();
+                        }
+                    }
+                }, { passive: true });
+            }
+            
+            handleUserInteraction() {
+                this.isUserInteracting = true;
+                this.lastUserActionTime = Date.now();
+                
+                // Stop current auto-scroll
+                if (this.rafId) {
+                    cancelAnimationFrame(this.rafId);
+                    this.rafId = null;
+                }
+                
+                // Hide loader
+                this.loader.classList.add('hidden');
+                this.autoScrollProgress = 0;
+                this.updateLoader();
+                
+                // Restart auto-scroll after 5 seconds of inactivity
+                clearTimeout(this.userInactiveTimer);
+                this.userInactiveTimer = setTimeout(() => {
+                    this.isUserInteracting = false;
+                    this.startAutoScroll();
+                }, this.autoScrollDelay);
+            }
+            
+            nextItem() {
+                if (this.currentIndex >= this.maxIndex) return;
+                
+                this.currentIndex++;
+                this.animateTransition();
+            }
+            
+            previousItem() {
+                if (this.currentIndex <= 0) return;
+                
+                this.currentIndex--;
+                this.animateTransition();
+            }
+            
+            animateTransition() {
+                if (this.isAnimating) return;
+                
+                this.isAnimating = true;
+                this.updateDisplay();
+                
+                setTimeout(() => {
+                    this.isAnimating = false;
+                }, this.animationDuration);
+            }
+            
+            updateDisplay() {
+                // Only show footer on the last index (index 6)
+                if (this.currentIndex === this.maxIndex) {
+                    this.footer.classList.add('show');
+                    // Keep the last gallery item visible behind the footer
+                    this.imageGallery.style.opacity = '1';
+                    this.imageGallery.style.zIndex = '1';
+                    this.videoSection.style.opacity = '0';
+                    
+                    // Show the last category (Dates) behind the footer
+                    this.updateGalleryWithText(true);
+                    
+                    // Hide text content
+                    this.listItem.classList.remove('visible', 'active');
+                    this.scrollIndicator.style.opacity = '0.2';
+                } else {
+                    this.footer.classList.remove('show');
+                    
+                    if (this.currentIndex === 0) {
+                        // Initial state - show video with text overlay
+                        this.resetToInitialState();
+                    } else if (this.currentIndex === 1) {
+                        // Show the text with video (this is what was missing before)
+                        this.showTextWithVideo();
+                    } else if (this.currentIndex >= 2 && this.currentIndex <= 5) {
+                        this.showCategoryGallery();
+                    }
+                }
+            }
+            
+            resetToInitialState() {
+                this.videoSection.style.opacity = '1';
+                this.videoOverlay.style.opacity = '0';
+                this.video.style.filter = 'none';
+                
+                this.imageGallery.style.opacity = '0';
+                this.imageGallery.style.zIndex = '0';
+                this.resetAllCategoryText();
+                
+                // Show the heading text
+                this.headingText.classList.add('visible');
+                this.listItem.classList.remove('visible', 'active');
+                this.textLine.style.transform = 'translateY(100%)';
+                this.textLine.style.opacity = '0';
+                this.numberText.style.transform = 'translateY(30px)';
+                this.numberText.style.opacity = '0';
+                
+                this.scrollIndicator.style.opacity = '0.9';
+                this.scrollText.style.transform = 'translateY(0)';
+            }
+            
+            showTextWithVideo() {
+                this.videoSection.style.opacity = '1';
+                this.videoOverlay.style.opacity = '0.4';
+                this.video.style.filter = 'blur(4px) brightness(0.7) saturate(1.2)';
+                
+                this.imageGallery.style.opacity = '0';
+                this.imageGallery.style.zIndex = '0';
+                this.resetAllCategoryText();
+                
+                // Keep heading text visible
+                this.headingText.classList.add('visible');
+                this.listItem.classList.add('visible', 'active');
+                
+                setTimeout(() => {
+                    this.textLine.style.transform = 'translateY(0)';
+                    this.textLine.style.opacity = '1';
+                }, 300);
+                
+                setTimeout(() => {
+                    this.numberText.style.transform = 'translateY(0)';
+                    this.numberText.style.opacity = '1';
+                }, 500);
+                
+                this.scrollIndicator.style.opacity = '0.2';
+                this.scrollText.style.transform = 'translateY(-20px)';
+            }
+            
+            showCategoryGallery() {
+                this.videoSection.style.opacity = '0';
+                this.imageGallery.style.opacity = '1';
+                this.imageGallery.style.zIndex = '1';
+                
+                // Hide the heading text when showing categories
+                this.headingText.classList.remove('visible');
+                this.listItem.classList.remove('visible', 'active');
+                this.scrollIndicator.style.opacity = '0.2';
+                
+                this.updateGalleryWithText(false);
+            }
+            
+            resetAllCategoryText() {
+                this.categoryTitles.forEach(title => {
+                    title.style.opacity = '0';
+                    title.style.transform = 'translateY(50px)';
+                });
+                
+                this.categorySubtitles.forEach(subtitle => {
+                    subtitle.style.opacity = '0';
+                    subtitle.style.transform = 'translateY(30px)';
+                });
+                
+                // Reset all gallery items
+                this.galleryItems.forEach(item => {
+                    item.classList.remove('active', 'past');
+                });
+            }
+            
+            updateGalleryWithText(forFooter = false) {
+                this.galleryItems.forEach(item => {
+                    item.classList.remove('active', 'past');
+                    
+                    const title = item.querySelector('.category-title');
+                    const subtitle = item.querySelector('.category-subtitle');
+                    if (title) {
+                        title.style.opacity = '0';
+                        title.style.transform = 'translateY(50px)';
+                    }
+                    if (subtitle) {
+                        subtitle.style.opacity = '0';
+                        subtitle.style.transform = 'translateY(30px)';
+                    }
+                });
+                
+                const galleryIndex = forFooter ? 3 : this.currentIndex - 2; // Show last category for footer
+                if (galleryIndex >= 0 && galleryIndex < this.galleryItems.length) {
+                    const currentItem = this.galleryItems[galleryIndex];
+                    currentItem.classList.add('active');
+                    
+                    setTimeout(() => {
+                        const title = currentItem.querySelector('.category-title');
+                        const subtitle = currentItem.querySelector('.category-subtitle');
+                        
+                        if (title) {
+                            title.style.opacity = forFooter ? '0.7' : '1';
+                            title.style.transform = 'translateY(0)';
+                        }
+                        
+                        if (subtitle) {
+                            subtitle.style.opacity = forFooter ? '0.7' : '1';
+                            subtitle.style.transform = 'translateY(0)';
+                        }
+                    }, 300);
+                    
+                    for (let i = 0; i < galleryIndex; i++) {
+                        this.galleryItems[i].classList.add('past');
+                    }
+                }
+            }
+            
+            // Fixed Auto-scroll functionality - one way only
+            startAutoScroll() {
+                this.loader.classList.remove('hidden');
+                this.autoScrollProgress = 0;
+                this.updateLoader();
+                
+                const animate = () => {
+                    const now = Date.now();
+                    const timeSinceLastAction = now - this.lastUserActionTime;
+                    
+                    if (!this.isUserInteracting && timeSinceLastAction >= this.autoScrollDelay) {
+                        if (this.autoScrollProgress < 100) {
+                            this.autoScrollProgress += this.autoScrollSpeed;
+                            this.updateLoader();
+                            
+                            if (this.autoScrollProgress >= 100) {
+                                this.autoScrollProgress = 0;
+                                // Auto-scroll only forward, not back to top
+                                if (this.currentIndex < this.maxIndex) {
+                                    this.nextItem();
+                                }
+                                // When at maxIndex, stop auto-scrolling (don't go back to top)
+                            }
+                        }
+                    }
+                    
+                    this.rafId = requestAnimationFrame(animate);
+                };
+                
+                this.rafId = requestAnimationFrame(animate);
+            }
+            
+            updateLoader() {
+                const progress = 283 - (this.autoScrollProgress / 100 * 283);
+                this.progressCircle.style.strokeDashoffset = progress;
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new MenuController();
+            new LuxuryGiftingScroll();
+            
+            // Add smooth entrance animation
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1s ease';
+                document.body.style.opacity = '1';
+            }, 300);
         });
     </script>
-
 </body>
-
 </html>

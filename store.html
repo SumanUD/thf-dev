@@ -1,347 +1,635 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Find a Cafe</title>
+  <title>Store Locator | The HazleNut Factory</title>
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:"Inter",sans-serif;
-    }
-    body{
-      background:#eef1f8;
+    /* Import and apply the 'Century' font family to match the home page */
+    @font-face {
+      font-family: "Century";
+      src: url("Fonts/Fonts/century/CENTURY.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
     }
 
-    /* HEADER BANNER */
-    .hero-banner{
-      width:100%;
-      height:360px;
-      background:url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070') center/cover no-repeat;
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Century", serif; /* Consistent font across the site */
     }
-    .hero-banner::after{
-      content:"";
-      width:100%;
-      height:100%;
-      background:rgba(0,0,0,0.45);
-      position:absolute;
-      top:0;
-      left:0;
+
+    body {
+      background: #0a0a0a; /* Dark background matching home page */
+      color: rgba(255, 255, 255, 0.9);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .hero-content{
-      position:relative;
-      z-index:3;
-      color:white;
-      max-width:780px;
-      padding:0 20px;
-      animation:fadeIn 1.6s ease forwards;
+
+    /* HERO BANNER - Matches luxury aesthetic */
+    .hero-banner {
+      width: 100%;
+      height: 420px;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)),
+        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
     }
-    @keyframes fadeIn{
-      from{opacity:0; transform:translateY(20px);}
-      to{opacity:1; transform:translateY(0);}
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      color: white;
+      max-width: 900px;
+      padding: 0 40px;
+      animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
-    .hero-title{
-      font-size:3.4em;
-      font-weight:900;
-      letter-spacing:-1px;
-      margin-bottom:12px;
-      text-shadow:0 3px 18px rgba(0,0,0,0.3);
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .hero-sub{
-      font-size:1.25em;
-      opacity:.92;
-      font-weight:500;
+
+    .hero-title {
+      font-size: 3.8rem;
+      font-weight: 300;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .hero-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    }
+
+    .hero-sub {
+      font-size: 1.3rem;
+      opacity: 0.85;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
     }
 
     /* MAIN CONTAINER */
-    .container{
-      max-width:1350px;
-      margin:auto;
-      padding:40px 24px;
-      margin-top:-85px;
-      position:relative;
-      z-index:5;
+    .container {
+      max-width: 1400px;
+      margin: -100px auto 60px;
+      padding: 0 40px;
+      position: relative;
+      z-index: 5;
     }
 
-    /* CARD SHADOW WRAPPER */
-    .floating-card{
-      background:#ffffffee;
-      padding:34px;
-      border-radius:22px;
-      backdrop-filter:blur(8px);
-      box-shadow:0 20px 45px rgba(0,0,0,0.12);
-      animation:floatUp .9s ease forwards;
+    /* FLOATING CARD - Matches home page's refined aesthetic */
+    .floating-card {
+      background: rgba(15, 15, 15, 0.85);
+      padding: 50px;
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      animation: cardFloatUp 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
     }
 
-    @keyframes floatUp{
-      from{opacity:0; transform:translateY(40px);}
-      to{opacity:1; transform:translateY(0);}
+    @keyframes cardFloatUp {
+      from { opacity: 0; transform: translateY(60px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* HEADER */
-    .header-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:34px;
-      flex-wrap:wrap;
-      gap:20px;
-    }
-    .main-title{
-      font-size:2.3em;
-      font-weight:900;
-      color:#1e2635;
+    /* HEADER ROW */
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 20px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      padding-bottom: 30px;
     }
 
-    .map-btn{
-      padding:12px 26px;
-      border:none;
-      border-radius:14px;
-      background:#131e3c;
-      color:white;
-      font-weight:600;
-      font-size:1.1em;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      transition:.3s cubic-bezier(.25,.1,.25,1);
+    .main-title {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #fff;
+      letter-spacing: -0.5px;
+      position: relative;
     }
-    .map-btn:hover{
-      transform:translateY(-4px) scale(1.02);
-      background:#0b1530;
+
+    .main-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -12px;
+      width: 40px;
+      height: 2px;
+      background: #d4af37;
+    }
+
+    /* BUTTONS - Match gold accent theme */
+    .map-btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(212, 175, 55, 0.1);
+      color: #d4af37;
+      font-weight: 400;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .map-btn:hover {
+      background: rgba(212, 175, 55, 0.15);
+      transform: translateY(-2px);
+      border-color: rgba(212, 175, 55, 0.5);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.1);
+    }
+
+    .map-btn:hover::before {
+      left: 100%;
     }
 
     /* FILTER CARD */
-    .filter-card{
-      background:#f7f9ff;
-      padding:30px;
-      border-radius:18px;
-      margin-bottom:48px;
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:space-between;
-      gap:20px;
-      box-shadow:0 12px 32px rgba(0,0,0,0.06);
+    .filter-card {
+      background: rgba(20, 20, 20, 0.7);
+      padding: 35px;
+      border-radius: 18px;
+      margin-bottom: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
     }
 
-    .location-btn{
-      background:#0b3fc1;
-      color:white;
-      padding:14px 26px;
-      border:none;
-      border-radius:12px;
-      font-weight:600;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      transition:.25s;
-    }
-    .location-btn:hover{
-      transform:scale(1.05);
+    .filter-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
     }
 
-    .filter-fields{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      align-items:center;
+    .location-btn {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(180, 150, 50, 0.9));
+      color: #000;
+      padding: 15px 28px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .location-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .filter-fields {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+      flex: 1;
+      justify-content: flex-end;
     }
 
     .filter-fields select,
-    .filter-fields input{
-      padding:12px 18px;
-      font-size:1em;
-      border-radius:12px;
-      border:1.5px solid #d1d5e6;
-      min-width:160px;
-      background:white;
-      box-shadow:0 4px 12px rgba(0,0,0,0.04);
-      transition:.2s;
+    .filter-fields input {
+      padding: 14px 20px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      min-width: 160px;
+      background: rgba(10, 10, 10, 0.8);
+      color: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 20px center;
+      padding-right: 45px;
     }
 
-    .filter-fields select:focus{
-      border-color:#0b3fc1;
-      box-shadow:0 0 0 3px rgba(11,63,193,0.18);
-      outline:none;
+    .filter-fields select:focus,
+    .filter-fields input:focus {
+      border-color: #d4af37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+      outline: none;
+      background-color: rgba(15, 15, 15, 0.9);
     }
 
-    .filter-fields button{
-      background:#131e3c;
-      color:white;
-      border:none;
-      padding:12px 24px;
-      border-radius:12px;
-      font-weight:600;
-      cursor:pointer;
-      transition:.2s;
+    .filter-fields button {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
     }
 
-    .filter-fields button:hover{
-      background:#0b1530;
-      transform:translateY(-2px);
+    .filter-fields button:hover {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: rgba(212, 175, 55, 0.3);
+      transform: translateY(-2px);
     }
 
-    .cafes-count{
-      font-size:1.2em;
-      font-weight:700;
-      color:#1e2635;
-      display:flex;
-      align-items:center;
+    .cafes-count {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #d4af37;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(212, 175, 55, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
     }
 
     /* SECTION TITLE */
-    .cafes-title{
-      font-size:2.2em;
-      font-weight:900;
-      margin-bottom:24px;
-      color:#1e2635;
-      letter-spacing:-.5px;
-      text-shadow:0 2px 8px rgba(0,0,0,0.06);
+    .cafes-title {
+      font-size: 2.2rem;
+      font-weight: 300;
+      margin-bottom: 40px;
+      color: #fff;
+      letter-spacing: -0.5px;
+      position: relative;
+      padding-bottom: 20px;
     }
 
-    /* LIST */
-    .cafes-list{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
-      gap:34px;
+    .cafes-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 1px;
+      background: #d4af37;
     }
 
-    /* CARD */
-    .cafe-card{
-      background:white;
-      border-radius:22px;
-      overflow:hidden;
-      box-shadow:0 16px 40px rgba(0,0,0,0.09);
-      transition:.35s ease;
-      display:flex;
-      flex-direction:column;
+    /* STORE LIST */
+    .cafes-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 35px;
     }
 
-    .cafe-card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 18px 50px rgba(0,0,0,0.15);
+    /* STORE CARD */
+    .cafe-card {
+      background: rgba(20, 20, 20, 0.7);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
     }
 
-    .cafe-image-wrap{
-      height:220px;
-      overflow:hidden;
-      position:relative;
+    .cafe-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .cafe-image{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:.45s ease;
+    .cafe-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(212, 175, 55, 0.2);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(212, 175, 55, 0.1);
     }
 
-    .cafe-card:hover .cafe-image{
-      transform:scale(1.08);
+    .cafe-card:hover::before {
+      opacity: 1;
     }
 
-    .cafe-info{
-      padding:24px;
+    .cafe-image-wrap {
+      height: 240px;
+      overflow: hidden;
+      position: relative;
     }
 
-    .cafe-header{
-      font-size:1.35em;
-      font-weight:800;
-      margin-bottom:6px;
-      color:#1e2635;
+    .cafe-image-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
     }
 
-    .cafe-locality{
-      font-size:1.1em;
-      font-weight:600;
-      color:#4e5363;
-      margin-bottom:16px;
+    .cafe-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .cafe-details{
-      color:#63667a;
-      font-size:1em;
-      margin-bottom:20px;
+    .cafe-card:hover .cafe-image {
+      transform: scale(1.08);
     }
 
-    .details-row{
-      margin-bottom:8px;
-      line-height:1.6;
-      display:flex;
-      gap:8px;
-      align-items:flex-start;
+    .cafe-info {
+      padding: 30px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
-    .details-row i{
-      color:#0b3fc1;
-      margin-top:2px;
+    .cafe-header {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+      color: #fff;
+      line-height: 1.3;
     }
 
-    .open-now{
-      color:#1da678;
-      font-weight:800;
-      font-size:1.05em;
+    .cafe-locality {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: #d4af37;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .cafe-actions{
-      display:flex;
-      gap:12px;
+    .cafe-locality::before {
+      content: '📍';
+      font-size: 0.9rem;
     }
 
-    .cafe-actions button{
-      flex:1;
-      padding:12px;
-      border-radius:10px;
-      border:none;
-      font-weight:600;
-      cursor:pointer;
-      font-size:1em;
-      transition:.2s;
+    .cafe-details {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      margin-bottom: 25px;
+      flex: 1;
     }
 
-    .cafe-actions button:first-child{
-      background:#0b3fc1;
-      color:white;
+    .details-row {
+      margin-bottom: 12px;
+      line-height: 1.6;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
     }
 
-    .cafe-actions button:first-child:hover{
-      background:#072f94;
-      transform:translateY(-2px);
+    .details-row i {
+      color: #d4af37;
+      margin-top: 4px;
+      flex-shrink: 0;
     }
 
-    .cafe-actions button:last-child{
-      background:#f4f6fc;
-      border:1px solid #dce2f7;
-      color:#0b3fc1;
+    .open-now {
+      color: #1da678;
+      font-weight: 500;
+      font-size: 1.05rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 5px;
     }
 
-    .cafe-actions button:last-child:hover{
-      background:#e3eaff;
-      transform:translateY(-2px);
+    .open-now::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #1da678;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
     }
 
-    @media(max-width:760px){
-      .container{ padding:16px; margin-top:-40px; }
-      .filter-card{ flex-direction:column; }
-      .header-row{ flex-direction:column; align-items:flex-start; }
-      .hero-title{font-size:2.4em;}
-      .hero-banner{height:280px;}
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .cafe-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .cafe-actions button {
+      flex: 1;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 400;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .cafe-actions button:first-child {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(180, 150, 50, 0.9));
+      color: #000;
+    }
+
+    .cafe-actions button:first-child:hover {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 1), rgba(180, 150, 50, 1));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .cafe-actions button:last-child {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .cafe-actions button:last-child:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(212, 175, 55, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 1200px) {
+      .container {
+        max-width: 100%;
+        padding: 0 30px;
+      }
+      
+      .floating-card {
+        padding: 40px;
+      }
+      
+      .hero-title {
+        font-size: 3.2rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .cafes-list {
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      }
+      
+      .filter-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .filter-fields {
+        justify-content: stretch;
+      }
+      
+      .filter-fields select,
+      .filter-fields input {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+        margin-top: -60px;
+      }
+      
+      .floating-card {
+        padding: 30px;
+      }
+      
+      .hero-banner {
+        height: 350px;
+      }
+      
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-sub {
+        font-size: 1.1rem;
+      }
+      
+      .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+      
+      .cafes-list {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+      
+      .main-title {
+        font-size: 2rem;
+      }
+      
+      .cafes-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
+      }
+      
+      .floating-card {
+        padding: 25px;
+      }
+      
+      .hero-banner {
+        height: 300px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+        padding: 0 15px;
+      }
+      
+      .hero-sub {
+        font-size: 1rem;
+        padding: 0 15px;
+      }
+      
+      .filter-fields select,
+      .filter-fields input {
+        min-width: 100%;
+      }
+      
+      .cafe-image-wrap {
+        height: 200px;
+      }
     }
   </style>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<!-- BANNER -->
+<!-- HERO BANNER -->
 <div class="hero-banner">
   <div class="hero-content">
-    <div class="hero-title">Discover THF Stores Around You</div>
-    <div class="hero-sub">Find the nearest premium sweets from THF.</div>
+    <div class="hero-title">Discover THF Stores</div>
+    <div class="hero-sub">Find our premium sweets and gifts at locations across the country. Each store offers the same exceptional quality and service you expect from The HazleNut Factory.</div>
   </div>
 </div>
 
@@ -349,71 +637,162 @@
   <div class="floating-card">
 
     <div class="header-row">
-      <span class="main-title">Explore Nearby Stores</span>
-      <button class="map-btn">&#128506; Map View</button>
+      <span class="main-title">Store Locator</span>
+      <button class="map-btn">
+        <i class="fas fa-map"></i>
+        View on Map
+      </button>
     </div>
 
     <div class="filter-card">
-      <button class="location-btn">&#128205; Use My Current Location</button>
+      <button class="location-btn">
+        <i class="fas fa-location-crosshairs"></i>
+        Use My Current Location
+      </button>
 
       <div class="filter-fields">
-        <span style="font-weight:700;color:#0b3fc1;font-size:1.05em;">or</span>
-        <select><option>Select State</option></select>
-        <select><option>Select City</option></select>
-        <select><option>Select Locality</option></select>
-        <select><option>Select Radius</option></select>
+        <select>
+          <option>Select State</option>
+          <option>Uttar Pradesh</option>
+          <option>Delhi</option>
+          <option>Maharashtra</option>
+          <option>Karnataka</option>
+        </select>
+        <select>
+          <option>Select City</option>
+          <option>Agra</option>
+          <option>New Delhi</option>
+          <option>Mumbai</option>
+          <option>Bangalore</option>
+        </select>
+        <select>
+          <option>Select Locality</option>
+          <option>Hazratganj</option>
+          <option>Aerocity</option>
+          <option>Bandra</option>
+          <option>Indiranagar</option>
+        </select>
         <button>Search</button>
       </div>
 
-      <span class="cafes-count">11 Stores</span>
+      <span class="cafes-count">
+        <i class="fas fa-store"></i>
+        11 Stores Available
+      </span>
     </div>
 
-    <div class="cafes-title">Stores Near You</div>
+    <div class="cafes-title">Premium Locations</div>
 
     <div class="cafes-list">
-
+      <!-- Store 1 -->
       <div class="cafe-card">
         <div class="cafe-image-wrap">
-          <img src="./assets/images/mewabites_banner.jpg" class="cafe-image">
+          <img src="/assets/images/mewabites_banner.jpg" class="cafe-image" alt="The HazleNut Factory Agra">
         </div>
         <div class="cafe-info">
-          <div class="cafe-header">The Hazelnut Factory</div>
-          <div class="cafe-locality">Hazratganj</div>
+          <div class="cafe-header">The HazleNut Factory</div>
+          <div class="cafe-locality">Agra • Hazratganj</div>
           <div class="cafe-details">
-            <div class="details-row"><i>&#128205;</i>Handicraft nagar 18A, Plot no.8, Fatehabad Rd, Vibhav Nagar, Tajganj, Agra, Uttar Pradesh 282001</div>
-            <div class="details-row"><i>&#128222;</i>0814 7738 370</div>
-            <div class="details-row"><i>&#128337;</i>08:00 AM – 12:00 AM</div>
+            <div class="details-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Handicraft Nagar 18A, Plot No.8, Fatehabad Road, Vibhav Nagar, Tajganj, Agra, Uttar Pradesh 282001</span>
+            </div>
+            <div class="details-row">
+              <i class="fas fa-phone"></i>
+              <span>0814 7738 370</span>
+            </div>
+            <div class="details-row">
+              <i class="fas fa-clock"></i>
+              <span>08:00 AM – 12:00 AM</span>
+            </div>
             <span class="open-now">Open Now</span>
           </div>
           <div class="cafe-actions">
-            <button>Get Direction</button>
+            <button>
+              <i class="fas fa-directions"></i>
+              Get Directions
+            </button>
+            <button>
+              <i class="fas fa-info-circle"></i>
+              Details
+            </button>
           </div>
         </div>
       </div>
 
+      <!-- Store 2 -->
       <div class="cafe-card">
         <div class="cafe-image-wrap">
-          <img src="./assets/images/labon_banner.jpg" class="cafe-image">
+          <img src="/assets/images/labon_banner.jpg" class="cafe-image" alt="The HazleNut Factory Aerocity">
         </div>
         <div class="cafe-info">
-          <div class="cafe-header">The Hazelnut Factory, Worldmark-2</div>
-          <div class="cafe-locality">Aerocity</div>
+          <div class="cafe-header">The HazleNut Factory</div>
+          <div class="cafe-locality">New Delhi • Aerocity</div>
           <div class="cafe-details">
-            <div class="details-row"><i>&#128205;</i>GF-K1, Ground Floor, Worldmark 2, Asset Area 8, Aerocity, New Delhi, Delhi 110037</div>
-            <div class="details-row"><i>&#128222;</i>0809 5799 943</div>
-            <div class="details-row"><i>&#128337;</i>08:00 AM – 01:00 AM</div>
+            <div class="details-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>GF-K1, Ground Floor, Worldmark 2, Asset Area 8, Aerocity, New Delhi, Delhi 110037</span>
+            </div>
+            <div class="details-row">
+              <i class="fas fa-phone"></i>
+              <span>0809 5799 943</span>
+            </div>
+            <div class="details-row">
+              <i class="fas fa-clock"></i>
+              <span>08:00 AM – 01:00 AM</span>
+            </div>
             <span class="open-now">Open Now</span>
           </div>
           <div class="cafe-actions">
-            <button>Get Direction</button>
+            <button>
+              <i class="fas fa-directions"></i>
+              Get Directions
+            </button>
+            <button>
+              <i class="fas fa-info-circle"></i>
+              Details
+            </button>
           </div>
         </div>
       </div>
 
+      <!-- Store 3 - Additional example -->
+      <div class="cafe-card">
+        <div class="cafe-image-wrap">
+          <img src="/assets/images/baklava_banner.jpg" class="cafe-image" alt="The HazleNut Factory Mumbai">
+        </div>
+        <div class="cafe-info">
+          <div class="cafe-header">The HazleNut Factory</div>
+          <div class="cafe-locality">Mumbai • Bandra West</div>
+          <div class="cafe-details">
+            <div class="details-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Unit 12, Ground Floor, Linking Road, Bandra West, Mumbai, Maharashtra 400050</span>
+            </div>
+            <div class="details-row">
+              <i class="fas fa-phone"></i>
+              <span>0911 2233 445</span>
+            </div>
+            <div class="details-row">
+              <i class="fas fa-clock"></i>
+              <span>09:00 AM – 11:00 PM</span>
+            </div>
+            <span class="open-now">Open Now</span>
+          </div>
+          <div class="cafe-actions">
+            <button>
+              <i class="fas fa-directions"></i>
+              Get Directions
+            </button>
+            <button>
+              <i class="fas fa-info-circle"></i>
+              Details
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
 </div>
-
 </body>
 </html>
