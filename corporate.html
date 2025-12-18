@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THF Corporate Gifting - Sweeten Every Occasion</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        /* Century Font Import */
+        @font-face {
+            font-family: "Century";
+            src: url("Fonts/Fonts/century/CENTURY.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
 
         * {
             margin: 0;
@@ -15,30 +22,34 @@
 
         :root {
             --primary-gold: #D4AF37;
-            --rich-brown: #5D4037;
-            --cream: #FFF8F0;
-            --soft-peach: #FFE5D9;
+            --rich-brown: #2C1810;
+            --cream: #1A1A1A;
+            --soft-peach: #252525;
             --deep-burgundy: #8B4513;
-            --text-dark: #2C1810;
-            --text-light: #666;
+            --text-dark: #FFFFFF;
+            --text-light: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(30, 30, 30, 0.8);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: "Century", serif;
             color: var(--text-dark);
-            background: #fff;
+            background: #0a0a0a;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
+            font-family: "Century", serif;
+            font-weight: 300;
         }
 
         /* Hero Banner */
         .hero {
             position: relative;
             height: 90vh;
-            background: linear-gradient(135deg, #FFF8F0 0%, #FFE5D9 50%, #FFD4C4 100%);
+            background: linear-gradient(135deg, #111111 0%, #1A1A1A 50%, #222222 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -52,8 +63,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(139, 69, 19, 0.05) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -62,24 +74,30 @@
             z-index: 2;
             max-width: 900px;
             padding: 0 20px;
-            animation: fadeInUp 1s ease-out;
         }
 
         .hero h1 {
             font-size: 4.5rem;
-            font-weight: 700;
-            color: var(--rich-brown);
+            font-weight: 300;
+            color: #fff;
             margin-bottom: 24px;
             line-height: 1.2;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--primary-gold);
         }
 
         .hero .subtitle {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--text-light);
             margin-bottom: 40px;
-            font-weight: 400;
+            font-weight: 300;
             line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-cta {
@@ -89,18 +107,19 @@
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-gold) 0%, #C19A2E 100%);
-            color: #fff;
+            color: #000;
             padding: 18px 48px;
             font-size: 1.1rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 400;
             text-decoration: none;
             transition: all 0.4s ease;
-            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            letter-spacing: 0.5px;
         }
 
         .btn-primary::before {
@@ -110,7 +129,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.6s;
         }
 
@@ -125,21 +144,23 @@
 
         .btn-secondary {
             background: transparent;
-            color: var(--rich-brown);
+            color: var(--text-dark);
             padding: 18px 48px;
             font-size: 1.1rem;
-            border: 2px solid var(--rich-brown);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 50px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 400;
             text-decoration: none;
             transition: all 0.4s ease;
+            letter-spacing: 0.5px;
         }
 
         .btn-secondary:hover {
-            background: var(--rich-brown);
-            color: #fff;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary-gold);
             transform: translateY(-3px);
+            border-color: var(--primary-gold);
         }
 
         /* Floating Elements */
@@ -148,28 +169,26 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            opacity: 0.15;
+            opacity: 0.05;
             animation: float 6s ease-in-out infinite;
+            background: var(--primary-gold);
         }
 
         .deco-1 {
             top: 10%;
             left: 5%;
-            background: var(--primary-gold);
             animation-delay: 0s;
         }
 
         .deco-2 {
             top: 60%;
             right: 8%;
-            background: var(--deep-burgundy);
             animation-delay: 2s;
         }
 
         .deco-3 {
             bottom: 15%;
             left: 15%;
-            background: var(--primary-gold);
             animation-delay: 4s;
         }
 
@@ -178,24 +197,16 @@
             50% { transform: translateY(-30px) scale(1.1); }
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* Number Band */
         .number-band {
-            background: linear-gradient(135deg, var(--rich-brown) 0%, var(--deep-burgundy) 100%);
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.8) 0%, rgba(20, 20, 20, 0.8) 100%);
             color: #fff;
             padding: 80px 20px;
             position: relative;
             overflow: hidden;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .number-band::before {
@@ -205,8 +216,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.4;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
         }
 
         .number-container {
@@ -221,19 +232,13 @@
 
         .number-item {
             text-align: center;
-            animation: fadeInUp 0.8s ease-out backwards;
         }
-
-        .number-item:nth-child(1) { animation-delay: 0.1s; }
-        .number-item:nth-child(2) { animation-delay: 0.2s; }
-        .number-item:nth-child(3) { animation-delay: 0.3s; }
-        .number-item:nth-child(4) { animation-delay: 0.4s; }
 
         .number {
             font-size: 4rem;
-            font-weight: 700;
+            font-weight: 300;
             color: var(--primary-gold);
-            font-family: 'Playfair Display', serif;
+            font-family: "Century", serif;
             display: block;
             margin-bottom: 12px;
             line-height: 1;
@@ -241,24 +246,26 @@
 
         .number-label {
             font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 400;
+            color: var(--text-light);
+            font-weight: 300;
             letter-spacing: 0.5px;
         }
 
         /* Logo Slider */
         .logo-slider-section {
-            background: var(--cream);
+            background: #111111;
             padding: 100px 20px;
             overflow: hidden;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
 
         .logo-slider-section h2 {
             text-align: center;
-            font-size: 2.8rem;
-            color: var(--rich-brown);
+            font-size: 3rem;
+            color: #fff;
             margin-bottom: 60px;
-            font-weight: 600;
+            font-weight: 300;
+            letter-spacing: -0.5px;
         }
 
         .logo-slider-wrapper {
@@ -280,12 +287,12 @@
 
         .logo-slider-wrapper::before {
             left: 0;
-            background: linear-gradient(to right, var(--cream), transparent);
+            background: linear-gradient(to right, #111111, transparent);
         }
 
         .logo-slider-wrapper::after {
             right: 0;
-            background: linear-gradient(to left, var(--cream), transparent);
+            background: linear-gradient(to left, #111111, transparent);
         }
 
         .logo-track {
@@ -299,32 +306,34 @@
             flex-shrink: 0;
             width: 180px;
             height: 90px;
-            background: #fff;
-            border-radius: 16px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(212, 175, 55, 0.1);
             transition: all 0.4s ease;
             padding: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .logo-item:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .logo-item img {
             max-width: 100%;
             max-height: 100%;
-            opacity: 0.7;
-            filter: grayscale(100%);
+            opacity: 0.6;
+            filter: brightness(1.2);
             transition: all 0.4s ease;
         }
 
         .logo-item:hover img {
             opacity: 1;
-            filter: grayscale(0%);
+            filter: brightness(1.5);
         }
 
         @keyframes scroll {
@@ -335,7 +344,8 @@
         /* How to Customize */
         .customize-section {
             padding: 120px 20px;
-            background: #fff;
+            background: linear-gradient(180deg, #0a0a0a 0%, #111111 100%);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
 
         .container {
@@ -345,10 +355,11 @@
 
         .customize-section h2 {
             text-align: center;
-            font-size: 3.2rem;
-            color: var(--rich-brown);
+            font-size: 3rem;
+            color: #fff;
             margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: 300;
+            letter-spacing: -0.5px;
         }
 
         .customize-section .section-subtitle {
@@ -359,6 +370,8 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 300;
+            line-height: 1.6;
         }
 
         .steps-grid {
@@ -369,71 +382,57 @@
         }
 
         .step-card {
-            background: linear-gradient(135deg, #FFF8F0 0%, #FFF 100%);
-            border-radius: 24px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 20px;
             padding: 50px 40px;
             text-align: center;
             transition: all 0.5s ease;
             position: relative;
-            border: 2px solid transparent;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-        }
-
-        .step-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, var(--primary-gold), var(--deep-burgundy));
-            border-radius: 24px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: -1;
-        }
-
-        .step-card:hover::before {
-            opacity: 1;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
 
         .step-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 25px 50px rgba(212, 175, 55, 0.1);
         }
 
         .step-number {
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, var(--primary-gold), #C19A2E);
-            color: #fff;
+            color: #000;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            font-weight: 700;
+            font-weight: 400;
             margin: 0 auto 30px;
-            font-family: 'Playfair Display', serif;
-            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+            font-family: "Century", serif;
+            border: 2px solid rgba(212, 175, 55, 0.3);
         }
 
         .step-icon {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 24px;
+            color: var(--primary-gold);
         }
 
         .step-card h3 {
-            font-size: 1.6rem;
-            color: var(--rich-brown);
+            font-size: 1.5rem;
+            color: #fff;
             margin-bottom: 16px;
-            font-weight: 600;
+            font-weight: 400;
         }
 
         .step-card p {
             font-size: 1.05rem;
             color: var(--text-light);
             line-height: 1.7;
+            font-weight: 300;
         }
 
         .customize-cta {
@@ -442,17 +441,19 @@
 
         /* Why Choose THF */
         .why-choose-section {
-            background: linear-gradient(135deg, var(--soft-peach) 0%, var(--cream) 100%);
+            background: linear-gradient(135deg, #111111 0%, #1A1A1A 100%);
             padding: 120px 20px;
             position: relative;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
 
         .why-choose-section h2 {
             text-align: center;
-            font-size: 3.2rem;
-            color: var(--rich-brown);
+            font-size: 3rem;
+            color: #fff;
             margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: 300;
+            letter-spacing: -0.5px;
         }
 
         .why-choose-section .section-subtitle {
@@ -463,6 +464,7 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 300;
         }
 
         .features-grid {
@@ -474,66 +476,55 @@
         }
 
         .feature-card {
-            background: #fff;
+            background: rgba(30, 30, 30, 0.8);
             border-radius: 20px;
             padding: 45px 35px;
             transition: all 0.4s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 0;
-            background: linear-gradient(180deg, var(--primary-gold), var(--deep-burgundy));
-            transition: height 0.4s ease;
-        }
-
-        .feature-card:hover::before {
-            height: 100%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 25px 50px rgba(212, 175, 55, 0.1);
         }
 
         .feature-icon {
             font-size: 3rem;
             margin-bottom: 24px;
             display: block;
+            color: var(--primary-gold);
         }
 
         .feature-card h3 {
             font-size: 1.5rem;
-            color: var(--rich-brown);
+            color: #fff;
             margin-bottom: 16px;
-            font-weight: 600;
+            font-weight: 400;
         }
 
         .feature-card p {
             font-size: 1.05rem;
             color: var(--text-light);
             line-height: 1.7;
+            font-weight: 300;
         }
 
         /* Contact Form */
         .form-section {
             padding: 120px 20px;
-            background: #fff;
+            background: linear-gradient(180deg, #0a0a0a 0%, #111111 100%);
         }
 
         .form-section h2 {
             text-align: center;
-            font-size: 3.2rem;
-            color: var(--rich-brown);
+            font-size: 3rem;
+            color: #fff;
             margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: 300;
+            letter-spacing: -0.5px;
         }
 
         .form-section .section-subtitle {
@@ -541,15 +532,18 @@
             font-size: 1.2rem;
             color: var(--text-light);
             margin-bottom: 60px;
+            font-weight: 300;
         }
 
         .form-wrapper {
             max-width: 700px;
             margin: 0 auto;
-            background: linear-gradient(135deg, var(--cream) 0%, #fff 100%);
-            border-radius: 24px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 20px;
             padding: 60px;
-            box-shadow: 0 12px 48px rgba(0,0,0,0.08);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .form-row {
@@ -566,9 +560,10 @@
         .form-group label {
             display: block;
             margin-bottom: 10px;
-            color: var(--rich-brown);
-            font-weight: 600;
+            color: #fff;
+            font-weight: 300;
             font-size: 1rem;
+            letter-spacing: 0.5px;
         }
 
         .form-group input,
@@ -576,12 +571,13 @@
         .form-group textarea {
             width: 100%;
             padding: 16px 20px;
-            border: 2px solid #E8DED0;
-            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
             font-size: 1rem;
-            font-family: 'Inter', sans-serif;
+            font-family: "Century", serif;
             transition: all 0.3s ease;
-            background: #fff;
+            background: rgba(20, 20, 20, 0.8);
+            color: #fff;
         }
 
         .form-group input:focus,
@@ -589,7 +585,7 @@
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-gold);
-            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         }
 
         .form-group textarea {
@@ -609,9 +605,10 @@
 
         /* Footer */
         .footer {
-            background: linear-gradient(135deg, var(--rich-brown) 0%, var(--deep-burgundy) 100%);
+            background: linear-gradient(135deg, #111111 0%, #1A1A1A 100%);
             color: #fff;
             padding: 80px 20px 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
         }
 
         .footer-content {
@@ -627,16 +624,17 @@
             font-size: 1.5rem;
             margin-bottom: 24px;
             color: var(--primary-gold);
-            font-weight: 600;
+            font-weight: 300;
         }
 
         .footer-section p,
         .footer-section a {
-            color: rgba(255, 255, 255, 0.85);
+            color: var(--text-light);
             text-decoration: none;
             line-height: 2;
             font-size: 1rem;
             transition: color 0.3s ease;
+            font-weight: 300;
         }
 
         .footer-section a:hover {
@@ -658,34 +656,36 @@
         .social-icon {
             width: 45px;
             height: 45px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.3rem;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--primary-gold);
         }
 
         .social-icon:hover {
             background: var(--primary-gold);
             transform: translateY(-4px);
             border-color: var(--primary-gold);
+            color: #000;
         }
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 30px;
             text-align: center;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-light);
             font-size: 0.95rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
 
             .hero .subtitle {
@@ -706,7 +706,7 @@
             .customize-section h2,
             .why-choose-section h2,
             .form-section h2 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
 
             .form-row {
@@ -742,7 +742,7 @@
         <div class="hero-decoration deco-3"></div>
         
         <div class="hero-content">
-            <h1>Sweeten Every Corporate Moment</h1>
+            <h1>Sweeten Every <span>Corporate Moment</span></h1>
             <p class="subtitle">Premium handcrafted sweets & treats for clients, teams, and celebrations. Elevate your corporate gifting with authentic flavors and thoughtful presentation.</p>
             <div class="hero-cta">
                 <a href="#contact-form" class="btn-primary">Get Started</a>
@@ -873,37 +873,34 @@
         <p class="section-subtitle">Simple, reliable corporate gifting — built for teams & clients with authentic flavors and uncompromising quality</p>
         
         <div class="features-grid">
-                <!-- Continuing from the Why Choose THF section -->
-
-                <div class="feature-card">
-                    <span class="feature-icon">🎁</span>
-                    <h3>Flexible Gifting Solutions</h3>
-                    <p>Customizable hampers for every budget and occasion. Perfect for client appreciation, employee rewards, and festive celebrations.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <span class="feature-icon">🚚</span>
-                    <h3>Pan-India Delivery</h3>
-                    <p>Free shipping for bulk orders across India. Hand-delivered freshness with temperature-controlled packaging.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <span class="feature-icon">⚡</span>
-                    <h3>Quick Turnaround</h3>
-                    <p>24-48 hour processing for most orders. Perfect for last-minute gifting needs and urgent corporate requirements.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <span class="feature-icon">🏷️</span>
-                    <h3>Premium Branding Options</h3>
-                    <p>Gold foil stamping, custom sleeves, branded ribbons, and personalized notes to elevate your corporate identity.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <span class="feature-icon">⭐</span>
-                    <h3>White-Glove Service</h3>
-                    <p>Dedicated account manager, custom proposals, and end-to-end gifting solutions for hassle-free corporate gifting.</p>
-                </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎁</span>
+                <h3>Flexible Gifting Solutions</h3>
+                <p>Customizable hampers for every budget and occasion. Perfect for client appreciation, employee rewards, and festive celebrations.</p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">🚚</span>
+                <h3>Pan-India Delivery</h3>
+                <p>Free shipping for bulk orders across India. Hand-delivered freshness with temperature-controlled packaging.</p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">⚡</span>
+                <h3>Quick Turnaround</h3>
+                <p>24-48 hour processing for most orders. Perfect for last-minute gifting needs and urgent corporate requirements.</p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">🏷️</span>
+                <h3>Premium Branding Options</h3>
+                <p>Gold foil stamping, custom sleeves, branded ribbons, and personalized notes to elevate your corporate identity.</p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">⭐</span>
+                <h3>White-Glove Service</h3>
+                <p>Dedicated account manager, custom proposals, and end-to-end gifting solutions for hassle-free corporate gifting.</p>
             </div>
         </div>
     </section>
@@ -1082,10 +1079,9 @@
         let animationFrame;
         
         function animateLogos() {
-            const scrollSpeed = 1; // Adjust speed here
+            const scrollSpeed = 1;
             logoSlider.style.transform = `translateX(-${scrollSpeed}px)`;
             
-            // Reset position when scrolled half the width
             if (logoSlider.offsetLeft <= -logoSlider.scrollWidth / 2) {
                 logoSlider.style.transform = 'translateX(0)';
             }

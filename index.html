@@ -5,20 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HazleNut Factory</title>
     <style>
+        @font-face {
+            font-family: "Forum";
+            src: url("Fonts/Fonts/forum/Forum-Regular.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
 
         @font-face {
-        font-family: "Century";
-        src: url("Fonts/Fonts/forum/Forum-Regular.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
+            font-family: "Century";
+            src: url("path/to/your/century-font.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Forum-Regular", serif;
         }
 
         body {
@@ -28,7 +34,6 @@
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            font-family: "Forum-Regular", serif;
         }
 
         .container {
@@ -42,7 +47,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 80px;
+            height: 60px;
             z-index: 1000;
             padding: 0 40px;
             display: flex;
@@ -151,6 +156,7 @@
             position: relative;
             transition: all 0.3s ease;
             white-space: nowrap;
+            font-family: "Forum", serif;
         }
 
         .nav-link::after {
@@ -227,6 +233,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             padding-left: 10px;
+            font-family: "Century", sans-serif;
         }
 
         .dropdown-link:last-child {
@@ -265,7 +272,7 @@
             visibility: hidden;
             transform: translateY(-20px);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto; /* Changed to auto for scrollable content */
+            overflow-y: auto;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
@@ -279,27 +286,27 @@
         .mega-panel {
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Changed to min-height */
+            min-height: 100vh;
             padding: 120px 60px 60px;
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
         }
 
-        /* Left: Menu Links - Full width with 5 columns */
+        /* Left: Menu Links - Full Width with 5 columns */
         .menu-left {
             width: 100%;
             display: flex;
             justify-content: space-between;
-            gap: 40px; /* Reduced gap for 5 columns */
+            gap: 40px;
             margin-bottom: 10px;
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            flex-wrap: wrap;
         }
 
         .links-col {
             flex: 1;
-            min-width: 180px; /* Reduced min-width for 5 columns */
+            min-width: 180px;
         }
 
         .col-title {
@@ -312,6 +319,7 @@
             opacity: 0.7;
             position: relative;
             padding-bottom: 15px;
+            font-family: "Forum", serif;
         }
 
         .col-title::after {
@@ -343,6 +351,7 @@
             padding: 8px 0;
             display: block;
             position: relative;
+            font-family: "Forum", serif;
         }
 
         .links-col a::before {
@@ -370,15 +379,15 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            max-height: 500px; /* Fixed max height */
+            max-height: 500px;
         }
 
         .gallery-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px; /* Reduced margin */
-            padding-bottom: 15px; /* Reduced padding */
+            margin-bottom: 30px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
 
@@ -388,6 +397,7 @@
             letter-spacing: 1px;
             position: relative;
             padding-left: 20px;
+            font-family: "Forum", serif;
         }
 
         .gallery-header h3::before {
@@ -454,13 +464,13 @@
 
         .gallery-viewport {
             width: 100%;
-            height: 350px; /* Fixed height */
+            height: 350px;
             overflow: hidden;
             position: relative;
             border-radius: 16px;
             background: rgba(0, 0, 0, 0.3);
             padding: 10px;
-            flex-shrink: 0; /* Prevent shrinking */
+            flex-shrink: 0;
         }
 
         .gallery-track {
@@ -471,7 +481,7 @@
         }
 
         .gallery-item {
-            min-width: 280px; /* Reduced width */
+            min-width: 280px;
             height: 100%;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
@@ -509,6 +519,7 @@
             font-size: 16px;
             font-weight: 400;
             letter-spacing: 0.5px;
+            font-family: "Forum", serif;
         }
 
         .item-caption strong {
@@ -521,7 +532,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 20px; /* Reduced margin */
+            margin-top: 20px;
         }
 
         .gallery-indicator {
@@ -642,6 +653,7 @@
             text-transform: uppercase;
             line-height: 1.1;
             max-width: 800px;
+            font-family: "Forum", serif;
         }
 
         .category-subtitle {
@@ -653,6 +665,7 @@
             transition: all 1s cubic-bezier(0.76, 0, 0.24, 1) 0.5s;
             max-width: 600px;
             color: rgba(255, 255, 255, 0.9);
+            font-family: "Century", sans-serif;
         }
 
         .gallery-item-main.active .category-title,
@@ -682,6 +695,7 @@
             position: relative;
             overflow: hidden;
             height: 120px;
+            font-family: "Forum", serif;
         }
 
         .heading-text {
@@ -729,6 +743,7 @@
             display: inline-block;
             max-width: 700px;
             margin: 0 auto;
+            font-family: "Forum", serif;
         }
 
         /* Number styling */
@@ -740,6 +755,7 @@
             display: block;
             text-align: center;
             overflow: hidden;
+            font-family: "Forum", serif;
         }
 
         .number-text {
@@ -762,6 +778,7 @@
             transform: translateY(100%);
             opacity: 0;
             transition: all 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+            font-family: "Century", sans-serif;
         }
 
         /* Item states */
@@ -839,6 +856,7 @@
             position: relative;
             overflow: hidden;
             height: 20px;
+            font-family: "Forum", serif;
         }
 
         .scroll-text-inner {
@@ -982,6 +1000,7 @@
             letter-spacing: 1px;
             position: relative;
             padding-bottom: 10px;
+            font-family: "Forum", serif;
         }
 
         .footer-section h3::after {
@@ -1001,6 +1020,7 @@
             line-height: 1.6;
             font-size: 0.9rem;
             transition: color 0.3s ease;
+            font-family: "Century", sans-serif;
         }
 
         .footer-section a:hover {
@@ -1047,6 +1067,7 @@
             font-size: 0.85rem;
             max-width: 1300px;
             margin: 0 auto;
+            font-family: "Century", sans-serif;
         }
 
         .footer-bottom a {
@@ -1372,20 +1393,18 @@
         }
     </style>
 
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <!-- Navigation Header -->
     <header class="header">
         <div class="nav-left">
+            <img src="/assets/images/logo-transparent-white.png" alt="" srcset="" class="hamburger-logo">
             <button class="menu-toggle">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </button>
-            <img src="/assets/images/logo-transparent.png" alt="" srcset="" class="hamburger-logo">
         </div>
         
         <div class="nav-center">
@@ -1401,16 +1420,7 @@
                     <a href="#" class="dropdown-link">THF MERCHANDISE</a>
                 </div>
             </div>
-            <!-- <div class="nav-dropdown">
-                <a href="#" class="nav-link">ABOUT THF</a>
-                <div class="dropdown-content">
-                    <a href="#" class="dropdown-link">THF FACILITIES</a>
-                    <a href="#" class="dropdown-link">LIFE AT THF</a>
-                    <a href="#" class="dropdown-link">CAREER AT THF</a>
-                </div>
-            </div> -->
             <a href="store.html" class="nav-link">STORE LOCATOR</a>
-            <!-- <a href="#" class="nav-link">EVENTS @ THF</a> -->
             <a href="#" class="nav-link">SIGN IN</a>
         </div>
     </header>
@@ -1456,18 +1466,18 @@
                 <div class="links-col">
                     <div class="col-title">Corporate</div>
                     <ul>
-                        <li><a href="#">Bulk Orders</a></li>
-                        <li><a href="#">Custom Branding</a></li>
-                        <li><a href="#">Employee Gifting</a></li>
-                        <li><a href="#">Client Appreciation</a></li>
-                        <li><a href="#">Corporate Catalog</a></li>
+                        <li><a href="corporate.html">Bulk Orders</a></li>
+                        <li><a href="corporate.html">Custom Branding</a></li>
+                        <li><a href="corporate.html">Employee Gifting</a></li>
+                        <li><a href="corporate.html">Client Appreciation</a></li>
+                        <li><a href="corporate.html">Corporate Catalog</a></li>
                     </ul>
                 </div>
                 
                 <div class="links-col">
                     <div class="col-title">Services & Info</div>
                     <ul>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="team.html">About Us</a></li>
                         <li><a href="#">Our Facilities</a></li>
                         <li><a href="#">Catering</a></li>
                         <li><a href="#">JalGhar</a></li>
@@ -1577,7 +1587,7 @@
             </div>
         </div>
         
-        <div class="grid-overlay"></grid-overlay>
+        <div class="grid-overlay"></div>
         
         <!-- Auto-scroll Loader -->
         <div class="auto-scroll-loader hidden">
@@ -1591,16 +1601,16 @@
         
         <!-- Centered Content -->
         <div class="content-section">
-            <h1 class="list-heading">
-                <span class="heading-text">LUXURY GIFTING '25</span>
-            </h1>
             
             <ul class="item-list">
                 <li class="list-item" data-index="1">
                     <span class="list-item-number">
-                        <span class="number-text">01</span>
+                        <span class="number-text"></span>
                     </span>
                     <div class="item-content">
+                        <h1 class="list-heading">
+                            <span class="heading-text">LUXURY GIFTING '25</span>
+                        </h1>
                         <span class="text-mask">
                             <span class="text-line">Handcrafted Luxury gifting, customized to make every celebration unforgettable.</span>
                         </span>
@@ -1824,16 +1834,14 @@
                 this.lastScrollTime = 0;
                 this.scrollDelay = 800;
                 
-                // Auto-scroll variables - FIXED
+                // Auto-scroll variables
                 this.autoScrollProgress = 0;
-                this.autoScrollSpeed = 0.33; // % per second (3 seconds for 100%)
+                this.autoScrollSpeed = 0.33;
                 this.isUserInteracting = false;
                 this.userInactiveTimer = null;
                 this.rafId = null;
                 this.lastUserActionTime = Date.now();
-                this.autoScrollDelay = 5000; // 5 seconds delay after user interaction
-                this.isAutoScrolling = true;
-                this.shouldAutoScroll = true;
+                this.autoScrollDelay = 5000;
                 
                 this.init();
             }
@@ -1845,7 +1853,7 @@
                 // Collect category text elements
                 this.collectCategoryText();
                 
-                // Set initial state - Show the "LUXURY GIFTING '25" text immediately
+                // Set initial state
                 this.headingText.classList.add('visible');
                 this.updateDisplay();
                 
@@ -1985,25 +1993,20 @@
                 // Only show footer on the last index (index 6)
                 if (this.currentIndex === this.maxIndex) {
                     this.footer.classList.add('show');
-                    // Keep the last gallery item visible behind the footer
                     this.imageGallery.style.opacity = '1';
                     this.imageGallery.style.zIndex = '1';
                     this.videoSection.style.opacity = '0';
                     
-                    // Show the last category (Dates) behind the footer
                     this.updateGalleryWithText(true);
                     
-                    // Hide text content
                     this.listItem.classList.remove('visible', 'active');
                     this.scrollIndicator.style.opacity = '0.2';
                 } else {
                     this.footer.classList.remove('show');
                     
                     if (this.currentIndex === 0) {
-                        // Initial state - show video with text overlay
                         this.resetToInitialState();
                     } else if (this.currentIndex === 1) {
-                        // Show the text with video (this is what was missing before)
                         this.showTextWithVideo();
                     } else if (this.currentIndex >= 2 && this.currentIndex <= 5) {
                         this.showCategoryGallery();
@@ -2020,7 +2023,6 @@
                 this.imageGallery.style.zIndex = '0';
                 this.resetAllCategoryText();
                 
-                // Show the heading text
                 this.headingText.classList.add('visible');
                 this.listItem.classList.remove('visible', 'active');
                 this.textLine.style.transform = 'translateY(100%)';
@@ -2033,6 +2035,8 @@
             }
             
             showTextWithVideo() {
+                console.log('showTextWithVideo called - currentIndex:', this.currentIndex);
+                
                 this.videoSection.style.opacity = '1';
                 this.videoOverlay.style.opacity = '0.4';
                 this.video.style.filter = 'blur(4px) brightness(0.7) saturate(1.2)';
@@ -2041,19 +2045,37 @@
                 this.imageGallery.style.zIndex = '0';
                 this.resetAllCategoryText();
                 
-                // Keep heading text visible
+                // Ensure heading text is visible
                 this.headingText.classList.add('visible');
+                
+                // Force reflow before adding classes
+                void this.listItem.offsetWidth;
+                
+                // Add visible and active classes
                 this.listItem.classList.add('visible', 'active');
                 
+                // Reset and animate text line
+                this.textLine.style.transform = 'translateY(100%)';
+                this.textLine.style.opacity = '0';
+                
+                // Reset and animate number text
+                this.numberText.style.transform = 'translateY(30px)';
+                this.numberText.style.opacity = '0';
+                
+                // Force reflow
+                void this.textLine.offsetWidth;
+                void this.numberText.offsetWidth;
+                
+                // Animate text in with delays
                 setTimeout(() => {
                     this.textLine.style.transform = 'translateY(0)';
                     this.textLine.style.opacity = '1';
-                }, 300);
+                }, 100);
                 
                 setTimeout(() => {
                     this.numberText.style.transform = 'translateY(0)';
                     this.numberText.style.opacity = '1';
-                }, 500);
+                }, 300);
                 
                 this.scrollIndicator.style.opacity = '0.2';
                 this.scrollText.style.transform = 'translateY(-20px)';
@@ -2064,7 +2086,6 @@
                 this.imageGallery.style.opacity = '1';
                 this.imageGallery.style.zIndex = '1';
                 
-                // Hide the heading text when showing categories
                 this.headingText.classList.remove('visible');
                 this.listItem.classList.remove('visible', 'active');
                 this.scrollIndicator.style.opacity = '0.2';
@@ -2083,7 +2104,6 @@
                     subtitle.style.transform = 'translateY(30px)';
                 });
                 
-                // Reset all gallery items
                 this.galleryItems.forEach(item => {
                     item.classList.remove('active', 'past');
                 });
@@ -2105,7 +2125,7 @@
                     }
                 });
                 
-                const galleryIndex = forFooter ? 3 : this.currentIndex - 2; // Show last category for footer
+                const galleryIndex = forFooter ? 3 : this.currentIndex - 2;
                 if (galleryIndex >= 0 && galleryIndex < this.galleryItems.length) {
                     const currentItem = this.galleryItems[galleryIndex];
                     currentItem.classList.add('active');
@@ -2131,7 +2151,6 @@
                 }
             }
             
-            // Fixed Auto-scroll functionality - one way only
             startAutoScroll() {
                 this.loader.classList.remove('hidden');
                 this.autoScrollProgress = 0;
@@ -2148,11 +2167,9 @@
                             
                             if (this.autoScrollProgress >= 100) {
                                 this.autoScrollProgress = 0;
-                                // Auto-scroll only forward, not back to top
                                 if (this.currentIndex < this.maxIndex) {
                                     this.nextItem();
                                 }
-                                // When at maxIndex, stop auto-scrolling (don't go back to top)
                             }
                         }
                     }
