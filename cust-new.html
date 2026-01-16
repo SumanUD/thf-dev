@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Sweet Box Customizer | Immersive Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0 30px;
+            position: relative;
+        }
+
+        .header-content {
+            display: inline-block;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 107, 157, 0.5);
+        }
+
+        .logo span {
+            color: #6ce5ff;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #ff6b9d, #6ce5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #b0b0ff;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .customization-panel {
+            flex: 1;
+            min-width: 350px;
+            background: rgba(20, 20, 40, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(108, 229, 255, 0.1);
+        }
+
+        .viewer-container {
+            flex: 2;
+            min-width: 500px;
+            background: rgba(10, 10, 30, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 1px solid rgba(255, 107, 157, 0.1);
+            height: 600px;
+        }
+
+        #threejs-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: grab;
+        }
+
+        .viewer-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            background: rgba(20, 20, 40, 0.8);
+            border: 1px solid rgba(108, 229, 255, 0.3);
+            color: #6ce5ff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(108, 229, 255, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(108, 229, 255, 0.4);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 30, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(108, 229, 255, 0.3);
+            border-top: 5px solid #ff6b9d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            color: #6ce5ff;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(108, 229, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title i {
+            font-size: 1.3rem;
+            color: #ff6b9d;
+        }
+
+        .size-selector, .quantity-selector {
+            margin-bottom: 30px;
+        }
+
+        .selector-title {
+            font-size: 1.1rem;
+            color: #b0b0ff;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .size-options, .quantity-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .size-btn, .quantity-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 15px 10px;
+            background: rgba(40, 40, 80, 0.5);
+            border: 2px solid rgba(108, 229, 255, 0.2);
+            border-radius: 12px;
+            color: #b0b0ff;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .size-btn:hover, .quantity-btn:hover {
+            border-color: #ff6b9d;
+            color: #ff6b9d;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.2);
+        }
+
+        .size-btn.active, .quantity-btn.active {
+            background: rgba(255, 107, 157, 0.2);
+            border-color: #ff6b9d;
+            color: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .capacity-indicator {
+            font-size: 0.9rem;
+            color: #6ce5ff;
+            margin-top: 5px;
+        }
+
+        .sweet-categories {
+            margin-top: 30px;
+        }
+
+        .category {
+            margin-bottom: 25px;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(108, 229, 255, 0.2);
+        }
+
+        .category-name {
+            font-size: 1.2rem;
+            color: #ff6b9d;
+        }
+
+        .category-count {
+            background: rgba(108, 229, 255, 0.2);
+            color: #6ce5ff;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .sweet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .sweet-item {
+            background: rgba(40, 40, 80, 0.4);
+            border-radius: 12px;
+            padding: 15px 10px;
+            border: 2px solid rgba(108, 229, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .sweet-item:hover {
+            border-color: #ff6b9d;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.2);
+        }
+
+        .sweet-item.selected {
+            background: rgba(255, 107, 157, 0.15);
+            border-color: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .sweet-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff6b9d, #6ce5ff);
+        }
+
+        .sweet-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .sweet-price {
+            color: #6ce5ff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .sweet-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .quantity-btn-small {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(108, 229, 255, 0.3);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .quantity-btn-small:hover {
+            background: rgba(255, 107, 157, 0.7);
+        }
+
+        .quantity-display {
+            font-weight: 600;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        .order-summary {
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(108, 229, 255, 0.2);
+        }
+
+        .summary-title {
+            font-size: 1.3rem;
+            color: #6ce5ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(108, 229, 255, 0.1);
+        }
+
+        .summary-row.total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ff6b9d;
+            border-bottom: none;
+            padding-top: 15px;
+            margin-top: 10px;
+            border-top: 2px solid rgba(108, 229, 255, 0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .reset-btn {
+            background: rgba(108, 229, 255, 0.1);
+            color: #6ce5ff;
+            border: 1px solid rgba(108, 229, 255, 0.3);
+        }
+
+        .reset-btn:hover {
+            background: rgba(108, 229, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(108, 229, 255, 0.3);
+        }
+
+        .cart-btn {
+            background: linear-gradient(90deg, #ff6b9d, #ff8e6b);
+            color: white;
+            border: none;
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+            background: linear-gradient(90deg, #ff8e6b, #ff6b9d);
+        }
+
+        .viewer-stats {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(20, 20, 40, 0.7);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(108, 229, 255, 0.2);
+            z-index: 100;
+            min-width: 180px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .stat-label {
+            color: #b0b0ff;
+        }
+
+        .stat-value {
+            color: #6ce5ff;
+            font-weight: 600;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(20, 20, 40, 0.9);
+            border: 1px solid #ff6b9d;
+            border-left: 5px solid #ff6b9d;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.5s ease;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #b0b0ff;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(108, 229, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        @media (max-width: 1100px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .viewer-container, .customization-panel {
+                min-width: 100%;
+            }
+            
+            .viewer-container {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sweet-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .viewer-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-gem"></i> SWEET<span>3D</span>
+                </div>
+                <h1>Immersive 3D Sweet Box Customizer</h1>
+                <p class="subtitle">Design your perfect sweet box in stunning 3D. Rotate, zoom, and customize with real-time visualization.</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="customization-panel">
+                <div class="panel-title">
+                    <i class="fas fa-sliders-h"></i> Customize Your Box
+                </div>
+                
+                <div class="size-selector">
+                    <div class="selector-title">
+                        <span>Box Size</span>
+                        <span class="capacity-indicator" id="capacity-info">Capacity: 12 sweets</span>
+                    </div>
+                    <div class="size-options">
+                        <div class="size-btn active" data-size="small">
+                            Small Box
+                            <div class="capacity-indicator">12 sweets</div>
+                        </div>
+                        <div class="size-btn" data-size="medium">
+                            Medium Box
+                            <div class="capacity-indicator">25 sweets</div>
+                        </div>
+                        <div class="size-btn" data-size="large">
+                            Large Box
+                            <div class="capacity-indicator">45 sweets</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quantity-selector">
+                    <div class="selector-title">
+                        <span>Quantity</span>
+                        <span id="quantity-info">1 box</span>
+                    </div>
+                    <div class="quantity-options">
+                        <div class="quantity-btn active" data-quantity="1">1 Box</div>
+                        <div class="quantity-btn" data-quantity="2">2 Boxes</div>
+                        <div class="quantity-btn" data-quantity="3">3 Boxes</div>
+                        <div class="quantity-btn" data-quantity="4">4 Boxes</div>
+                    </div>
+                </div>
+                
+                <div class="sweet-categories">
+                    <div class="category">
+                        <div class="category-header">
+                            <span class="category-name">Chocolates</span>
+                            <span class="category-count" id="chocolate-count">0</span>
+                        </div>
+                        <div class="sweet-grid" id="chocolate-items">
+                            <!-- Chocolate items will be populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="category">
+                        <div class="category-header">
+                            <span class="category-name">Hard Candies</span>
+                            <span class="category-count" id="candy-count">0</span>
+                        </div>
+                        <div class="sweet-grid" id="candy-items">
+                            <!-- Candy items will be populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="category">
+                        <div class="category-header">
+                            <span class="category-name">Traditional Sweets</span>
+                            <span class="category-count" id="traditional-count">0</span>
+                        </div>
+                        <div class="sweet-grid" id="traditional-items">
+                            <!-- Traditional sweet items will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <div class="summary-title">Order Summary</div>
+                    <div class="summary-row">
+                        <span>Box Size:</span>
+                        <span id="summary-size">Small</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Box Quantity:</span>
+                        <span id="summary-quantity">1</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Selected Sweets:</span>
+                        <span id="summary-sweets">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Base Price:</span>
+                        <span id="summary-base-price">$12.99</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Sweets Cost:</span>
+                        <span id="summary-sweets-price">$0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Price:</span>
+                        <span id="summary-total-price">$12.99</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn reset-btn" id="reset-btn">
+                        <i class="fas fa-redo"></i> Reset All
+                    </button>
+                    <button class="action-btn cart-btn" id="add-to-cart-btn">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                </div>
+            </div>
+            
+            <div class="viewer-container">
+                <div class="loading-overlay" id="loading-overlay">
+                    <div class="loader"></div>
+                    <div style="margin-top: 15px; color: #6ce5ff; font-size: 1.1rem;">
+                        Loading 3D Environment...
+                    </div>
+                    <div style="color: #b0b0ff; margin-top: 10px; font-size: 0.9rem;">
+                        This may take a moment on first load
+                    </div>
+                </div>
+                
+                <div class="viewer-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Sweets:</span>
+                        <span class="stat-value" id="stat-sweets">0/12</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Box:</span>
+                        <span class="stat-value" id="stat-box">Small</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">View Mode:</span>
+                        <span class="stat-value" id="stat-view">Interactive</span>
+                    </div>
+                </div>
+                
+                <canvas id="threejs-canvas"></canvas>
+                
+                <div class="viewer-controls">
+                    <div class="control-btn" id="rotate-btn" title="Auto Rotate">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="control-btn" id="reset-view-btn" title="Reset View">
+                        <i class="fas fa-crosshairs"></i>
+                    </div>
+                    <div class="control-btn" id="zoom-in-btn" title="Zoom In">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                    <div class="control-btn" id="zoom-out-btn" title="Zoom Out">
+                        <i class="fas fa-search-minus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>3D Sweet Box Customizer &copy; 2023 | Powered by Three.js | Designed for Next-Gen E-Commerce</p>
+        </footer>
+    </div>
+
+    <!-- Notification element -->
+    <div class="notification" id="notification">
+        <div style="font-weight: 600; color: #ff6b9d; margin-bottom: 5px;" id="notification-title">Success!</div>
+        <div style="color: #b0b0ff;" id="notification-message">Your action was completed successfully.</div>
+    </div>
+
+    <script>
+        // Sweet data with 3D model references (you'll replace these with actual GLB model paths)
+        const sweetsData = {
+            chocolates: [
+                { id: 1, name: "Milk Chocolate", price: 1.50, color: "#8B4513", model: "models/chocolate1.glb", icon: "🍫" },
+                { id: 2, name: "Dark Chocolate", price: 1.75, color: "#3D1C02", model: "models/chocolate2.glb", icon: "🍫" },
+                { id: 3, name: "White Chocolate", price: 1.60, color: "#F5F5DC", model: "models/chocolate3.glb", icon: "🍬" },
+                { id: 4, name: "Caramel Filled", price: 1.90, color: "#D2691E", model: "models/chocolate4.glb", icon: "🍯" },
+                { id: 5, name: "Hazelnut Praline", price: 2.00, color: "#A0522D", model: "models/chocolate5.glb", icon: "🌰" },
+                { id: 6, name: "Mint Chocolate", price: 1.65, color: "#98FB98", model: "models/chocolate6.glb", icon: "🌿" }
+            ],
+            candies: [
+                { id: 7, name: "Peppermint Candy", price: 0.75, color: "#FF69B4", model: "models/candy1.glb", icon: "🍬" },
+                { id: 8, name: "Butterscotch", price: 0.80, color: "#FFD700", model: "models/candy2.glb", icon: "🍬" },
+                { id: 9, name: "Lollipop", price: 1.20, color: "#FF6347", model: "models/candy3.glb", icon: "🍭" },
+                { id: 10, name: "Jelly Beans", price: 0.50, color: "#9370DB", model: "models/candy4.glb", icon: "🍬" },
+                { id: 11, name: "Fruit Drops", price: 0.65, color: "#32CD32", model: "models/candy5.glb", icon: "🍎" },
+                { id: 12, name: "Toffee", price: 1.10, color: "#8B4513", model: "models/candy6.glb", icon: "🍬" }
+            ],
+            traditional: [
+                { id: 13, name: "Turkish Delight", price: 1.25, color: "#DA70D6", model: "models/traditional1.glb", icon: "🕌" },
+                { id: 14, name: "Fudge", price: 1.40, color: "#DEB887", model: "models/traditional2.glb", icon: "🍫" },
+                { id: 15, name: "Marzipan", price: 1.30, color: "#FFE4C4", model: "models/traditional3.glb", icon: "🥜" },
+                { id: 16, name: "Gulab Jamun", price: 1.60, color: "#8B0000", model: "models/traditional4.glb", icon: "🍡" },
+                { id: 17, name: "Rasgulla", price: 1.55, color: "#FFFFFF", model: "models/traditional5.glb", icon: "🍡" },
+                { id: 18, name: "Barfi", price: 1.45, color: "#FFD700", model: "models/traditional6.glb", icon: "🍬" }
+            ]
+        };
+
+        // Box sizes with capacity, base price and 3D model reference
+        const boxSizes = {
+            small: { capacity: 12, basePrice: 12.99, model: "models/box_small.glb", scale: 1.0 },
+            medium: { capacity: 25, basePrice: 22.99, model: "models/box_medium.glb", scale: 1.3 },
+            large: { capacity: 45, basePrice: 39.99, model: "models/box_large.glb", scale: 1.6 }
+        };
+
+        // State management
+        let currentState = {
+            boxSize: "small",
+            boxQuantity: 1,
+            selectedSweets: {},
+            maxCapacity: boxSizes.small.capacity
+        };
+
+        // Three.js variables
+        let scene, camera, renderer, controls;
+        let boxModel = null;
+        let sweetModels = {};
+        let placedSweets = [];
+        let autoRotate = true;
+        let isDragging = false;
+        let mouseX = 0, mouseY = 0;
+        let targetRotationX = 0, targetRotationY = 0;
+        let currentRotationX = 0, currentRotationY = 0;
+
+        // DOM elements
+        const threeCanvas = document.getElementById('threejs-canvas');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        const quantityBtns = document.querySelectorAll('.quantity-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        const rotateBtn = document.getElementById('rotate-btn');
+        const resetViewBtn = document.getElementById('reset-view-btn');
+        const zoomInBtn = document.getElementById('zoom-in-btn');
+        const zoomOutBtn = document.getElementById('zoom-out-btn');
+        
+        // Stats elements
+        const statSweets = document.getElementById('stat-sweets');
+        const statBox = document.getElementById('stat-box');
+        const statView = document.getElementById('stat-view');
+        
+        // Summary elements
+        const capacityInfo = document.getElementById('capacity-info');
+        const quantityInfo = document.getElementById('quantity-info');
+        const summarySize = document.getElementById('summary-size');
+        const summaryQuantity = document.getElementById('summary-quantity');
+        const summarySweets = document.getElementById('summary-sweets');
+        const summaryBasePrice = document.getElementById('summary-base-price');
+        const summarySweetsPrice = document.getElementById('summary-sweets-price');
+        const summaryTotalPrice = document.getElementById('summary-total-price');
+        
+        // Count elements
+        const chocolateCount = document.getElementById('chocolate-count');
+        const candyCount = document.getElementById('candy-count');
+        const traditionalCount = document.getElementById('traditional-count');
+        
+        // Notification element
+        const notification = document.getElementById('notification');
+        const notificationTitle = document.getElementById('notification-title');
+        const notificationMessage = document.getElementById('notification-message');
+
+        // Initialize the app
+        function initApp() {
+            renderSweetItems();
+            updateUI();
+            setupEventListeners();
+            initThreeJS();
+        }
+
+        // Initialize Three.js scene
+        function initThreeJS() {
+            // Create scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a1e);
+            scene.fog = new THREE.Fog(0x0a0a1e, 10, 30);
+
+            // Create camera
+            camera = new THREE.PerspectiveCamera(45, threeCanvas.clientWidth / threeCanvas.clientHeight, 0.1, 1000);
+            camera.position.set(0, 5, 15);
+
+            // Create renderer
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: threeCanvas, 
+                antialias: true,
+                alpha: true 
+            });
+            renderer.setSize(threeCanvas.clientWidth, threeCanvas.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+            // Add orbit controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.rotateSpeed = 0.5;
+            controls.minDistance = 5;
+            controls.maxDistance = 30;
+            controls.enablePan = false;
+
+            // Add lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xff6b9d, 0.8);
+            directionalLight.position.set(10, 20, 15);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.camera.left = -20;
+            directionalLight.shadow.camera.right = 20;
+            directionalLight.shadow.camera.top = 20;
+            directionalLight.shadow.camera.bottom = -20;
+            scene.add(directionalLight);
+
+            const directionalLight2 = new THREE.DirectionalLight(0x6ce5ff, 0.5);
+            directionalLight2.position.set(-10, 10, -10);
+            scene.add(directionalLight2);
+
+            const pointLight = new THREE.PointLight(0x6ce5ff, 0.5, 50);
+            pointLight.position.set(0, 10, 0);
+            scene.add(pointLight);
+
+            // Add a subtle background effect
+            createBackgroundEffects();
+
+            // Load box model (using a placeholder cube for now - replace with your GLB)
+            loadBoxModel();
+
+            // Start animation loop
+            animate();
+
+            // Hide loading overlay after a delay (simulating model loading)
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    showNotification("3D Environment Ready", "You can now interact with the 3D sweet box!");
+                }, 500);
+            }, 2000);
+
+            // Handle window resize
+            window.addEventListener('resize', onWindowResize);
+            
+            // Mouse events for custom rotation (when not using orbit controls)
+            threeCanvas.addEventListener('mousedown', onMouseDown);
+            threeCanvas.addEventListener('mousemove', onMouseMove);
+            threeCanvas.addEventListener('mouseup', onMouseUp);
+            threeCanvas.addEventListener('wheel', onMouseWheel);
+        }
+
+        // Create background effects (floating particles)
+        function createBackgroundEffects() {
+            const particleCount = 100;
+            const particles = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 50;
+                positions[i + 1] = (Math.random() - 0.5) * 30;
+                positions[i + 2] = (Math.random() - 0.5) * 50;
+            }
+            
+            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0x6ce5ff,
+                size: 0.1,
+                transparent: true,
+                opacity: 0.3
+            });
+            
+            const particleSystem = new THREE.Points(particles, particleMaterial);
+            scene.add(particleSystem);
+            
+            // Animate particles
+            function animateParticles() {
+                const positions = particles.attributes.position.array;
+                for (let i = 0; i < positions.length; i += 3) {
+                    positions[i + 1] += 0.001;
+                    if (positions[i + 1] > 15) positions[i + 1] = -15;
+                }
+                particles.attributes.position.needsUpdate = true;
+            }
+            
+            // Store reference for animation loop
+            scene.userData.particleSystem = particleSystem;
+            scene.userData.animateParticles = animateParticles;
+        }
+
+function loadBoxModel() {
+    const loader = new THREE.GLTFLoader();
+    
+    // REQUIRED for DRACO compressed models
+    const dracoLoader = new THREE.DRACOLoader();
+    
+    // Set the path to the Draco decoder
+    // You have two options:
+    
+    // Option 1: Use CDN (recommended for testing)
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+    
+    // Option 2: Use local Draco files (download from: https://github.com/google/draco)
+    // dracoLoader.setDecoderPath('path/to/your/draco/decoder/');
+    
+    // Option 3: Use Three.js CDN (alternative)
+    // dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/');
+    
+    loader.setDRACOLoader(dracoLoader);
+    
+    loader.load(
+        'assets/models/Palm Tree Box - 25 Pc (Open).glb', // Your box GLB file path
+        function(gltf) {
+            boxModel = gltf.scene;
+            
+            // Adjust scale and position if needed
+            boxModel.scale.set(1, 1, 1);
+            boxModel.position.set(0, 0, 0);
+            
+            // Enable shadows
+            boxModel.traverse(function(node) {
+                if (node.isMesh) {
+                    node.castShadow = true;
+                    node.receiveShadow = true;
+                    
+                    // Optional: Adjust material properties
+                    if (node.material) {
+                        node.material.metalness = 0.1;
+                        node.material.roughness = 0.5;
+                    }
+                }
+            });
+            
+            scene.add(boxModel);
+            
+            // Store for animations
+            boxModel.userData.originalY = boxModel.position.y;
+            boxModel.userData.floatDirection = 1;
+            
+            console.log("Box model loaded successfully!");
+            
+            // Hide loading overlay once model is loaded
+            loadingOverlay.style.opacity = '0';
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                showNotification("3D Environment Ready", "Your sweet box is now loaded!");
+            }, 500);
+        },
+        function(xhr) {
+            // Progress callback
+            const percent = (xhr.loaded / xhr.total * 100);
+            console.log(percent + '% loaded');
+            
+            // Update loading text if you want to show progress
+            const loadingText = document.querySelector('.loading-overlay div:nth-child(3)');
+            if (loadingText) {
+                loadingText.textContent = `Loading... ${Math.round(percent)}%`;
+            }
+        },
+        function(error) {
+            console.error('Error loading box model:', error);
+            
+            // Show error message
+            loadingOverlay.innerHTML = `
+                <div style="color: #ff6b9d; font-size: 1.5rem; margin-bottom: 20px;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div style="color: #ff6b9d; font-size: 1.1rem; margin-bottom: 10px;">
+                    Failed to load 3D model
+                </div>
+                <div style="color: #b0b0ff; font-size: 0.9rem; text-align: center; max-width: 300px;">
+                    Error: ${error.message || 'Unknown error'}
+                </div>
+                <button id="retry-load" style="margin-top: 20px; padding: 10px 20px; background: #ff6b9d; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                    Retry Loading
+                </button>
+            `;
+            
+            document.getElementById('retry-load').addEventListener('click', function() {
+                loadingOverlay.innerHTML = `
+                    <div class="loader"></div>
+                    <div style="margin-top: 15px; color: #6ce5ff; font-size: 1.1rem;">
+                        Loading 3D Environment...
+                    </div>
+                    <div style="color: #b0b0ff; margin-top: 10px; font-size: 0.9rem;">
+                        This may take a moment on first load
+                    </div>
+                `;
+                loadBoxModel(); // Retry loading
+            });
+        }
+    );
+}
+
+        // Load sweet model (placeholder - replace with your GLB loader)
+        function loadSweetModel(sweetId, color) {
+            // For now, create a sweet with THREE.js primitives
+            // Replace this with actual GLB loading code for your sweet models
+            
+            const sweetGroup = new THREE.Group();
+            
+            // Sweet base (sphere)
+            const sweetGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+            const sweetMaterial = new THREE.MeshStandardMaterial({ 
+                color: new THREE.Color(color),
+                roughness: 0.3,
+                metalness: 0.1
+            });
+            const sweet = new THREE.Mesh(sweetGeometry, sweetMaterial);
+            sweet.castShadow = true;
+            sweet.receiveShadow = true;
+            sweetGroup.add(sweet);
+            
+            // Sweet topping (small sphere)
+            const toppingGeometry = new THREE.SphereGeometry(0.15, 8, 8);
+            const toppingMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xffffff,
+                roughness: 0.2,
+                metalness: 0.5
+            });
+            const topping = new THREE.Mesh(toppingGeometry, toppingMaterial);
+            topping.position.y = 0.4;
+            topping.castShadow = true;
+            sweetGroup.add(topping);
+            
+            return sweetGroup;
+        }
+
+        // Place a sweet in the box
+        function placeSweetInBox(sweetId, sweetData) {
+            if (!boxModel) return null;
+            
+            // Calculate position based on box size and number of sweets already placed
+            const totalSweets = getTotalSelectedSweets();
+            const maxSweets = currentState.maxCapacity;
+            const sweetIndex = Object.keys(currentState.selectedSweets).indexOf(sweetId.toString());
+            
+            // Create sweet model
+            const sweetModel = loadSweetModel(sweetId, sweetData.color);
+            
+            // Calculate position in the box (spiral pattern)
+            const angle = (sweetIndex / maxSweets) * Math.PI * 2;
+            const radius = 1.5 + (totalSweets / maxSweets) * 1.5;
+            const x = Math.cos(angle) * radius;
+            const z = Math.sin(angle) * radius;
+            const y = 0.5 + Math.sin(angle * 3) * 0.3;
+            
+            sweetModel.position.set(x, y, z);
+            
+            // Add slight random rotation
+            sweetModel.rotation.x = Math.random() * Math.PI;
+            sweetModel.rotation.y = Math.random() * Math.PI;
+            sweetModel.rotation.z = Math.random() * Math.PI;
+            
+            // Scale based on box size
+            const scale = boxSizes[currentState.boxSize].scale * 0.3;
+            sweetModel.scale.set(scale, scale, scale);
+            
+            // Add to scene and store reference
+            scene.add(sweetModel);
+            sweetModel.userData.sweetId = sweetId;
+            placedSweets.push(sweetModel);
+            
+            // Add floating animation
+            sweetModel.userData.floatDirection = 1;
+            sweetModel.userData.originalY = y;
+            sweetModel.userData.floatSpeed = 0.5 + Math.random() * 0.5;
+            
+            return sweetModel;
+        }
+
+        // Remove a sweet from the box
+        function removeSweetFromBox(sweetId) {
+            const index = placedSweets.findIndex(sweet => sweet.userData.sweetId === sweetId);
+            if (index !== -1) {
+                const sweetModel = placedSweets[index];
+                scene.remove(sweetModel);
+                placedSweets.splice(index, 1);
+            }
+        }
+
+        // Update sweets in the 3D box
+        function update3DBox() {
+            // Clear existing sweets
+            placedSweets.forEach(sweet => scene.remove(sweet));
+            placedSweets = [];
+            
+            // Place new sweets
+            Object.keys(currentState.selectedSweets).forEach(sweetId => {
+                const sweetIdNum = parseInt(sweetId);
+                const quantity = currentState.selectedSweets[sweetId];
+                
+                // Find the sweet data
+                let sweetData = null;
+                for (const category in sweetsData) {
+                    const found = sweetsData[category].find(s => s.id === sweetIdNum);
+                    if (found) {
+                        sweetData = found;
+                        break;
+                    }
+                }
+                
+                if (sweetData) {
+                    // Place multiple instances if quantity > 1
+                    for (let i = 0; i < quantity; i++) {
+                        // Create a unique ID for each instance
+                        const instanceId = parseInt(`${sweetId}${i}`);
+                        placeSweetInBox(instanceId, sweetData);
+                    }
+                }
+            });
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Update controls
+            controls.update();
+            
+            // Auto-rotate if enabled
+            if (autoRotate && !isDragging) {
+                boxModel.rotation.y += 0.005;
+            }
+            
+            // Animate box floating
+            if (boxModel) {
+                boxModel.position.y = boxModel.userData.originalY + Math.sin(Date.now() * 0.001) * 0.1;
+            }
+            
+            // Animate sweets floating
+            placedSweets.forEach(sweet => {
+                const time = Date.now() * 0.001 * sweet.userData.floatSpeed;
+                sweet.position.y = sweet.userData.originalY + Math.sin(time) * 0.1;
+                sweet.rotation.y += 0.01;
+            });
+            
+            // Animate particles if present
+            if (scene.userData.animateParticles) {
+                scene.userData.animateParticles();
+            }
+            
+            // Smooth rotation for mouse drag
+            currentRotationX += (targetRotationX - currentRotationX) * 0.05;
+            currentRotationY += (targetRotationY - currentRotationY) * 0.05;
+            
+            if (isDragging && boxModel) {
+                boxModel.rotation.y = currentRotationY;
+                boxModel.rotation.x = currentRotationX;
+            }
+            
+            renderer.render(scene, camera);
+        }
+
+        // Window resize handler
+        function onWindowResize() {
+            camera.aspect = threeCanvas.clientWidth / threeCanvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(threeCanvas.clientWidth, threeCanvas.clientHeight);
+        }
+
+        // Mouse event handlers for custom rotation
+        function onMouseDown(event) {
+            isDragging = true;
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            
+            // Temporarily disable orbit controls
+            controls.enabled = false;
+            threeCanvas.style.cursor = 'grabbing';
+        }
+
+        function onMouseMove(event) {
+            if (!isDragging) return;
+            
+            const deltaX = event.clientX - mouseX;
+            const deltaY = event.clientY - mouseY;
+            
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            
+            targetRotationY += deltaX * 0.01;
+            targetRotationX += deltaY * 0.01;
+            
+            // Limit X rotation
+            targetRotationX = Math.max(-Math.PI/3, Math.min(Math.PI/3, targetRotationX));
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            controls.enabled = true;
+            threeCanvas.style.cursor = 'grab';
+        }
+
+        function onMouseWheel(event) {
+            // Zoom with mouse wheel
+            const zoomSpeed = 0.1;
+            if (event.deltaY < 0) {
+                camera.position.z = Math.max(5, camera.position.z - zoomSpeed);
+            } else {
+                camera.position.z = Math.min(30, camera.position.z + zoomSpeed);
+            }
+        }
+
+        // Render sweet items in their respective categories
+        function renderSweetItems() {
+            // Render chocolates
+            const chocolateContainer = document.getElementById('chocolate-items');
+            sweetsData.chocolates.forEach(sweet => {
+                chocolateContainer.appendChild(createSweetItemElement(sweet));
+            });
+
+            // Render candies
+            const candyContainer = document.getElementById('candy-items');
+            sweetsData.candies.forEach(sweet => {
+                candyContainer.appendChild(createSweetItemElement(sweet));
+            });
+
+            // Render traditional sweets
+            const traditionalContainer = document.getElementById('traditional-items');
+            sweetsData.traditional.forEach(sweet => {
+                traditionalContainer.appendChild(createSweetItemElement(sweet));
+            });
+        }
+
+        // Create a sweet item element
+        function createSweetItemElement(sweet) {
+            const div = document.createElement('div');
+            div.className = 'sweet-item';
+            div.dataset.id = sweet.id;
+            
+            div.innerHTML = `
+                <div class="sweet-icon">${sweet.icon}</div>
+                <div class="sweet-name">${sweet.name}</div>
+                <div class="sweet-price">$${sweet.price.toFixed(2)}</div>
+                <div class="sweet-controls">
+                    <button class="quantity-btn-small decrease-btn">-</button>
+                    <span class="quantity-display">${currentState.selectedSweets[sweet.id] || 0}</span>
+                    <button class="quantity-btn-small increase-btn">+</button>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Box size selection
+            sizeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sizeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const size = btn.dataset.size;
+                    currentState.boxSize = size;
+                    currentState.maxCapacity = boxSizes[size].capacity;
+                    
+                    // Remove excess sweets if needed
+                    trimExcessSweets();
+                    
+                    // Update box model scale
+                    if (boxModel) {
+                        const scale = boxSizes[size].scale;
+                        boxModel.scale.set(scale, scale, scale);
+                    }
+                    
+                    // Update 3D box
+                    update3DBox();
+                    
+                    // Update UI
+                    updateUI();
+                    
+                    showNotification("Box Size Changed", `Now using ${size} box (${boxSizes[size].capacity} sweets capacity)`);
+                });
+            });
+
+            // Quantity selection
+            quantityBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    quantityBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    currentState.boxQuantity = parseInt(btn.dataset.quantity);
+                    
+                    // Update UI
+                    updateUI();
+                });
+            });
+
+            // Sweet item event delegation
+            document.addEventListener('click', (e) => {
+                const sweetItem = e.target.closest('.sweet-item');
+                if (!sweetItem) return;
+                
+                const sweetId = parseInt(sweetItem.dataset.id);
+                
+                // Find which sweet this is
+                let sweet = null;
+                for (const category in sweetsData) {
+                    const found = sweetsData[category].find(s => s.id === sweetId);
+                    if (found) {
+                        sweet = found;
+                        break;
+                    }
+                }
+                
+                if (!sweet) return;
+                
+                // Handle increase button click
+                if (e.target.classList.contains('increase-btn')) {
+                    increaseSweetQuantity(sweetId, sweet);
+                }
+                
+                // Handle decrease button click
+                if (e.target.classList.contains('decrease-btn')) {
+                    decreaseSweetQuantity(sweetId);
+                }
+            });
+
+            // Reset button
+            resetBtn.addEventListener('click', () => {
+                resetToDefaults();
+                showNotification("Reset Complete", "All customizations have been reset to default.");
+            });
+
+            // Add to cart button
+            addToCartBtn.addEventListener('click', () => {
+                addToCart();
+            });
+
+            // Viewer controls
+            rotateBtn.addEventListener('click', () => {
+                autoRotate = !autoRotate;
+                rotateBtn.innerHTML = autoRotate ? 
+                    '<i class="fas fa-sync-alt"></i>' : 
+                    '<i class="fas fa-pause"></i>';
+                rotateBtn.style.background = autoRotate ? 
+                    'rgba(108, 229, 255, 0.3)' : 
+                    'rgba(255, 107, 157, 0.3)';
+                
+                statView.textContent = autoRotate ? 'Auto Rotate' : 'Manual';
+                
+                showNotification(autoRotate ? "Auto Rotation On" : "Auto Rotation Off", 
+                    autoRotate ? "Box will now rotate automatically" : "Box rotation is now manual");
+            });
+
+            resetViewBtn.addEventListener('click', () => {
+                controls.reset();
+                if (boxModel) {
+                    boxModel.rotation.set(0, 0, 0);
+                }
+                targetRotationX = 0;
+                targetRotationY = 0;
+                currentRotationX = 0;
+                currentRotationY = 0;
+                
+                showNotification("View Reset", "Camera and box rotation have been reset");
+            });
+
+            zoomInBtn.addEventListener('click', () => {
+                camera.position.z = Math.max(5, camera.position.z - 1);
+            });
+
+            zoomOutBtn.addEventListener('click', () => {
+                camera.position.z = Math.min(30, camera.position.z + 1);
+            });
+        }
+
+        // Increase sweet quantity
+        function increaseSweetQuantity(sweetId, sweet) {
+            const totalSelected = getTotalSelectedSweets();
+            
+            // Check if we can add more sweets
+            if (totalSelected >= currentState.maxCapacity) {
+                showNotification("Capacity Full", `Maximum capacity reached! Please remove some sweets or choose a larger box.`, "error");
+                return;
+            }
+            
+            // Add sweet to selection
+            if (!currentState.selectedSweets[sweetId]) {
+                currentState.selectedSweets[sweetId] = 1;
+            } else {
+                currentState.selectedSweets[sweetId]++;
+            }
+            
+            // Update 3D box
+            update3DBox();
+            
+            // Update UI
+            updateUI();
+            
+            showNotification("Sweet Added", `Added ${sweet.name} to your box`);
+        }
+
+        // Decrease sweet quantity
+        function decreaseSweetQuantity(sweetId) {
+            if (currentState.selectedSweets[sweetId]) {
+                currentState.selectedSweets[sweetId]--;
+                
+                // Remove from selection if quantity is 0
+                if (currentState.selectedSweets[sweetId] === 0) {
+                    delete currentState.selectedSweets[sweetId];
+                }
+                
+                // Update 3D box
+                update3DBox();
+                
+                // Update UI
+                updateUI();
+                
+                // Find sweet name for notification
+                let sweetName = "Sweet";
+                for (const category in sweetsData) {
+                    const found = sweetsData[category].find(s => s.id === sweetId);
+                    if (found) {
+                        sweetName = found.name;
+                        break;
+                    }
+                }
+                
+                showNotification("Sweet Removed", `Removed ${sweetName} from your box`);
+            }
+        }
+
+        // Get total number of selected sweets
+        function getTotalSelectedSweets() {
+            return Object.values(currentState.selectedSweets).reduce((sum, qty) => sum + qty, 0);
+        }
+
+        // Remove excess sweets if capacity is reduced
+        function trimExcessSweets() {
+            const totalSelected = getTotalSelectedSweets();
+            
+            if (totalSelected <= currentState.maxCapacity) return;
+            
+            // Remove sweets until we're within capacity
+            const excess = totalSelected - currentState.maxCapacity;
+            const sweetIds = Object.keys(currentState.selectedSweets);
+            
+            let removed = 0;
+            for (let i = 0; i < sweetIds.length && removed < excess; i++) {
+                const id = sweetIds[i];
+                while (currentState.selectedSweets[id] > 0 && removed < excess) {
+                    currentState.selectedSweets[id]--;
+                    removed++;
+                    
+                    if (currentState.selectedSweets[id] === 0) {
+                        delete currentState.selectedSweets[id];
+                        break;
+                    }
+                }
+            }
+            
+            if (removed > 0) {
+                showNotification("Capacity Reduced", `${removed} sweets removed to fit new box size`, "warning");
+            }
+        }
+
+        // Update all UI elements
+        function updateUI() {
+            // Update sweet item controls
+            updateSweetItemControls();
+            
+            // Update category counts
+            updateCategoryCounts();
+            
+            // Update order summary
+            updateOrderSummary();
+            
+            // Update stats
+            updateStats();
+            
+            // Update capacity info
+            capacityInfo.textContent = `Capacity: ${currentState.maxCapacity} sweets`;
+            quantityInfo.textContent = `${currentState.boxQuantity} box${currentState.boxQuantity > 1 ? 'es' : ''}`;
+        }
+
+        // Update sweet item quantity controls
+        function updateSweetItemControls() {
+            document.querySelectorAll('.sweet-item').forEach(item => {
+                const sweetId = parseInt(item.dataset.id);
+                const quantityDisplay = item.querySelector('.quantity-display');
+                const decreaseBtn = item.querySelector('.decrease-btn');
+                const increaseBtn = item.querySelector('.increase-btn');
+                
+                const quantity = currentState.selectedSweets[sweetId] || 0;
+                quantityDisplay.textContent = quantity;
+                
+                // Enable/disable decrease button
+                decreaseBtn.disabled = quantity === 0;
+                
+                // Enable/disable increase button based on capacity
+                const totalSelected = getTotalSelectedSweets();
+                increaseBtn.disabled = totalSelected >= currentState.maxCapacity;
+                
+                // Update selected style
+                if (quantity > 0) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+
+        // Update counts for each sweet category
+        function updateCategoryCounts() {
+            let chocolateCountValue = 0;
+            let candyCountValue = 0;
+            let traditionalCountValue = 0;
+            
+            // Count sweets by category
+            Object.keys(currentState.selectedSweets).forEach(id => {
+                const sweetId = parseInt(id);
+                
+                // Check which category this sweet belongs to
+                if (sweetsData.chocolates.find(s => s.id === sweetId)) {
+                    chocolateCountValue += currentState.selectedSweets[sweetId];
+                } else if (sweetsData.candies.find(s => s.id === sweetId)) {
+                    candyCountValue += currentState.selectedSweets[sweetId];
+                } else if (sweetsData.traditional.find(s => s.id === sweetId)) {
+                    traditionalCountValue += currentState.selectedSweets[sweetId];
+                }
+            });
+            
+            chocolateCount.textContent = chocolateCountValue;
+            candyCount.textContent = candyCountValue;
+            traditionalCount.textContent = traditionalCountValue;
+        }
+
+        // Update the order summary
+        function updateOrderSummary() {
+            const totalSelected = getTotalSelectedSweets();
+            const boxData = boxSizes[currentState.boxSize];
+            
+            // Calculate sweets cost
+            let sweetsCost = 0;
+            Object.keys(currentState.selectedSweets).forEach(id => {
+                const sweetId = parseInt(id);
+                const quantity = currentState.selectedSweets[sweetId];
+                
+                // Find the sweet data
+                let sweet = null;
+                for (const category in sweetsData) {
+                    const found = sweetsData[category].find(s => s.id === sweetId);
+                    if (found) {
+                        sweet = found;
+                        break;
+                    }
+                }
+                
+                if (sweet) {
+                    sweetsCost += sweet.price * quantity;
+                }
+            });
+            
+            // Calculate total price
+            const basePrice = boxData.basePrice * currentState.boxQuantity;
+            const totalSweetsPrice = sweetsCost * currentState.boxQuantity;
+            const totalPrice = basePrice + totalSweetsPrice;
+            
+            // Update summary elements
+            summarySize.textContent = currentState.boxSize.charAt(0).toUpperCase() + currentState.boxSize.slice(1);
+            summaryQuantity.textContent = currentState.boxQuantity;
+            summarySweets.textContent = totalSelected;
+            summaryBasePrice.textContent = `$${basePrice.toFixed(2)}`;
+            summarySweetsPrice.textContent = `$${totalSweetsPrice.toFixed(2)}`;
+            summaryTotalPrice.textContent = `$${totalPrice.toFixed(2)}`;
+        }
+
+        // Update stats in viewer
+        function updateStats() {
+            const totalSelected = getTotalSelectedSweets();
+            statSweets.textContent = `${totalSelected}/${currentState.maxCapacity}`;
+            statBox.textContent = currentState.boxSize.charAt(0).toUpperCase() + currentState.boxSize.slice(1);
+        }
+
+        // Reset to default state
+        function resetToDefaults() {
+            currentState = {
+                boxSize: "small",
+                boxQuantity: 1,
+                selectedSweets: {},
+                maxCapacity: boxSizes.small.capacity
+            };
+            
+            // Reset UI selections
+            sizeBtns.forEach(btn => btn.classList.remove('active'));
+            sizeBtns[0].classList.add('active');
+            
+            quantityBtns.forEach(btn => btn.classList.remove('active'));
+            quantityBtns[0].classList.add('active');
+            
+            // Reset box scale
+            if (boxModel) {
+                boxModel.scale.set(1, 1, 1);
+            }
+            
+            // Update 3D box
+            update3DBox();
+            
+            // Update UI
+            updateUI();
+        }
+
+        // Add to cart functionality
+        function addToCart() {
+            const totalSelected = getTotalSelectedSweets();
+            
+            if (totalSelected === 0) {
+                showNotification("Empty Box", "Please add some sweets to your box before adding to cart!", "error");
+                return;
+            }
+            
+            // In a real implementation, this would send data to your Laravel backend
+            const orderData = {
+                boxSize: currentState.boxSize,
+                boxQuantity: currentState.boxQuantity,
+                selectedSweets: currentState.selectedSweets,
+                totalPrice: document.getElementById('summary-total-price').textContent
+            };
+            
+            // Show success notification
+            const sweetCount = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
+            showNotification("Added to Cart!", `Your ${currentState.boxSize} sweet box (x${currentState.boxQuantity}) with ${sweetCount} sweets has been added to your cart.`, "success");
+            
+            // Animation effect
+            if (boxModel) {
+                // Bounce animation
+                const originalY = boxModel.position.y;
+                let bounceHeight = 0.3;
+                let bounceCount = 0;
+                const maxBounces = 3;
+                
+                function bounce() {
+                    if (bounceCount >= maxBounces) {
+                        boxModel.position.y = originalY;
+                        return;
+                    }
+                    
+                    boxModel.position.y = originalY + bounceHeight;
+                    bounceHeight *= 0.7;
+                    bounceCount++;
+                    
+                    setTimeout(bounce, 150);
+                }
+                
+                bounce();
+            }
+            
+            // In Laravel, you would make an AJAX request here to add to cart
+            // Example:
+            // fetch('/cart/add', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            //     },
+            //     body: JSON.stringify(orderData)
+            // })
+        }
+
+        // Show notification
+        function showNotification(title, message, type = "info") {
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+            
+            // Set color based on type
+            if (type === "error") {
+                notification.style.borderLeftColor = "#ff4757";
+                notificationTitle.style.color = "#ff4757";
+            } else if (type === "warning") {
+                notification.style.borderLeftColor = "#ffa502";
+                notificationTitle.style.color = "#ffa502";
+            } else if (type === "success") {
+                notification.style.borderLeftColor = "#2ed573";
+                notificationTitle.style.color = "#2ed573";
+            } else {
+                notification.style.borderLeftColor = "#ff6b9d";
+                notificationTitle.style.color = "#ff6b9d";
+            }
+            
+            notification.classList.add('show');
+            
+            // Auto hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hazelnut Factory | 3D Box Customizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Brand Header - Minimal */
+        .brand-header {
+            position: absolute;
+            top: 30px;
+            left: 40px;
+            z-index: 10;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        /* 3D Viewer - Full screen center */
+        #threejs-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+        /* Semi-Circular Control - Left Side (Like your sketch) */
+        .control-dial {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 240px;
+            z-index: 100;
+        }
+
+        .dial-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .control-item {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            z-index: 101;
+            left: 25px;
+        }
+
+        .control-item:hover {
+            border-color: #4a6fa5;
+            transform: scale(1.05);
+        }
+
+        .control-item.active {
+            background: #4a6fa5;
+            border-color: #4a6fa5;
+            color: white;
+        }
+
+        .control-item.active .control-icon {
+            color: white;
+        }
+
+        .control-item.active .control-label {
+            color: white;
+        }
+
+        /* Position controls in semi-circle (right half) */
+        .control-item:nth-child(1) {
+            top: 20px;
+        }
+
+        .control-item:nth-child(2) {
+            top: 85px;
+        }
+
+        .control-item:nth-child(3) {
+            top: 150px;
+        }
+
+        .control-item:nth-child(4) {
+            top: 215px;
+        }
+
+        .control-icon {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .control-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #666;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sub-options Panel - Below Model (Exactly like your sketch) */
+        .sub-options {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e0e0e0;
+            z-index: 100;
+            display: none;
+        }
+
+        .sub-options.active {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .sub-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Box Size Options */
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .size-option {
+            padding: 20px 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .size-option:hover {
+            border-color: #4a6fa5;
+            background: #f0f4ff;
+        }
+
+        .size-option.active {
+            background: #4a6fa5;
+            border-color: #4a6fa5;
+            color: white;
+        }
+
+        .size-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .size-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .size-option.active .size-desc {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Color Options */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .color-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.active {
+            border-color: #333;
+            transform: scale(1.1);
+        }
+
+        .color-option.active::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Ribbon Options */
+        .ribbon-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .ribbon-option {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ribbon-option:hover {
+            border-color: #4a6fa5;
+            background: #f0f4ff;
+        }
+
+        .ribbon-option.active {
+            background: #4a6fa5;
+            border-color: #4a6fa5;
+            color: white;
+        }
+
+        .ribbon-label {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Sweet Options */
+        .sweet-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .sweet-option {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .sweet-option:hover {
+            border-color: #4a6fa5;
+            background: #f0f4ff;
+        }
+
+        .sweet-option.selected {
+            background: #4a6fa5;
+            border-color: #4a6fa5;
+            color: white;
+        }
+
+        .sweet-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .sweet-option.selected .sweet-icon {
+            background: white;
+            color: #4a6fa5;
+        }
+
+        .sweet-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .sweet-price {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .sweet-option.selected .sweet-price {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Quantity Controls */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.3);
+            color: inherit;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-display {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* MRP Display - Bottom Right (Exactly like your sketch) */
+        .mrp-display {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            z-index: 100;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .mrp-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .mrp-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Action Buttons - Top Right (Exactly like your sketch) */
+        .action-buttons {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reset-btn {
+            background: white;
+            color: #666;
+            border: 2px solid #e0e0e0;
+        }
+
+        .reset-btn:hover {
+            background: #f8f9fa;
+            border-color: #4a6fa5;
+            color: #4a6fa5;
+        }
+
+        .cart-btn {
+            background: #4a6fa5;
+            color: white;
+            border: 2px solid #4a6fa5;
+        }
+
+        .cart-btn:hover {
+            background: #3a5a95;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.3);
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4a6fa5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .brand-header {
+                left: 20px;
+                top: 20px;
+            }
+            
+            .control-dial {
+                left: 20px;
+                width: 100px;
+                height: 200px;
+            }
+            
+            .control-item {
+                width: 60px;
+                height: 60px;
+                left: 20px;
+            }
+            
+            .control-item:nth-child(1) { top: 15px; }
+            .control-item:nth-child(2) { top: 70px; }
+            .control-item:nth-child(3) { top: 125px; }
+            .control-item:nth-child(4) { top: 180px; }
+            
+            .sub-options {
+                width: 90%;
+                padding: 20px;
+                bottom: 80px;
+            }
+            
+            .action-buttons {
+                top: 20px;
+                right: 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .mrp-display {
+                bottom: 20px;
+                right: 20px;
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Brand Header -->
+        <div class="brand-header">
+            <div class="brand-name">THE HAZELNUT FACTORY</div>
+        </div>
+
+        <!-- 3D Canvas -->
+        <canvas id="threejs-canvas"></canvas>
+
+        <!-- Semi-Circular Control Dial (Left Side) -->
+        <div class="control-dial">
+            <div class="dial-background"></div>
+            <div class="control-item active" data-control="box">
+                <i class="fas fa-box control-icon"></i>
+                <div class="control-label">BOX</div>
+            </div>
+            <div class="control-item" data-control="content">
+                <i class="fas fa-candy-cane control-icon"></i>
+                <div class="control-label">CONTENT</div>
+            </div>
+            <div class="control-item" data-control="colour">
+                <i class="fas fa-palette control-icon"></i>
+                <div class="control-label">COLOUR</div>
+            </div>
+            <div class="control-item" data-control="ribbon">
+                <i class="fas fa-ribbon control-icon"></i>
+                <div class="control-label">RIBBON</div>
+            </div>
+        </div>
+
+        <!-- Sub-options Panel (Below Model) -->
+        <div class="sub-options active" id="sub-options">
+            <div class="sub-title">SELECT BOX SIZE</div>
+            <div class="size-grid" id="size-grid">
+                <div class="size-option active" data-size="14">
+                    <div class="size-label">14 Pc</div>
+                    <div class="size-desc">Small Box</div>
+                </div>
+                <div class="size-option" data-size="20">
+                    <div class="size-label">20 Pc</div>
+                    <div class="size-desc">Medium Box</div>
+                </div>
+                <div class="size-option" data-size="30">
+                    <div class="size-label">30 Pc</div>
+                    <div class="size-desc">Large Box</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MRP Display (Bottom Right) -->
+        <div class="mrp-display">
+            <div class="mrp-label">MRP</div>
+            <div class="mrp-value" id="mrp-value">₹1,499</div>
+        </div>
+
+        <!-- Action Buttons (Top Right) -->
+        <div class="action-buttons">
+            <button class="action-btn reset-btn" id="reset-btn">
+                <i class="fas fa-redo"></i> RESET
+            </button>
+            <button class="action-btn cart-btn" id="cart-btn">
+                <i class="fas fa-shopping-cart"></i> ADD TO CART
+            </button>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loading-overlay">
+            <div class="loader"></div>
+            <div>Loading 3D Model...</div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Three.js with the model you provided
+        let scene, camera, renderer, controls, boxModel;
+        
+        // State
+        let currentState = {
+            boxSize: '14',
+            boxColor: '#ff6b9d',
+            ribbon: 'red',
+            selectedSweets: {},
+            activeControl: 'box'
+        };
+
+        // Colors from your sketch
+        const colors = [
+            { name: 'Red', value: '#ff4757' },
+            { name: 'Blue', value: '#6ce5ff' },
+            { name: 'Green', value: '#32cd32' },
+            { name: 'Pink', value: '#ff6b9d' },
+            { name: 'Purple', value: '#9370db' },
+            { name: 'Yellow', value: '#ffd700' },
+            { name: 'Orange', value: '#ffa500' },
+            { name: 'Brown', value: '#8b4513' },
+            { name: 'Black', value: '#000000' },
+            { name: 'White', value: '#ffffff' }
+        ];
+
+        // Ribbon options
+        const ribbons = [
+            { name: 'Red', value: 'red' },
+            { name: 'Blue', value: 'blue' },
+            { name: 'Golden', value: 'gold' },
+            { name: 'Silver', value: 'silver' }
+        ];
+
+        // Sweets data
+        const sweets = [
+            { id: 1, name: 'Hazelnut Praline', price: 120, icon: '🌰' },
+            { id: 2, name: 'Dark Chocolate', price: 100, icon: '🍫' },
+            { id: 3, name: 'Milk Chocolate', price: 90, icon: '🍫' },
+            { id: 4, name: 'Caramel Crunch', price: 110, icon: '🍯' },
+            { id: 5, name: 'White Chocolate', price: 95, icon: '🍬' },
+            { id: 6, name: 'Truffle Delight', price: 130, icon: '🍫' }
+        ];
+
+        // Box sizes with prices
+        const boxSizes = {
+            '14': { price: 1499, capacity: 14 },
+            '20': { price: 1999, capacity: 20 },
+            '30': { price: 2499, capacity: 30 }
+        };
+
+        // DOM Elements
+        const canvas = document.getElementById('threejs-canvas');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const controlItems = document.querySelectorAll('.control-item');
+        const subOptions = document.getElementById('sub-options');
+        const subTitle = subOptions.querySelector('.sub-title');
+        const sizeGrid = document.getElementById('size-grid');
+        const mrpValue = document.getElementById('mrp-value');
+        const resetBtn = document.getElementById('reset-btn');
+        const cartBtn = document.getElementById('cart-btn');
+
+        // Initialize
+        function init() {
+            setupEventListeners();
+            initThreeJS();
+            updateMRP();
+        }
+
+        // Initialize Three.js
+        function initThreeJS() {
+            // Create scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf5f7fa);
+            
+            // Create camera
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 3, 8);
+            
+            // Create renderer
+            renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            
+            // Add controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.minDistance = 5;
+            controls.maxDistance = 15;
+            controls.maxPolarAngle = Math.PI / 2;
+            
+            // Add lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 5);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+            
+            // Create box model (simple placeholder for now)
+            createBoxModel();
+            
+            // Start animation
+            animate();
+            
+            // Hide loading after 1.5 seconds
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                }, 300);
+            }, 1500);
+            
+            // Handle resize
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function createBoxModel() {
+            const boxGroup = new THREE.Group();
+            
+            // Main box
+            const boxGeometry = new THREE.BoxGeometry(2, 1.5, 2);
+            const boxMaterial = new THREE.MeshStandardMaterial({ 
+                color: currentState.boxColor,
+                roughness: 0.4,
+                metalness: 0.1
+            });
+            const box = new THREE.Mesh(boxGeometry, boxMaterial);
+            box.castShadow = true;
+            box.receiveShadow = true;
+            boxGroup.add(box);
+            
+            // Lid
+            const lidGeometry = new THREE.BoxGeometry(2.1, 0.2, 2.1);
+            const lidMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xffffff,
+                roughness: 0.3,
+                metalness: 0.2
+            });
+            const lid = new THREE.Mesh(lidGeometry, lidMaterial);
+            lid.position.y = 0.85;
+            lid.castShadow = true;
+            lid.receiveShadow = true;
+            boxGroup.add(lid);
+            
+            scene.add(boxGroup);
+            boxModel = boxGroup;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Control dial items
+            controlItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const control = item.dataset.control;
+                    
+                    // Update active control
+                    controlItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Show corresponding sub-options
+                    showSubOptions(control);
+                });
+            });
+
+            // Box size selection
+            sizeGrid.addEventListener('click', (e) => {
+                const sizeOption = e.target.closest('.size-option');
+                if (!sizeOption) return;
+                
+                document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
+                sizeOption.classList.add('active');
+                
+                currentState.boxSize = sizeOption.dataset.size;
+                updateMRP();
+                
+                // Show notification
+                showMessage(`Box size set to ${currentState.boxSize} Pc`);
+            });
+
+            // Reset button
+            resetBtn.addEventListener('click', () => {
+                // Reset to defaults
+                currentState = {
+                    boxSize: '14',
+                    boxColor: '#ff6b9d',
+                    ribbon: 'red',
+                    selectedSweets: {},
+                    activeControl: 'box'
+                };
+                
+                // Update UI
+                controlItems.forEach(i => i.classList.remove('active'));
+                controlItems[0].classList.add('active');
+                showSubOptions('box');
+                updateMRP();
+                
+                showMessage('All settings have been reset');
+            });
+
+            // Add to cart button
+            cartBtn.addEventListener('click', () => {
+                const totalSweets = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
+                
+                if (totalSweets === 0) {
+                    showMessage('Please add some sweets to your box!', true);
+                    return;
+                }
+                
+                showMessage(`${currentState.boxSize}Pc box added to cart!`);
+                
+                // Simple animation
+                cartBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    cartBtn.style.transform = 'scale(1)';
+                }, 150);
+            });
+        }
+
+        // Show sub-options based on selected control
+        function showSubOptions(control) {
+            currentState.activeControl = control;
+            subTitle.textContent = getSubTitle(control);
+            
+            let content = '';
+            
+            switch(control) {
+                case 'box':
+                    content = `
+                        <div class="size-grid">
+                            <div class="size-option ${currentState.boxSize === '14' ? 'active' : ''}" data-size="14">
+                                <div class="size-label">14 Pc</div>
+                                <div class="size-desc">Small Box</div>
+                            </div>
+                            <div class="size-option ${currentState.boxSize === '20' ? 'active' : ''}" data-size="20">
+                                <div class="size-label">20 Pc</div>
+                                <div class="size-desc">Medium Box</div>
+                            </div>
+                            <div class="size-option ${currentState.boxSize === '30' ? 'active' : ''}" data-size="30">
+                                <div class="size-label">30 Pc</div>
+                                <div class="size-desc">Large Box</div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'colour':
+                    content = `
+                        <div class="color-grid">
+                            ${colors.map(color => `
+                                <div class="color-option ${currentState.boxColor === color.value ? 'active' : ''}" 
+                                     data-color="${color.value}"
+                                     style="background-color: ${color.value};">
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+                    
+                case 'ribbon':
+                    content = `
+                        <div class="ribbon-grid">
+                            ${ribbons.map(ribbon => `
+                                <div class="ribbon-option ${currentState.ribbon === ribbon.value ? 'active' : ''}" 
+                                     data-ribbon="${ribbon.value}">
+                                    <div class="ribbon-label">${ribbon.name}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+                    
+                case 'content':
+                    content = `
+                        <div class="sweet-grid">
+                            ${sweets.map(sweet => {
+                                const quantity = currentState.selectedSweets[sweet.id] || 0;
+                                return `
+                                    <div class="sweet-option ${quantity > 0 ? 'selected' : ''}" data-id="${sweet.id}">
+                                        <div class="sweet-icon">${sweet.icon}</div>
+                                        <div class="sweet-name">${sweet.name}</div>
+                                        <div class="sweet-price">₹${sweet.price}</div>
+                                        <div class="quantity-controls">
+                                            <button class="qty-btn decrease-btn">-</button>
+                                            <span class="qty-display">${quantity}</span>
+                                            <button class="qty-btn increase-btn">+</button>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                    break;
+            }
+            
+            subOptions.innerHTML = `<div class="sub-title">${getSubTitle(control)}</div>` + content;
+            subOptions.classList.add('active');
+            
+            // Reattach event listeners for the new content
+            attachEventListenersToSubOptions();
+        }
+
+        function attachEventListenersToSubOptions() {
+            const currentControl = currentState.activeControl;
+            
+            switch(currentControl) {
+                case 'colour':
+                    document.querySelectorAll('.color-option').forEach(option => {
+                        option.addEventListener('click', () => {
+                            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                            option.classList.add('active');
+                            currentState.boxColor = option.dataset.color;
+                            updateBoxColor();
+                            updateMRP();
+                            showMessage(`Box color changed`);
+                        });
+                    });
+                    break;
+                    
+                case 'ribbon':
+                    document.querySelectorAll('.ribbon-option').forEach(option => {
+                        option.addEventListener('click', () => {
+                            document.querySelectorAll('.ribbon-option').forEach(opt => opt.classList.remove('active'));
+                            option.classList.add('active');
+                            currentState.ribbon = option.dataset.ribbon;
+                            updateMRP();
+                            showMessage(`${option.querySelector('.ribbon-label').textContent} ribbon selected`);
+                        });
+                    });
+                    break;
+                    
+                case 'content':
+                    document.querySelectorAll('.sweet-option').forEach(option => {
+                        const sweetId = parseInt(option.dataset.id);
+                        const sweet = sweets.find(s => s.id === sweetId);
+                        
+                        option.querySelector('.increase-btn').addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const totalSweets = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
+                            const capacity = boxSizes[currentState.boxSize].capacity;
+                            
+                            if (totalSweets >= capacity) {
+                                showMessage(`Box is full (${capacity} sweets max)`, true);
+                                return;
+                            }
+                            
+                            currentState.selectedSweets[sweetId] = (currentState.selectedSweets[sweetId] || 0) + 1;
+                            updateSweetUI(sweetId);
+                            updateMRP();
+                            showMessage(`${sweet.name} added`);
+                        });
+                        
+                        option.querySelector('.decrease-btn').addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            if (currentState.selectedSweets[sweetId] > 0) {
+                                currentState.selectedSweets[sweetId]--;
+                                if (currentState.selectedSweets[sweetId] === 0) {
+                                    delete currentState.selectedSweets[sweetId];
+                                }
+                                updateSweetUI(sweetId);
+                                updateMRP();
+                                showMessage(`${sweet.name} removed`);
+                            }
+                        });
+                    });
+                    break;
+            }
+        }
+
+        function updateSweetUI(sweetId) {
+            const option = document.querySelector(`.sweet-option[data-id="${sweetId}"]`);
+            if (!option) return;
+            
+            const quantity = currentState.selectedSweets[sweetId] || 0;
+            option.querySelector('.qty-display').textContent = quantity;
+            
+            if (quantity > 0) {
+                option.classList.add('selected');
+            } else {
+                option.classList.remove('selected');
+            }
+        }
+
+        function updateBoxColor() {
+            if (boxModel && boxModel.children[0]) {
+                boxModel.children[0].material.color.set(currentState.boxColor);
+            }
+        }
+
+        function updateMRP() {
+            const basePrice = boxSizes[currentState.boxSize].price;
+            let sweetsPrice = 0;
+            
+            Object.keys(currentState.selectedSweets).forEach(sweetId => {
+                const sweet = sweets.find(s => s.id === parseInt(sweetId));
+                if (sweet) {
+                    sweetsPrice += sweet.price * currentState.selectedSweets[sweetId];
+                }
+            });
+            
+            const totalPrice = basePrice + sweetsPrice;
+            mrpValue.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
+        }
+
+        function getSubTitle(control) {
+            switch(control) {
+                case 'box': return 'SELECT BOX SIZE';
+                case 'content': return 'SELECT SWEETS';
+                case 'colour': return 'SELECT COLOUR';
+                case 'ribbon': return 'SELECT RIBBON';
+                default: return 'SELECT OPTION';
+            }
+        }
+
+        function showMessage(text, isError = false) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 180px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${isError ? '#ff4757' : '#4a6fa5'};
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            `;
+            notification.textContent = text;
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => notification.style.opacity = '1', 10);
+            
+            // Remove after 2 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
