@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/tween.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -56,7 +57,7 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
         }
 
-        /* Semi-Circular Control - Left Side (Like your sketch) */
+        /* Semi-Circular Control - Left Side */
         .control-dial {
             position: absolute;
             top: 50%;
@@ -114,7 +115,7 @@
             color: white;
         }
 
-        /* Position controls in semi-circle (right half) */
+        /* Position controls in semi-circle */
         .control-item:nth-child(1) {
             top: 20px;
         }
@@ -144,7 +145,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Sub-options Panel - Below Model (Exactly like your sketch) */
+        /* Sub-options Panel */
         .sub-options {
             position: absolute;
             bottom: 100px;
@@ -388,7 +389,51 @@
             text-align: center;
         }
 
-        /* MRP Display - Bottom Right (Exactly like your sketch) */
+        /* Capacity Indicator */
+        .capacity-indicator {
+            position: absolute;
+            bottom: 200px;
+            right: 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 15px 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            z-index: 100;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .capacity-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .capacity-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .capacity-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .capacity-fill {
+            height: 100%;
+            background: #4a6fa5;
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* MRP Display */
         .mrp-display {
             position: absolute;
             bottom: 40px;
@@ -416,7 +461,7 @@
             color: #333;
         }
 
-        /* Action Buttons - Top Right (Exactly like your sketch) */
+        /* Action Buttons */
         .action-buttons {
             position: absolute;
             top: 30px;
@@ -493,6 +538,23 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Animation Notification */
+        .sweet-animation-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(74, 111, 165, 0.9);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .brand-header {
@@ -530,10 +592,14 @@
                 gap: 10px;
             }
             
-            .mrp-display {
+            .mrp-display, .capacity-indicator {
                 bottom: 20px;
                 right: 20px;
                 padding: 15px 20px;
+            }
+            
+            .capacity-indicator {
+                bottom: 180px;
             }
         }
     </style>
@@ -548,7 +614,7 @@
         <!-- 3D Canvas -->
         <canvas id="threejs-canvas"></canvas>
 
-        <!-- Semi-Circular Control Dial (Left Side) -->
+        <!-- Semi-Circular Control Dial -->
         <div class="control-dial">
             <div class="dial-background"></div>
             <div class="control-item active" data-control="box">
@@ -569,7 +635,7 @@
             </div>
         </div>
 
-        <!-- Sub-options Panel (Below Model) -->
+        <!-- Sub-options Panel -->
         <div class="sub-options active" id="sub-options">
             <div class="sub-title">SELECT BOX SIZE</div>
             <div class="size-grid" id="size-grid">
@@ -588,13 +654,22 @@
             </div>
         </div>
 
-        <!-- MRP Display (Bottom Right) -->
+        <!-- Capacity Indicator -->
+        <div class="capacity-indicator" id="capacity-indicator">
+            <div class="capacity-label">CAPACITY</div>
+            <div class="capacity-value" id="capacity-value">0/14</div>
+            <div class="capacity-bar">
+                <div class="capacity-fill" id="capacity-fill"></div>
+            </div>
+        </div>
+
+        <!-- MRP Display -->
         <div class="mrp-display">
             <div class="mrp-label">MRP</div>
             <div class="mrp-value" id="mrp-value">₹1,499</div>
         </div>
 
-        <!-- Action Buttons (Top Right) -->
+        <!-- Action Buttons -->
         <div class="action-buttons">
             <button class="action-btn reset-btn" id="reset-btn">
                 <i class="fas fa-redo"></i> RESET
@@ -609,22 +684,38 @@
             <div class="loader"></div>
             <div>Loading 3D Model...</div>
         </div>
+
+        <!-- Animation Notification -->
+        <div class="sweet-animation-notification" id="sweet-animation-notification"></div>
     </div>
 
     <script>
-        // Initialize Three.js with the model you provided
+        // Three.js variables
         let scene, camera, renderer, controls, boxModel;
         
+        // Model parts
+        let modelParts = {
+            mainBox: null,
+            lidClosed: null,
+            lidOpen: null,
+            slotContainer: null,
+            slots: [],
+            sweetMeshes: {}, // Map of sweet ID to mesh in scene
+            slotPositions: [] // Pre-calculated slot positions
+        };
+
         // State
         let currentState = {
             boxSize: '14',
             boxColor: '#ff6b9d',
             ribbon: 'red',
             selectedSweets: {},
-            activeControl: 'box'
+            activeControl: 'box',
+            lidOpen: false,
+            filledSlots: new Set() // Track which slots are filled
         };
 
-        // Colors from your sketch
+        // Colors
         const colors = [
             { name: 'Red', value: '#ff4757' },
             { name: 'Blue', value: '#6ce5ff' },
@@ -646,14 +737,56 @@
             { name: 'Silver', value: 'silver' }
         ];
 
-        // Sweets data
+        // Sweets data with 3D properties
         const sweets = [
-            { id: 1, name: 'Hazelnut Praline', price: 120, icon: '🌰' },
-            { id: 2, name: 'Dark Chocolate', price: 100, icon: '🍫' },
-            { id: 3, name: 'Milk Chocolate', price: 90, icon: '🍫' },
-            { id: 4, name: 'Caramel Crunch', price: 110, icon: '🍯' },
-            { id: 5, name: 'White Chocolate', price: 95, icon: '🍬' },
-            { id: 6, name: 'Truffle Delight', price: 130, icon: '🍫' }
+            { 
+                id: 1, 
+                name: 'Hazelnut Praline', 
+                price: 120, 
+                icon: '🌰',
+                color: 0x8B4513, // Brown
+                size: 0.15
+            },
+            { 
+                id: 2, 
+                name: 'Dark Chocolate', 
+                price: 100, 
+                icon: '🍫',
+                color: 0x3C2A21, // Dark Brown
+                size: 0.12
+            },
+            { 
+                id: 3, 
+                name: 'Milk Chocolate', 
+                price: 90, 
+                icon: '🍫',
+                color: 0xD2691E, // Chocolate
+                size: 0.13
+            },
+            { 
+                id: 4, 
+                name: 'Caramel Crunch', 
+                price: 110, 
+                icon: '🍯',
+                color: 0xFF8C00, // Orange
+                size: 0.14
+            },
+            { 
+                id: 5, 
+                name: 'White Chocolate', 
+                price: 95, 
+                icon: '🍬',
+                color: 0xFFFAF0, // White
+                size: 0.12
+            },
+            { 
+                id: 6, 
+                name: 'Truffle Delight', 
+                price: 130, 
+                icon: '🍫',
+                color: 0x654321, // Dark Chocolate
+                size: 0.16
+            }
         ];
 
         // Box sizes with prices
@@ -671,13 +804,17 @@
         const subTitle = subOptions.querySelector('.sub-title');
         const sizeGrid = document.getElementById('size-grid');
         const mrpValue = document.getElementById('mrp-value');
+        const capacityValue = document.getElementById('capacity-value');
+        const capacityFill = document.getElementById('capacity-fill');
         const resetBtn = document.getElementById('reset-btn');
         const cartBtn = document.getElementById('cart-btn');
+        const sweetAnimationNotification = document.getElementById('sweet-animation-notification');
 
         // Initialize
         function init() {
             setupEventListeners();
             initThreeJS();
+            updateCapacity();
             updateMRP();
         }
 
@@ -697,6 +834,7 @@
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.outputEncoding = THREE.sRGBEncoding;
             
             // Add controls
             controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -715,13 +853,13 @@
             directionalLight.castShadow = true;
             scene.add(directionalLight);
             
-            // Create box model (simple placeholder for now)
-            createBoxModel();
+            // Create box model with slots
+            createBoxModelWithSlots();
             
             // Start animation
             animate();
             
-            // Hide loading after 1.5 seconds
+            // Hide loading
             setTimeout(() => {
                 loadingOverlay.style.opacity = '0';
                 setTimeout(() => {
@@ -733,48 +871,454 @@
             window.addEventListener('resize', onWindowResize);
         }
 
-        function createBoxModel() {
-            const boxGroup = new THREE.Group();
+        // Create box model with slots based on your structure
+function createBoxModelWithSlots() {
+    // Create a group to hold everything
+    const boxGroup = new THREE.Group();
+    boxGroup.name = 'BakedPalmTreeBox';
+        
+    // Load your actual 3D model
+    const loader = new THREE.GLTFLoader();
+    
+    // Optional: Add DRACO loader for compressed models
+    // const dracoLoader = new THREE.DRACOLoader();
+    // dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
+    // loader.setDRACOLoader(dracoLoader);
+    
+    // Load your model file
+    loader.load(
+        'assets/models/palm_tree box_30_open.glb', // Replace with your model file path
+        (gltf) => {
+            const model = gltf.scene;
             
-            // Main box
-            const boxGeometry = new THREE.BoxGeometry(2, 1.5, 2);
-            const boxMaterial = new THREE.MeshStandardMaterial({ 
-                color: currentState.boxColor,
-                roughness: 0.4,
+            // Scale and position the model
+            model.scale.set(0.5, 0.5, 0.5);
+            model.position.y = 0;
+            
+            // Enable shadows
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    
+                    // Store original material for color changes
+                    child.userData.originalMaterial = child.material.clone();
+                }
+            });
+            
+            boxGroup.add(model);
+            
+            // Organize model parts based on your structure
+            organizeModelParts(model);
+            
+            // Generate slot positions (if not baked into model)
+            generateSlotPositions();
+            
+            // Initialize lid state
+            setLidState('closed');
+            
+            // Update colors
+            updateBoxColor();
+            
+        },
+        (progress) => {
+            // Loading progress
+            console.log('Loading model:', (progress.loaded / progress.total * 100) + '%');
+        },
+        (error) => {
+            console.error('Error loading model:', error);
+            // Fallback to procedural model
+            createProceduralBox();
+        }
+    );
+    
+    scene.add(boxGroup);
+    boxModel = boxGroup;
+}
+
+        function createDecorativeElements(parent) {
+            // Ribbon around the box
+            const ribbonGeometry = new THREE.BoxGeometry(2.2, 0.05, 0.1);
+            const ribbonMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xff0000, // Red ribbon
+                roughness: 0.2,
+                metalness: 0.5
+            });
+            
+            const ribbonHorizontal = new THREE.Mesh(ribbonGeometry, ribbonMaterial);
+            ribbonHorizontal.position.y = 0.75;
+            ribbonHorizontal.position.z = 0;
+            ribbonHorizontal.name = 'ribbon_horizontal';
+            parent.add(ribbonHorizontal);
+            
+            const ribbonVertical = new THREE.Mesh(ribbonGeometry, ribbonMaterial);
+            ribbonVertical.position.y = 0.75;
+            ribbonVertical.position.x = 0;
+            ribbonVertical.rotation.y = Math.PI / 2;
+            ribbonVertical.name = 'ribbon_vertical';
+            parent.add(ribbonVertical);
+            
+            // Bow on top
+            const bowGeometry = new THREE.TorusKnotGeometry(0.08, 0.03, 100, 16);
+            const bowMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xff0000,
+                roughness: 0.2,
+                metalness: 0.5
+            });
+            
+            const bow = new THREE.Mesh(bowGeometry, bowMaterial);
+            bow.position.y = 0.95;
+            bow.scale.set(1.5, 1, 1.5);
+            bow.name = 'bow';
+            parent.add(bow);
+        }
+
+        // Toggle lid open/closed
+        function toggleLid() {
+            if (currentState.lidOpen) {
+                // Close lid
+                modelParts.lidOpen.visible = false;
+                modelParts.lidClosed.visible = true;
+                currentState.lidOpen = false;
+            } else {
+                // Open lid
+                modelParts.lidClosed.visible = false;
+                modelParts.lidOpen.visible = true;
+                currentState.lidOpen = true;
+            }
+        }
+
+        // Create sweet mesh
+        function createSweetMesh(sweet) {
+            // Create a sphere for the sweet
+            const geometry = new THREE.SphereGeometry(sweet.size, 16, 16);
+            const material = new THREE.MeshStandardMaterial({ 
+                color: sweet.color,
+                roughness: 0.3,
                 metalness: 0.1
             });
-            const box = new THREE.Mesh(boxGeometry, boxMaterial);
-            box.castShadow = true;
-            box.receiveShadow = true;
-            boxGroup.add(box);
             
-            // Lid
-            const lidGeometry = new THREE.BoxGeometry(2.1, 0.2, 2.1);
-            const lidMaterial = new THREE.MeshStandardMaterial({ 
-                color: 0xffffff,
-                roughness: 0.3,
-                metalness: 0.2
+            const sweetMesh = new THREE.Mesh(geometry, material);
+            sweetMesh.castShadow = true;
+            sweetMesh.receiveShadow = true;
+            sweetMesh.userData = { sweetId: sweet.id };
+            
+            return sweetMesh;
+        }
+
+        // Find empty slot
+        function findEmptySlot() {
+            const capacity = boxSizes[currentState.boxSize].capacity;
+            
+            // Only check slots up to capacity
+            for (let i = 1; i <= capacity; i++) {
+                if (!currentState.filledSlots.has(i)) {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        // Add sweet to box with animation
+        async function addSweetToBox(sweet) {
+            const capacity = boxSizes[currentState.boxSize].capacity;
+            const totalSweets = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
+            
+            // Check capacity
+            if (totalSweets >= capacity) {
+                showSweetAnimation(`Box is full! (${capacity} max)`, true);
+                return null;
+            }
+            
+            // Find empty slot
+            const slotIndex = findEmptySlot();
+            if (!slotIndex) {
+                showSweetAnimation('No empty slots available!', true);
+                return null;
+            }
+            
+            // Open lid if closed
+            if (!currentState.lidOpen) {
+                toggleLid();
+            }
+            
+            // Show animation notification
+            showSweetAnimation(`Adding ${sweet.name}...`);
+            
+            // Create sweet mesh
+            const sweetMesh = createSweetMesh(sweet);
+            
+            // Start position above the box
+            sweetMesh.position.set(0, 3, 0);
+            sweetMesh.scale.set(0.1, 0.1, 0.1);
+            scene.add(sweetMesh);
+            
+            // Target position (slot position)
+            const targetPosition = modelParts.slotPositions[slotIndex].clone();
+            targetPosition.y += 0.1; // Slight offset above slot
+            
+            // Animate sweet falling into box
+            await animateSweetToSlot(sweetMesh, targetPosition, slotIndex);
+            
+            // Mark slot as filled
+            currentState.filledSlots.add(slotIndex);
+            
+            // Store sweet mesh reference
+            if (!modelParts.sweetMeshes[sweet.id]) {
+                modelParts.sweetMeshes[sweet.id] = [];
+            }
+            modelParts.sweetMeshes[sweet.id].push({
+                mesh: sweetMesh,
+                slotIndex: slotIndex
             });
-            const lid = new THREE.Mesh(lidGeometry, lidMaterial);
-            lid.position.y = 0.85;
-            lid.castShadow = true;
-            lid.receiveShadow = true;
-            boxGroup.add(lid);
             
-            scene.add(boxGroup);
-            boxModel = boxGroup;
+            showSweetAnimation(`${sweet.name} added!`);
+            return slotIndex;
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
+        // Remove sweet from box with animation
+        async function removeSweetFromBox(sweet) {
+            const sweetInstances = modelParts.sweetMeshes[sweet.id];
+            if (!sweetInstances || sweetInstances.length === 0) {
+                return null;
+            }
+            
+            // Get the last added sweet of this type
+            const sweetData = sweetInstances[sweetInstances.length - 1];
+            const sweetMesh = sweetData.mesh;
+            const slotIndex = sweetData.slotIndex;
+            
+            // Show animation notification
+            showSweetAnimation(`Removing ${sweet.name}...`);
+            
+            // Open lid if closed
+            if (!currentState.lidOpen) {
+                toggleLid();
+            }
+            
+            // Animate sweet out of box
+            await animateSweetOut(sweetMesh);
+            
+            // Remove from scene
+            scene.remove(sweetMesh);
+            
+            // Clean up references
+            modelParts.sweetMeshes[sweet.id].pop();
+            if (modelParts.sweetMeshes[sweet.id].length === 0) {
+                delete modelParts.sweetMeshes[sweet.id];
+            }
+            
+            // Mark slot as empty
+            currentState.filledSlots.delete(slotIndex);
+            
+            showSweetAnimation(`${sweet.name} removed!`);
+            return slotIndex;
         }
 
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        // Animate sweet to slot
+        function animateSweetToSlot(sweetMesh, targetPosition, slotIndex) {
+            return new Promise((resolve) => {
+                // Calculate control point for arc animation
+                const startPos = sweetMesh.position.clone();
+                const controlPoint = new THREE.Vector3(
+                    (startPos.x + targetPosition.x) / 2,
+                    startPos.y,
+                    (startPos.z + targetPosition.z) / 2
+                );
+                
+                const duration = 1000; // 1 second
+                const startTime = Date.now();
+                
+                function animate() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Quadratic bezier curve for arc motion
+                    const t = progress;
+                    const x = (1 - t) * (1 - t) * startPos.x + 
+                              2 * (1 - t) * t * controlPoint.x + 
+                              t * t * targetPosition.x;
+                    const y = (1 - t) * (1 - t) * startPos.y + 
+                              2 * (1 - t) * t * (controlPoint.y + 2) + // Higher arc
+                              t * t * targetPosition.y;
+                    const z = (1 - t) * (1 - t) * startPos.z + 
+                              2 * (1 - t) * t * controlPoint.z + 
+                              t * t * targetPosition.z;
+                    
+                    // Scale up as it falls
+                    const scale = 0.1 + (0.9 * progress);
+                    
+                    sweetMesh.position.set(x, y, z);
+                    sweetMesh.scale.set(scale, scale, scale);
+                    
+                    // Slight rotation
+                    sweetMesh.rotation.y = progress * Math.PI * 2;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        // Final position adjustment
+                        sweetMesh.position.copy(targetPosition);
+                        sweetMesh.scale.set(1, 1, 1);
+                        resolve();
+                    }
+                }
+                
+                animate();
+            });
+        }
+
+        // Animate sweet out of box
+        function animateSweetOut(sweetMesh) {
+            return new Promise((resolve) => {
+                const startPos = sweetMesh.position.clone();
+                const targetPos = startPos.clone();
+                targetPos.y = 3; // Move up out of box
+                
+                const duration = 800; // 0.8 seconds
+                const startTime = Date.now();
+                
+                function animate() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Ease out cubic
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    
+                    const y = startPos.y + (targetPos.y - startPos.y) * eased;
+                    sweetMesh.position.y = y;
+                    
+                    // Scale down as it rises
+                    const scale = 1 - (0.9 * progress);
+                    sweetMesh.scale.set(scale, scale, scale);
+                    
+                    // Fade out
+                    sweetMesh.material.opacity = 1 - progress;
+                    sweetMesh.material.transparent = true;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        resolve();
+                    }
+                }
+                
+                animate();
+            });
+        }
+
+        // Show sweet animation notification
+        function showSweetAnimation(text, isError = false) {
+            sweetAnimationNotification.textContent = text;
+            sweetAnimationNotification.style.background = isError 
+                ? 'rgba(255, 71, 87, 0.9)' 
+                : 'rgba(74, 111, 165, 0.9)';
+            
+            sweetAnimationNotification.style.opacity = '1';
+            
+            setTimeout(() => {
+                sweetAnimationNotification.style.opacity = '0';
+            }, 1500);
+        }
+
+        // Update box color
+        function updateBoxColor() {
+            if (modelParts.mainBox) {
+                modelParts.mainBox.material.color.set(currentState.boxColor);
+            }
+            
+            // Update ribbon color
+            scene.traverse((child) => {
+                if (child.name && (child.name.includes('ribbon') || child.name === 'bow')) {
+                    const ribbonColor = getRibbonColor(currentState.ribbon);
+                    child.material.color.set(ribbonColor);
+                }
+            });
+        }
+
+        // Get ribbon color
+        function getRibbonColor(ribbonType) {
+            switch(ribbonType) {
+                case 'red': return 0xff0000;
+                case 'blue': return 0x0066ff;
+                case 'gold': return 0xffd700;
+                case 'silver': return 0xc0c0c0;
+                default: return 0xff0000;
+            }
+        }
+
+        // Update capacity display
+        function updateCapacity() {
+            const totalSweets = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
+            const capacity = boxSizes[currentState.boxSize].capacity;
+            const percentage = (totalSweets / capacity) * 100;
+            
+            capacityValue.textContent = `${totalSweets}/${capacity}`;
+            capacityFill.style.width = `${percentage}%`;
+            
+            // Change color based on fill level
+            if (percentage > 90) {
+                capacityFill.style.background = '#ff4757'; // Red
+            } else if (percentage > 70) {
+                capacityFill.style.background = '#ffa500'; // Orange
+            } else {
+                capacityFill.style.background = '#4a6fa5'; // Blue
+            }
+        }
+
+        // Update MRP
+        function updateMRP() {
+            const basePrice = boxSizes[currentState.boxSize].price;
+            let sweetsPrice = 0;
+            
+            Object.keys(currentState.selectedSweets).forEach(sweetId => {
+                const sweet = sweets.find(s => s.id === parseInt(sweetId));
+                if (sweet) {
+                    sweetsPrice += sweet.price * currentState.selectedSweets[sweetId];
+                }
+            });
+            
+            const totalPrice = basePrice + sweetsPrice;
+            mrpValue.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
+        }
+
+        // Clear all sweets from box
+        async function clearAllSweets() {
+            // Open lid if closed
+            if (!currentState.lidOpen) {
+                toggleLid();
+            }
+            
+            // Animate removal of all sweets
+            const removalPromises = [];
+            
+            for (const sweetId in modelParts.sweetMeshes) {
+                const sweet = sweets.find(s => s.id === parseInt(sweetId));
+                if (sweet) {
+                    const sweetInstances = modelParts.sweetMeshes[sweetId];
+                    for (const sweetData of sweetInstances) {
+                        removalPromises.push(animateSweetOut(sweetData.mesh));
+                    }
+                }
+            }
+            
+            // Wait for all animations
+            await Promise.all(removalPromises);
+            
+            // Remove all sweet meshes from scene
+            for (const sweetId in modelParts.sweetMeshes) {
+                modelParts.sweetMeshes[sweetId].forEach(sweetData => {
+                    scene.remove(sweetData.mesh);
+                });
+            }
+            
+            // Reset state
+            modelParts.sweetMeshes = {};
+            currentState.filledSlots.clear();
+            currentState.selectedSweets = {};
+            
+            updateCapacity();
+            updateMRP();
         }
 
         // Setup event listeners
@@ -784,11 +1328,9 @@
                 item.addEventListener('click', () => {
                     const control = item.dataset.control;
                     
-                    // Update active control
                     controlItems.forEach(i => i.classList.remove('active'));
                     item.classList.add('active');
                     
-                    // Show corresponding sub-options
                     showSubOptions(control);
                 });
             });
@@ -802,34 +1344,56 @@
                 sizeOption.classList.add('active');
                 
                 currentState.boxSize = sizeOption.dataset.size;
+                
+                // Clear sweets if new capacity is less than current sweets
+                const totalSweets = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
+                const capacity = boxSizes[currentState.boxSize].capacity;
+                
+                if (totalSweets > capacity) {
+                    clearAllSweets();
+                }
+                
+                updateCapacity();
                 updateMRP();
                 
-                // Show notification
                 showMessage(`Box size set to ${currentState.boxSize} Pc`);
             });
 
             // Reset button
-            resetBtn.addEventListener('click', () => {
+            resetBtn.addEventListener('click', async () => {
+                // Clear all sweets with animation
+                await clearAllSweets();
+                
                 // Reset to defaults
                 currentState = {
                     boxSize: '14',
                     boxColor: '#ff6b9d',
                     ribbon: 'red',
                     selectedSweets: {},
-                    activeControl: 'box'
+                    activeControl: 'box',
+                    lidOpen: false,
+                    filledSlots: new Set()
                 };
                 
                 // Update UI
                 controlItems.forEach(i => i.classList.remove('active'));
                 controlItems[0].classList.add('active');
                 showSubOptions('box');
+                updateBoxColor();
+                updateCapacity();
                 updateMRP();
+                
+                // Close lid
+                if (modelParts.lidOpen && modelParts.lidClosed) {
+                    modelParts.lidOpen.visible = false;
+                    modelParts.lidClosed.visible = true;
+                }
                 
                 showMessage('All settings have been reset');
             });
 
             // Add to cart button
-            cartBtn.addEventListener('click', () => {
+            cartBtn.addEventListener('click', async () => {
                 const totalSweets = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
                 
                 if (totalSweets === 0) {
@@ -837,9 +1401,15 @@
                     return;
                 }
                 
+                // Close lid for final view
+                if (currentState.lidOpen) {
+                    toggleLid();
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Wait for lid animation
+                }
+                
                 showMessage(`${currentState.boxSize}Pc box added to cart!`);
                 
-                // Simple animation
+                // Button animation
                 cartBtn.style.transform = 'scale(0.95)';
                 setTimeout(() => {
                     cartBtn.style.transform = 'scale(1)';
@@ -926,7 +1496,6 @@
             subOptions.innerHTML = `<div class="sub-title">${getSubTitle(control)}</div>` + content;
             subOptions.classList.add('active');
             
-            // Reattach event listeners for the new content
             attachEventListenersToSubOptions();
         }
 
@@ -953,6 +1522,7 @@
                             document.querySelectorAll('.ribbon-option').forEach(opt => opt.classList.remove('active'));
                             option.classList.add('active');
                             currentState.ribbon = option.dataset.ribbon;
+                            updateBoxColor();
                             updateMRP();
                             showMessage(`${option.querySelector('.ribbon-label').textContent} ribbon selected`);
                         });
@@ -964,23 +1534,22 @@
                         const sweetId = parseInt(option.dataset.id);
                         const sweet = sweets.find(s => s.id === sweetId);
                         
-                        option.querySelector('.increase-btn').addEventListener('click', (e) => {
+                        // Add sweet
+                        option.querySelector('.increase-btn').addEventListener('click', async (e) => {
                             e.stopPropagation();
-                            const totalSweets = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
-                            const capacity = boxSizes[currentState.boxSize].capacity;
-                            
-                            if (totalSweets >= capacity) {
-                                showMessage(`Box is full (${capacity} sweets max)`, true);
-                                return;
-                            }
                             
                             currentState.selectedSweets[sweetId] = (currentState.selectedSweets[sweetId] || 0) + 1;
                             updateSweetUI(sweetId);
+                            
+                            // Add sweet to box with animation
+                            await addSweetToBox(sweet);
+                            
+                            updateCapacity();
                             updateMRP();
-                            showMessage(`${sweet.name} added`);
                         });
                         
-                        option.querySelector('.decrease-btn').addEventListener('click', (e) => {
+                        // Remove sweet
+                        option.querySelector('.decrease-btn').addEventListener('click', async (e) => {
                             e.stopPropagation();
                             if (currentState.selectedSweets[sweetId] > 0) {
                                 currentState.selectedSweets[sweetId]--;
@@ -988,8 +1557,12 @@
                                     delete currentState.selectedSweets[sweetId];
                                 }
                                 updateSweetUI(sweetId);
+                                
+                                // Remove sweet from box with animation
+                                await removeSweetFromBox(sweet);
+                                
+                                updateCapacity();
                                 updateMRP();
-                                showMessage(`${sweet.name} removed`);
                             }
                         });
                     });
@@ -1011,27 +1584,6 @@
             }
         }
 
-        function updateBoxColor() {
-            if (boxModel && boxModel.children[0]) {
-                boxModel.children[0].material.color.set(currentState.boxColor);
-            }
-        }
-
-        function updateMRP() {
-            const basePrice = boxSizes[currentState.boxSize].price;
-            let sweetsPrice = 0;
-            
-            Object.keys(currentState.selectedSweets).forEach(sweetId => {
-                const sweet = sweets.find(s => s.id === parseInt(sweetId));
-                if (sweet) {
-                    sweetsPrice += sweet.price * currentState.selectedSweets[sweetId];
-                }
-            });
-            
-            const totalPrice = basePrice + sweetsPrice;
-            mrpValue.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
-        }
-
         function getSubTitle(control) {
             switch(control) {
                 case 'box': return 'SELECT BOX SIZE';
@@ -1043,7 +1595,6 @@
         }
 
         function showMessage(text, isError = false) {
-            // Create notification element
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
@@ -1063,14 +1614,24 @@
             notification.textContent = text;
             document.body.appendChild(notification);
             
-            // Animate in
             setTimeout(() => notification.style.opacity = '1', 10);
             
-            // Remove after 2 seconds
             setTimeout(() => {
                 notification.style.opacity = '0';
                 setTimeout(() => notification.remove(), 300);
             }, 2000);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
         // Initialize the app

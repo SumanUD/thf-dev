@@ -3,1771 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Sweet Box Customizer | Immersive Experience</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.min.js"></script>
+    <title>Maintenance in progress · Netlify</title>
+    <!-- Favicon / icon set (Netlify style) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAWlBMVEVHcEz///+9ys6tdYaleYzmhJriX0zyc1/3//////+9vsH0gGXxbljvZ1D1g2n//v7ycl3ycmD3///y8vL0lIH0lID0ln/0m4T0n4j0oYv0pI70pY/0p5D0qJD0qI/1qI8AAAD0qI8yA7cZAAAAHXRSTlMAQEFCRVlqbHF/iYyWp8jb6O/y8/T19vf4+fv8/f6lC7BkAAABMklEQVQ4y4VT13KDMBC8JoBtsI17N8G9pP//rwwGacDekGc0o9mV9o7dA5jXm62Cudp/r9vbGbA2ta5RxB/W2g8MVCkkg3yQe5MhjCQ+rqQU21QYJpGRWU1A2O8d1PqMCSVzAIKlNIyCcgZQHjYkM2Gm5pI5DmhRqQx7Vk2qNGBm5SodHc4j/20aAJuZuvSpRw5Vf+s2AyhxP2bcKOSi6k4FICWR2OcZ2WTTgCQwJQe1GlEdSJ+4VwN0xwGz+QzKqOH6WfbcRqC2TRjMPOlnCQ3FwNykf5Fq0mHnFXKfI8Td7qQ7sRpq5GT8W46G5qJ/kFpRz6uUBrz4Bl4R2CacQLU2FJ07MDhifgZWhT9CmcCzobP4aUoV7wIYgX/2PsK3oX+wrOhd6Fk+Fn4L/QfDc0H5oPzYfmQ/Oh+dB8aD40H5oPzYfmQ/Oh+dB8aD40H5oPzYfmQ/Oh+dB8aD40H5oPzYfmQ/Oh+fC/4f8A5XshHa8+qtMAAAAASUVORK5CYII=">
     <style>
+        /* ===== NETLIFY RESET / GLOBAL ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: white;
+            background-color: #f5f8fa;  /* Netlify off-white background */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            color: #1e1e2f; /* near-black, Netlify text */
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            margin: 0;
+            padding: 1.5rem;
         }
 
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 0;
+        /* subtle netlify grid texture / clean container */
+        .maintenance-container {
+            max-width: 640px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(50, 50, 70, 0.08), 0 5px 15px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            border: 1px solid #eaeaef;
         }
 
-        header {
-            text-align: center;
-            padding: 20px 0 10px;
-            position: relative;
-            z-index: 100;
-            background: rgba(15, 12, 41, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(108, 229, 255, 0.1);
+        /* header – netlify teal accent bar + logo area */
+        .top-bar {
+            background: linear-gradient(135deg, #00bfa6 0%, #00bfa6 80%); /* Netlify brand teal */
+            height: 8px;
+            width: 100%;
         }
 
-        .header-content {
-            display: inline-block;
-            position: relative;
+        .logo-area {
+            padding: 2rem 2.5rem 0.5rem 2.5rem;
+            display: flex;
+            align-items: center;
         }
 
-        .logo {
-            font-size: 2.2rem;
-            color: #ff6b9d;
-            margin-bottom: 5px;
-            text-shadow: 0 0 15px rgba(255, 107, 157, 0.5);
+        .logo-svg {
+            height: 36px;
+            width: auto;
+            display: block;
         }
 
-        .logo span {
-            color: #6ce5ff;
+        /* main content */
+        .content {
+            padding: 1rem 2.5rem 2.5rem 2.5rem;
         }
 
         h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(90deg, #ff6b9d, #6ce5ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            color: #b0b0ff;
-            font-size: 0.95rem;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-
-        .main-content {
-            display: flex;
-            height: calc(100vh - 130px);
-            position: relative;
-        }
-
-        /* 3D Viewer - Takes center stage */
-        .viewer-container {
-            flex: 1;
-            position: relative;
-            height: 100%;
-        }
-
-        #threejs-canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-            cursor: grab;
-        }
-
-        /* Floating Control Panel - Bottom Center */
-        .floating-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(20, 20, 40, 0.85);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(108, 229, 255, 0.2);
-            z-index: 50;
-            min-width: 300px;
-            max-width: 500px;
-            transition: all 0.3s ease;
-        }
-
-        .control-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(108, 229, 255, 0.2);
-            padding-bottom: 10px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px 5px;
-            background: transparent;
-            border: none;
-            color: #b0b0ff;
-            cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 2.2rem;
             font-weight: 600;
-            text-align: center;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            margin: 0 5px;
-        }
-
-        .tab-btn:hover {
-            color: #ff6b9d;
-            background: rgba(255, 107, 157, 0.1);
-        }
-
-        .tab-btn.active {
-            color: #6ce5ff;
-            background: rgba(108, 229, 255, 0.15);
-            box-shadow: 0 5px 15px rgba(108, 229, 255, 0.2);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tab-section {
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 1rem;
-            color: #6ce5ff;
-            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            color: #14141f;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
         }
 
-        .size-options, .quantity-options, .category-options {
+        /* small pill for "Planned maintenance" */
+        .pill {
+            background-color: #f0f0f5;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.25rem 1rem;
+            letter-spacing: 0.01em;
+            color: #4a4a5a;
+            border: 1px solid #e2e2ea;
+            display: inline-block;
+            margin-left: 0.75rem;
+            vertical-align: middle;
+        }
+
+        .eta-message {
+            font-size: 1.25rem;
+            background-color: #f1f9fc;
+            border-left: 5px solid #00bfa6;
+            padding: 1.2rem 1.8rem;
+            border-radius: 12px;
+            margin: 1.8rem 0 2rem 0;
+            color: #1b2e3b;
+            font-weight: 450;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .eta-message strong {
+            font-weight: 650;
+            color: #0e2e3b;
+        }
+
+        /* feature grid – like Netlify status updates */
+        .update-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 1.5rem;
+            margin: 2.2rem 0 1.2rem;
         }
 
-        .option-btn {
-            flex: 1;
-            min-width: 80px;
-            padding: 12px 5px;
-            background: rgba(40, 40, 80, 0.5);
-            border: 2px solid rgba(108, 229, 255, 0.2);
-            border-radius: 12px;
-            color: #b0b0ff;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 0.9rem;
+        .grid-item {
+            flex: 1 1 180px;
+            background: #f9fbfc;
+            border-radius: 20px;
+            padding: 1.5rem 1.2rem;
+            border: 1px solid #edf2f5;
+            transition: all 0.1s ease;
         }
 
-        .option-btn:hover {
-            border-color: #ff6b9d;
-            color: #ff6b9d;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.2);
+        .grid-item:hover {
+            border-color: #cbd5e0;
+            background: #ffffff;
         }
 
-        .option-btn.active {
-            background: rgba(255, 107, 157, 0.2);
-            border-color: #ff6b9d;
-            color: #ff6b9d;
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        .grid-item .icon {
+            font-size: 2rem;
+            margin-bottom: 0.6rem;
+            line-height: 1;
         }
 
-        .sweet-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .sweet-grid::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .sweet-grid::-webkit-scrollbar-track {
-            background: rgba(108, 229, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        .sweet-grid::-webkit-scrollbar-thumb {
-            background: #6ce5ff;
-            border-radius: 10px;
-        }
-
-        .sweet-item {
-            background: rgba(40, 40, 80, 0.4);
-            border-radius: 10px;
-            padding: 12px 8px;
-            border: 2px solid rgba(108, 229, 255, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .sweet-item:hover {
-            border-color: #ff6b9d;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.2);
-        }
-
-        .sweet-item.selected {
-            background: rgba(255, 107, 157, 0.15);
-            border-color: #ff6b9d;
-            box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
-        }
-
-        .sweet-icon {
-            width: 35px;
-            height: 35px;
-            margin: 0 auto 8px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .grid-item h3 {
             font-size: 1rem;
-            color: white;
-            font-weight: bold;
-            background: linear-gradient(135deg, #ff6b9d, #6ce5ff);
-        }
-
-        .sweet-name {
             font-weight: 600;
-            font-size: 0.8rem;
-            margin-bottom: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #4f5d68;
+            margin-bottom: 0.25rem;
         }
 
-        .sweet-price {
-            color: #6ce5ff;
-            font-weight: 600;
-            font-size: 0.75rem;
-            margin-bottom: 5px;
+        .grid-item p {
+            font-size: 0.95rem;
+            color: #2e3b45;
+            font-weight: 400;
         }
 
-        .sweet-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 5px;
+        .deploy-disabled {
+            background-color: #fff5eb;
+            border-color: #ffd8bf;
         }
 
-        .quantity-btn-small {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(108, 229, 255, 0.3);
-            color: white;
-            cursor: pointer;
+        .deploy-disabled p {
+            color: #884d24;
+        }
+
+        /* little status footer */
+        .status-footer {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #edf2f7;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-
-        .quantity-btn-small:hover {
-            background: rgba(255, 107, 157, 0.7);
-        }
-
-        .quantity-display {
-            font-weight: 600;
-            font-size: 0.85rem;
-            min-width: 20px;
-            text-align: center;
-        }
-
-        /* Stats Panel - Top Right */
-        .stats-panel {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(20, 20, 40, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid rgba(108, 229, 255, 0.2);
-            z-index: 100;
-            min-width: 180px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .stat-row {
-            display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            flex-wrap: wrap;
+            color: #5e6e7c;
             font-size: 0.9rem;
         }
 
-        .stat-label {
-            color: #b0b0ff;
+        .status-footer a {
+            color: #00bfa6;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dashed #b0d9d1;
         }
 
-        .stat-value {
-            color: #6ce5ff;
-            font-weight: 600;
+        .status-footer a:hover {
+            color: #008f7a;
+            border-bottom: 1px solid #008f7a;
         }
 
-        /* Viewer Controls - Bottom Right */
-        .viewer-controls {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 100;
-        }
-
-        .control-btn {
-            background: rgba(20, 20, 40, 0.8);
-            border: 1px solid rgba(108, 229, 255, 0.3);
-            color: #6ce5ff;
-            width: 45px;
-            height: 45px;
+        .netlify-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: #f4b740; /* maintenance / warning amber */
             border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 0 2px #ffe5c4;
+        }
+
+        .status-text {
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
         }
 
-        .control-btn:hover {
-            background: rgba(108, 229, 255, 0.2);
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(108, 229, 255, 0.4);
-        }
-
-        /* Cart Panel - Top Left */
-        .cart-panel {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(20, 20, 40, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(108, 229, 255, 0.2);
-            z-index: 100;
-            min-width: 250px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .cart-title {
-            font-size: 1.1rem;
-            color: #6ce5ff;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed rgba(108, 229, 255, 0.1);
-            font-size: 0.9rem;
-        }
-
-        .summary-row.total {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #ff6b9d;
-            border-bottom: none;
-            padding-top: 10px;
-            margin-top: 10px;
-            border-top: 2px solid rgba(108, 229, 255, 0.2);
-        }
-
-        .cart-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .cart-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .reset-btn {
-            background: rgba(108, 229, 255, 0.1);
-            color: #6ce5ff;
-            border: 1px solid rgba(108, 229, 255, 0.3);
-        }
-
-        .reset-btn:hover {
-            background: rgba(108, 229, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 229, 255, 0.3);
-        }
-
-        .add-cart-btn {
-            background: linear-gradient(90deg, #ff6b9d, #ff8e6b);
-            color: white;
-            border: none;
-        }
-
-        .add-cart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
-            background: linear-gradient(90deg, #ff8e6b, #ff6b9d);
-        }
-
-        /* Loading Overlay */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 30, 0.95);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-        }
-
-        .loader {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(108, 229, 255, 0.3);
-            border-top: 5px solid #ff6b9d;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(20, 20, 40, 0.95);
-            border: 1px solid #ff6b9d;
-            border-left: 5px solid #ff6b9d;
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            transform: translateX(100%);
-            opacity: 0;
-            transition: all 0.5s ease;
-            max-width: 300px;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        footer {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            padding: 10px;
-            color: #b0b0ff;
+        /* small print / meta */
+        .footnote {
+            margin-top: 2rem;
             font-size: 0.8rem;
-            z-index: 90;
+            color: #8c9aa8;
+            text-align: center;
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 1024px) {
-            .main-content {
-                height: calc(100vh - 120px);
+        /* responsive */
+        @media (max-width: 550px) {
+            .content, .logo-area {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
             }
-            
-            .floating-controls {
-                min-width: 280px;
-                max-width: 400px;
-                padding: 15px;
-            }
-            
-            .cart-panel, .stats-panel {
-                min-width: 200px;
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                height: calc(100vh - 110px);
-            }
-            
             h1 {
-                font-size: 1.4rem;
-            }
-            
-            .logo {
                 font-size: 1.8rem;
+                flex-wrap: wrap;
             }
-            
-            .floating-controls {
-                bottom: 10px;
-                min-width: 95%;
-                max-width: 95%;
-            }
-            
-            .cart-panel, .stats-panel {
-                min-width: 180px;
-                padding: 12px;
-            }
-            
-            .viewer-controls {
-                bottom: 10px;
-                right: 10px;
-            }
-            
-            .control-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-            
-            .sweet-grid {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            .pill {
+                margin-left: 0;
             }
         }
 
-        @media (max-width: 480px) {
-            .floating-controls {
-                padding: 12px;
-            }
-            
-            .cart-panel, .stats-panel {
-                position: relative;
-                top: auto;
-                left: auto;
-                margin: 10px;
-                width: calc(100% - 20px);
-            }
-            
-            .main-content {
-                flex-direction: column;
-                height: auto;
-            }
-            
-            .viewer-container {
-                height: 400px;
-            }
-            
-            .cart-panel, .stats-panel {
-                display: none;
-            }
-            
-            .mobile-summary {
-                display: block;
-                background: rgba(20, 20, 40, 0.9);
-                padding: 15px;
-                margin: 10px;
-                border-radius: 15px;
-            }
+        /* emulate Netlify's monospaced timestamp */
+        .timestamp {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+            background: #ecf3f7;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #1e3b4c;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-gem"></i> SWEET<span>3D</span>
-                </div>
-                <h1>Immersive 3D Sweet Box Customizer</h1>
-                <p class="subtitle">Design your perfect sweet box in stunning 3D. Rotate, zoom, and customize with real-time visualization.</p>
-            </div>
-        </header>
+    <div class="maintenance-container">
+        <div class="top-bar"></div>
 
-        <div class="main-content">
-            <!-- 3D Viewer - Center Stage -->
-            <div class="viewer-container">
-                <div class="loading-overlay" id="loading-overlay">
-                    <div class="loader"></div>
-                    <div style="margin-top: 15px; color: #6ce5ff; font-size: 1.1rem;">
-                        Loading 3D Environment...
-                    </div>
-                    <div style="color: #b0b0ff; margin-top: 10px; font-size: 0.9rem;">
-                        This may take a moment on first load
-                    </div>
-                </div>
-                
-                <canvas id="threejs-canvas"></canvas>
-                
-                <!-- Cart Panel - Top Left -->
-                <div class="cart-panel">
-                    <div class="cart-title">Order Summary</div>
-                    <div class="summary-row">
-                        <span>Box Size:</span>
-                        <span id="summary-size">Small</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Box Quantity:</span>
-                        <span id="summary-quantity">1</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Selected Sweets:</span>
-                        <span id="summary-sweets">0</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Base Price:</span>
-                        <span id="summary-base-price">$12.99</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Sweets Cost:</span>
-                        <span id="summary-sweets-price">$0.00</span>
-                    </div>
-                    <div class="summary-row total">
-                        <span>Total Price:</span>
-                        <span id="summary-total-price">$12.99</span>
-                    </div>
-                    
-                    <div class="cart-actions">
-                        <button class="cart-btn reset-btn" id="reset-btn">
-                            <i class="fas fa-redo"></i> Reset
-                        </button>
-                        <button class="cart-btn add-cart-btn" id="add-to-cart-btn">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Stats Panel - Top Right -->
-                <div class="stats-panel">
-                    <div class="stat-row">
-                        <span class="stat-label">Box Size:</span>
-                        <span class="stat-value" id="stat-box">Small</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Capacity:</span>
-                        <span class="stat-value" id="stat-capacity">12/12</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">View Mode:</span>
-                        <span class="stat-value" id="stat-view">Auto Rotate</span>
-                    </div>
-                </div>
-                
-                <!-- Viewer Controls - Bottom Right -->
-                <div class="viewer-controls">
-                    <div class="control-btn" id="rotate-btn" title="Toggle Auto Rotate">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <div class="control-btn" id="reset-view-btn" title="Reset View">
-                        <i class="fas fa-crosshairs"></i>
-                    </div>
-                    <div class="control-btn" id="zoom-in-btn" title="Zoom In">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                    <div class="control-btn" id="zoom-out-btn" title="Zoom Out">
-                        <i class="fas fa-search-minus"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Floating Control Panel - Bottom Center -->
-            <div class="floating-controls">
-                <div class="control-tabs">
-                    <button class="tab-btn active" data-tab="size">Box Size</button>
-                    <button class="tab-btn" data-tab="quantity">Quantity</button>
-                    <button class="tab-btn" data-tab="chocolates">Chocolates</button>
-                    <button class="tab-btn" data-tab="candies">Candies</button>
-                    <button class="tab-btn" data-tab="traditional">Traditional</button>
-                </div>
-                
-                <!-- Size Tab -->
-                <div class="tab-content active" id="size-tab">
-                    <div class="tab-section">
-                        <div class="section-title">
-                            <span>Select Box Size</span>
-                            <span id="capacity-info">Capacity: 12 sweets</span>
-                        </div>
-                        <div class="size-options">
-                            <div class="option-btn size-btn active" data-size="small">
-                                Small
-                                <div style="font-size: 0.75rem; color: #6ce5ff; margin-top: 3px;">12 sweets</div>
-                            </div>
-                            <div class="option-btn size-btn" data-size="medium">
-                                Medium
-                                <div style="font-size: 0.75rem; color: #6ce5ff; margin-top: 3px;">25 sweets</div>
-                            </div>
-                            <div class="option-btn size-btn" data-size="large">
-                                Large
-                                <div style="font-size: 0.75rem; color: #6ce5ff; margin-top: 3px;">45 sweets</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Quantity Tab -->
-                <div class="tab-content" id="quantity-tab">
-                    <div class="tab-section">
-                        <div class="section-title">
-                            <span>Select Quantity</span>
-                            <span id="quantity-info">Current: 1 box</span>
-                        </div>
-                        <div class="quantity-options">
-                            <div class="option-btn quantity-btn active" data-quantity="1">1 Box</div>
-                            <div class="option-btn quantity-btn" data-quantity="2">2 Boxes</div>
-                            <div class="option-btn quantity-btn" data-quantity="3">3 Boxes</div>
-                            <div class="option-btn quantity-btn" data-quantity="4">4 Boxes</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Chocolates Tab -->
-                <div class="tab-content" id="chocolates-tab">
-                    <div class="tab-section">
-                        <div class="section-title">
-                            <span>Chocolates</span>
-                            <span class="category-count" id="chocolate-count">Selected: 0</span>
-                        </div>
-                        <div class="sweet-grid" id="chocolate-items">
-                            <!-- Chocolate items will be populated by JS -->
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Candies Tab -->
-                <div class="tab-content" id="candies-tab">
-                    <div class="tab-section">
-                        <div class="section-title">
-                            <span>Hard Candies</span>
-                            <span class="category-count" id="candy-count">Selected: 0</span>
-                        </div>
-                        <div class="sweet-grid" id="candy-items">
-                            <!-- Candy items will be populated by JS -->
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Traditional Tab -->
-                <div class="tab-content" id="traditional-tab">
-                    <div class="tab-section">
-                        <div class="section-title">
-                            <span>Traditional Sweets</span>
-                            <span class="category-count" id="traditional-count">Selected: 0</span>
-                        </div>
-                        <div class="sweet-grid" id="traditional-items">
-                            <!-- Traditional sweet items will be populated by JS -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- logo area (exact netlify logotype in clean SVG) -->
+        <div class="logo-area">
+            <svg class="logo-svg" viewBox="0 0 112 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.92 8.78L13.2 14.5L18.92 20.22L24.64 14.5L18.92 8.78Z" fill="#00BFA6"/>
+                <path d="M5.72 14.5L0 8.78L5.72 3.06L11.44 8.78L5.72 14.5Z" fill="#00BFB3"/>
+                <path d="M18.92 3.06L13.2 8.78L18.92 14.5L24.64 8.78L18.92 3.06Z" fill="#00BF9F"/>
+                <path d="M32.12 14.5L26.4 8.78L20.68 14.5L26.4 20.22L32.12 14.5Z" fill="#00BFA6"/>
+                <path d="M45.32 8.78L39.6 14.5L45.32 20.22L51.04 14.5L45.32 8.78Z" fill="#00BF8F"/>
+                <path d="M32.12 20.22L26.4 25.94L32.12 31.66L37.84 25.94L32.12 20.22Z" fill="#00BFB3"/>
+                <path fill="#1E1E2F" d="M64.42 10.8H60.14V22.8H64.42V10.8Z"/>
+                <path fill="#1E1E2F" d="M86.02 10.8H81.74V16.52H76.02V10.8H71.74V22.8H76.02V19.98H81.74V22.8H86.02V10.8Z"/>
+                <path fill="#1E1E2F" d="M99.22 18.28L95.42 14.48V22.8H91.14V10.8H95.42L99.22 14.6L103.02 10.8H107.3V22.8H103.02V14.48L99.22 18.28Z"/>
+                <path fill="#1E1E2F" d="M112 22.8V10.8H107.72V22.8H112Z"/>
+                <path fill="#1E1E2F" d="M60.14 26.8H55.86V31.08H60.14V26.8Z"/>
+            </svg>
         </div>
-        
-        <footer>
-            <p>3D Sweet Box Customizer &copy; 2023 | Powered by Three.js | Designed for Next-Gen E-Commerce</p>
-        </footer>
-    </div>
 
-    <!-- Notification element -->
-    <div class="notification" id="notification">
-        <div style="font-weight: 600; color: #ff6b9d; margin-bottom: 5px;" id="notification-title">Success!</div>
-        <div style="color: #b0b0ff;" id="notification-message">Your action was completed successfully.</div>
-    </div>
+        <div class="content">
+            <!-- headline with subtle pill -->
+            <h1>
+                Under maintenance
+                <span class="pill">planned</span>
+            </h1>
 
-    <script>
-        // Sweet data with 3D model references
-        const sweetsData = {
-            chocolates: [
-                { id: 1, name: "Milk Chocolate", price: 1.50, color: "#8B4513", icon: "🍫" },
-                { id: 2, name: "Dark Chocolate", price: 1.75, color: "#3D1C02", icon: "🍫" },
-                { id: 3, name: "White Chocolate", price: 1.60, color: "#F5F5DC", icon: "🍬" },
-                { id: 4, name: "Caramel Filled", price: 1.90, color: "#D2691E", icon: "🍯" },
-                { id: 5, name: "Hazelnut Praline", price: 2.00, color: "#A0522D", icon: "🌰" },
-                { id: 6, name: "Mint Chocolate", price: 1.65, color: "#98FB98", icon: "🌿" }
-            ],
-            candies: [
-                { id: 7, name: "Peppermint Candy", price: 0.75, color: "#FF69B4", icon: "🍬" },
-                { id: 8, name: "Butterscotch", price: 0.80, color: "#FFD700", icon: "🍬" },
-                { id: 9, name: "Lollipop", price: 1.20, color: "#FF6347", icon: "🍭" },
-                { id: 10, name: "Jelly Beans", price: 0.50, color: "#9370DB", icon: "🍬" },
-                { id: 11, name: "Fruit Drops", price: 0.65, color: "#32CD32", icon: "🍎" },
-                { id: 12, name: "Toffee", price: 1.10, color: "#8B4513", icon: "🍬" }
-            ],
-            traditional: [
-                { id: 13, name: "Turkish Delight", price: 1.25, color: "#DA70D6", icon: "🕌" },
-                { id: 14, name: "Fudge", price: 1.40, color: "#DEB887", icon: "🍫" },
-                { id: 15, name: "Marzipan", price: 1.30, color: "#FFE4C4", icon: "🥜" },
-                { id: 16, name: "Gulab Jamun", price: 1.60, color: "#8B0000", icon: "🍡" },
-                { id: 17, name: "Rasgulla", price: 1.55, color: "#FFFFFF", icon: "🍡" },
-                { id: 18, name: "Barfi", price: 1.45, color: "#FFD700", icon: "🍬" }
-            ]
-        };
+            <!-- main user-friendly message: exactly the 2-3 hour window -->
+            <div class="eta-message">
+                <strong>⏳ 2–3 hours maintenance window</strong><br>
+                The Netlify platform is currently undergoing scheduled improvements.<br>
+                <span style="display: inline-block; margin-top: 0.6rem; background: white; padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.9rem;" class="timestamp">Started: 14:30 UTC · expected completion ~17:30 UTC</span>
+            </div>
 
-        // Box sizes with capacity and base price
-        const boxSizes = {
-            small: { capacity: 12, basePrice: 12.99, scale: 1.0 },
-            medium: { capacity: 25, basePrice: 22.99, scale: 1.3 },
-            large: { capacity: 45, basePrice: 39.99, scale: 1.6 }
-        };
+            <!-- what this means: exactly like netlify's deploy / ui status -->
+            <p style="font-size: 1.05rem; margin-bottom: 1.2rem; color: #2a3b47;">During this period you may experience:</p>
 
-        // State management
-        let currentState = {
-            boxSize: "small",
-            boxQuantity: 1,
-            selectedSweets: {},
-            maxCapacity: boxSizes.small.capacity
-        };
-
-        // Three.js variables
-        let scene, camera, renderer, controls;
-        let boxModel = null;
-        let placedSweets = [];
-        let autoRotate = true;
-        let isDragging = false;
-        let mouseX = 0, mouseY = 0;
-        let targetRotationX = 0, targetRotationY = 0;
-        let currentRotationX = 0, currentRotationY = 0;
-
-        // DOM elements
-        const threeCanvas = document.getElementById('threejs-canvas');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const sizeBtns = document.querySelectorAll('.size-btn');
-        const quantityBtns = document.querySelectorAll('.quantity-btn');
-        const resetBtn = document.getElementById('reset-btn');
-        const addToCartBtn = document.getElementById('add-to-cart-btn');
-        const rotateBtn = document.getElementById('rotate-btn');
-        const resetViewBtn = document.getElementById('reset-view-btn');
-        const zoomInBtn = document.getElementById('zoom-in-btn');
-        const zoomOutBtn = document.getElementById('zoom-out-btn');
-        
-        // Stats elements
-        const statBox = document.getElementById('stat-box');
-        const statCapacity = document.getElementById('stat-capacity');
-        const statView = document.getElementById('stat-view');
-        
-        // Summary elements
-        const capacityInfo = document.getElementById('capacity-info');
-        const quantityInfo = document.getElementById('quantity-info');
-        const summarySize = document.getElementById('summary-size');
-        const summaryQuantity = document.getElementById('summary-quantity');
-        const summarySweets = document.getElementById('summary-sweets');
-        const summaryBasePrice = document.getElementById('summary-base-price');
-        const summarySweetsPrice = document.getElementById('summary-sweets-price');
-        const summaryTotalPrice = document.getElementById('summary-total-price');
-        
-        // Count elements
-        const chocolateCount = document.getElementById('chocolate-count');
-        const candyCount = document.getElementById('candy-count');
-        const traditionalCount = document.getElementById('traditional-count');
-        
-        // Notification element
-        const notification = document.getElementById('notification');
-        const notificationTitle = document.getElementById('notification-title');
-        const notificationMessage = document.getElementById('notification-message');
-
-        // Initialize the app
-        function initApp() {
-            renderSweetItems();
-            updateUI();
-            setupEventListeners();
-            initThreeJS();
-            setupTabNavigation();
-        }
-
-        // Setup tab navigation
-        function setupTabNavigation() {
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Remove active class from all tabs
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked tab
-                    btn.classList.add('active');
-                    const tabId = btn.dataset.tab;
-                    document.getElementById(`${tabId}-tab`).classList.add('active');
-                    
-                    // Special handling for sweet tabs
-                    if (tabId === 'chocolates' || tabId === 'candies' || tabId === 'traditional') {
-                        updateSweetItemControls();
-                    }
-                });
-            });
-        }
-
-        // Initialize Three.js scene
-        function initThreeJS() {
-            // Create scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0a0a1e);
-            scene.fog = new THREE.Fog(0x0a0a1e, 10, 30);
-
-            // Create camera
-            camera = new THREE.PerspectiveCamera(45, threeCanvas.clientWidth / threeCanvas.clientHeight, 0.1, 1000);
-            camera.position.set(0, 5, 15);
-
-            // Create renderer
-            renderer = new THREE.WebGLRenderer({ 
-                canvas: threeCanvas, 
-                antialias: true,
-                alpha: true 
-            });
-            renderer.setSize(threeCanvas.clientWidth, threeCanvas.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-            // Add orbit controls
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            controls.rotateSpeed = 0.5;
-            controls.minDistance = 5;
-            controls.maxDistance = 30;
-            controls.enablePan = false;
-
-            // Add lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            scene.add(ambientLight);
-
-            const directionalLight = new THREE.DirectionalLight(0xff6b9d, 0.8);
-            directionalLight.position.set(10, 20, 15);
-            directionalLight.castShadow = true;
-            directionalLight.shadow.camera.left = -20;
-            directionalLight.shadow.camera.right = 20;
-            directionalLight.shadow.camera.top = 20;
-            directionalLight.shadow.camera.bottom = -20;
-            scene.add(directionalLight);
-
-            const directionalLight2 = new THREE.DirectionalLight(0x6ce5ff, 0.5);
-            directionalLight2.position.set(-10, 10, -10);
-            scene.add(directionalLight2);
-
-            const pointLight = new THREE.PointLight(0x6ce5ff, 0.5, 50);
-            pointLight.position.set(0, 10, 0);
-            scene.add(pointLight);
-
-            // Add a subtle background effect
-            createBackgroundEffects();
-
-            // Load box model
-            loadBoxModel();
-
-            // Start animation loop
-            animate();
-
-            // Handle window resize
-            window.addEventListener('resize', onWindowResize);
-            
-            // Mouse events for custom rotation
-            threeCanvas.addEventListener('mousedown', onMouseDown);
-            threeCanvas.addEventListener('mousemove', onMouseMove);
-            threeCanvas.addEventListener('mouseup', onMouseUp);
-            threeCanvas.addEventListener('wheel', onMouseWheel);
-        }
-
-        // Create background effects (floating particles)
-        function createBackgroundEffects() {
-            const particleCount = 100;
-            const particles = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-            
-            for (let i = 0; i < particleCount * 3; i += 3) {
-                positions[i] = (Math.random() - 0.5) * 50;
-                positions[i + 1] = (Math.random() - 0.5) * 30;
-                positions[i + 2] = (Math.random() - 0.5) * 50;
-            }
-            
-            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            
-            const particleMaterial = new THREE.PointsMaterial({
-                color: 0x6ce5ff,
-                size: 0.1,
-                transparent: true,
-                opacity: 0.3
-            });
-            
-            const particleSystem = new THREE.Points(particles, particleMaterial);
-            scene.add(particleSystem);
-            
-            // Animate particles
-            function animateParticles() {
-                const positions = particles.attributes.position.array;
-                for (let i = 0; i < positions.length; i += 3) {
-                    positions[i + 1] += 0.001;
-                    if (positions[i + 1] > 15) positions[i + 1] = -15;
-                }
-                particles.attributes.position.needsUpdate = true;
-            }
-            
-            // Store reference for animation loop
-            scene.userData.particleSystem = particleSystem;
-            scene.userData.animateParticles = animateParticles;
-        }
-
-        function loadBoxModel() {
-            const loader = new THREE.GLTFLoader();
-            
-            // REQUIRED for DRACO compressed models
-            const dracoLoader = new THREE.DRACOLoader();
-            dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
-            loader.setDRACOLoader(dracoLoader);
-            
-            loader.load(
-                'assets/models/Palm Tree Box - 25 Pc (Open).glb',
-                function(gltf) {
-                    boxModel = gltf.scene;
-                    
-                    // Adjust scale and position if needed
-                    boxModel.scale.set(1.5, 1.5, 1.5);
-                    boxModel.position.set(0, 0, 0);
-                    
-                    // Enable shadows
-                    boxModel.traverse(function(node) {
-                        if (node.isMesh) {
-                            node.castShadow = true;
-                            node.receiveShadow = true;
-                            
-                            // Optional: Adjust material properties
-                            if (node.material) {
-                                node.material.metalness = 0.1;
-                                node.material.roughness = 0.5;
-                            }
-                        }
-                    });
-                    
-                    scene.add(boxModel);
-                    
-                    // Store for animations
-                    boxModel.userData.originalY = boxModel.position.y;
-                    boxModel.userData.floatDirection = 1;
-                    
-                    console.log("Box model loaded successfully!");
-                    
-                    // Hide loading overlay
-                    loadingOverlay.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingOverlay.style.display = 'none';
-                        showNotification("3D Environment Ready", "Your sweet box is now loaded!");
-                    }, 500);
-                },
-                function(xhr) {
-                    // Progress callback
-                    const percent = (xhr.loaded / xhr.total * 100);
-                    console.log(percent + '% loaded');
-                    
-                    // Update loading text
-                    const loadingText = document.querySelector('.loading-overlay div:nth-child(3)');
-                    if (loadingText && percent < 100) {
-                        loadingText.textContent = `Loading... ${Math.round(percent)}%`;
-                    }
-                },
-                function(error) {
-                    console.error('Error loading box model:', error);
-                    
-                    // Show error message
-                    loadingOverlay.innerHTML = `
-                        <div style="color: #ff6b9d; font-size: 1.5rem; margin-bottom: 20px;">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <div style="color: #ff6b9d; font-size: 1.1rem; margin-bottom: 10px;">
-                            Failed to load 3D model
-                        </div>
-                        <div style="color: #b0b0ff; font-size: 0.9rem; text-align: center; max-width: 300px;">
-                            ${error.message || 'Please check your model path'}
-                        </div>
-                        <button id="retry-load" style="margin-top: 20px; padding: 10px 20px; background: #ff6b9d; color: white; border: none; border-radius: 8px; cursor: pointer;">
-                            Retry Loading
-                        </button>
-                    `;
-                    
-                    document.getElementById('retry-load').addEventListener('click', function() {
-                        loadingOverlay.innerHTML = `
-                            <div class="loader"></div>
-                            <div style="margin-top: 15px; color: #6ce5ff; font-size: 1.1rem;">
-                                Loading 3D Environment...
-                            </div>
-                            <div style="color: #b0b0ff; margin-top: 10px; font-size: 0.9rem;">
-                                This may take a moment on first load
-                            </div>
-                        `;
-                        loadBoxModel();
-                    });
-                }
-            );
-        }
-
-        // Load sweet model (placeholder)
-        function loadSweetModel(sweetId, color) {
-            const sweetGroup = new THREE.Group();
-            
-            // Sweet base (sphere)
-            const sweetGeometry = new THREE.SphereGeometry(0.4, 16, 16);
-            const sweetMaterial = new THREE.MeshStandardMaterial({ 
-                color: new THREE.Color(color),
-                roughness: 0.3,
-                metalness: 0.1
-            });
-            const sweet = new THREE.Mesh(sweetGeometry, sweetMaterial);
-            sweet.castShadow = true;
-            sweet.receiveShadow = true;
-            sweetGroup.add(sweet);
-            
-            // Sweet topping (small sphere)
-            const toppingGeometry = new THREE.SphereGeometry(0.15, 8, 8);
-            const toppingMaterial = new THREE.MeshStandardMaterial({ 
-                color: 0xffffff,
-                roughness: 0.2,
-                metalness: 0.5
-            });
-            const topping = new THREE.Mesh(toppingGeometry, toppingMaterial);
-            topping.position.y = 0.4;
-            topping.castShadow = true;
-            sweetGroup.add(topping);
-            
-            return sweetGroup;
-        }
-
-        // Place a sweet in the box
-        function placeSweetInBox(sweetId, sweetData) {
-            if (!boxModel) return null;
-            
-            const totalSweets = getTotalSelectedSweets();
-            const maxSweets = currentState.maxCapacity;
-            
-            // Create sweet model
-            const sweetModel = loadSweetModel(sweetId, sweetData.color);
-            
-            // Calculate position in the box (grid pattern)
-            const rows = 3;
-            const cols = Math.ceil(maxSweets / rows);
-            const sweetIndex = totalSweets % maxSweets;
-            
-            const row = Math.floor(sweetIndex / cols);
-            const col = sweetIndex % cols;
-            
-            const spacing = 1.2;
-            const x = (col - cols/2) * spacing + (Math.random() * 0.2 - 0.1);
-            const z = (row - rows/2) * spacing + (Math.random() * 0.2 - 0.1);
-            const y = 0.8 + Math.random() * 0.2;
-            
-            sweetModel.position.set(x, y, z);
-            
-            // Add slight random rotation
-            sweetModel.rotation.x = Math.random() * Math.PI;
-            sweetModel.rotation.y = Math.random() * Math.PI;
-            sweetModel.rotation.z = Math.random() * Math.PI;
-            
-            // Scale based on box size
-            const scale = boxSizes[currentState.boxSize].scale * 0.3;
-            sweetModel.scale.set(scale, scale, scale);
-            
-            // Add to scene and store reference
-            scene.add(sweetModel);
-            sweetModel.userData.sweetId = sweetId;
-            placedSweets.push(sweetModel);
-            
-            // Add floating animation
-            sweetModel.userData.floatDirection = 1;
-            sweetModel.userData.originalY = y;
-            sweetModel.userData.floatSpeed = 0.5 + Math.random() * 0.5;
-            
-            return sweetModel;
-        }
-
-        // Update sweets in the 3D box
-        function update3DBox() {
-            // Clear existing sweets
-            placedSweets.forEach(sweet => scene.remove(sweet));
-            placedSweets = [];
-            
-            // Place new sweets
-            Object.keys(currentState.selectedSweets).forEach(sweetId => {
-                const sweetIdNum = parseInt(sweetId);
-                const quantity = currentState.selectedSweets[sweetId];
-                
-                // Find the sweet data
-                let sweetData = null;
-                for (const category in sweetsData) {
-                    const found = sweetsData[category].find(s => s.id === sweetIdNum);
-                    if (found) {
-                        sweetData = found;
-                        break;
-                    }
-                }
-                
-                if (sweetData) {
-                    // Place multiple instances if quantity > 1
-                    for (let i = 0; i < quantity; i++) {
-                        const instanceId = parseInt(`${sweetId}${i}`);
-                        placeSweetInBox(instanceId, sweetData);
-                    }
-                }
-            });
-        }
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            // Update controls
-            controls.update();
-            
-            // Auto-rotate if enabled
-            if (autoRotate && !isDragging && boxModel) {
-                boxModel.rotation.y += 0.003;
-            }
-            
-            // Animate box floating
-            if (boxModel) {
-                boxModel.position.y = boxModel.userData.originalY + Math.sin(Date.now() * 0.001) * 0.1;
-            }
-            
-            // Animate sweets floating
-            placedSweets.forEach(sweet => {
-                const time = Date.now() * 0.001 * sweet.userData.floatSpeed;
-                sweet.position.y = sweet.userData.originalY + Math.sin(time) * 0.1;
-                sweet.rotation.y += 0.01;
-            });
-            
-            // Animate particles if present
-            if (scene.userData.animateParticles) {
-                scene.userData.animateParticles();
-            }
-            
-            // Smooth rotation for mouse drag
-            currentRotationX += (targetRotationX - currentRotationX) * 0.05;
-            currentRotationY += (targetRotationY - currentRotationY) * 0.05;
-            
-            if (isDragging && boxModel) {
-                boxModel.rotation.y = currentRotationY;
-                boxModel.rotation.x = currentRotationX;
-            }
-            
-            renderer.render(scene, camera);
-        }
-
-        // Window resize handler
-        function onWindowResize() {
-            camera.aspect = threeCanvas.clientWidth / threeCanvas.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(threeCanvas.clientWidth, threeCanvas.clientHeight);
-        }
-
-        // Mouse event handlers
-        function onMouseDown(event) {
-            isDragging = true;
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-            
-            controls.enabled = false;
-            threeCanvas.style.cursor = 'grabbing';
-        }
-
-        function onMouseMove(event) {
-            if (!isDragging) return;
-            
-            const deltaX = event.clientX - mouseX;
-            const deltaY = event.clientY - mouseY;
-            
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-            
-            targetRotationY += deltaX * 0.01;
-            targetRotationX += deltaY * 0.01;
-            
-            targetRotationX = Math.max(-Math.PI/3, Math.min(Math.PI/3, targetRotationX));
-        }
-
-        function onMouseUp() {
-            isDragging = false;
-            controls.enabled = true;
-            threeCanvas.style.cursor = 'grab';
-        }
-
-        function onMouseWheel(event) {
-            const zoomSpeed = 0.1;
-            if (event.deltaY < 0) {
-                camera.position.z = Math.max(5, camera.position.z - zoomSpeed);
-            } else {
-                camera.position.z = Math.min(30, camera.position.z + zoomSpeed);
-            }
-        }
-
-        // Render sweet items
-        function renderSweetItems() {
-            const chocolateContainer = document.getElementById('chocolate-items');
-            sweetsData.chocolates.forEach(sweet => {
-                chocolateContainer.appendChild(createSweetItemElement(sweet));
-            });
-
-            const candyContainer = document.getElementById('candy-items');
-            sweetsData.candies.forEach(sweet => {
-                candyContainer.appendChild(createSweetItemElement(sweet));
-            });
-
-            const traditionalContainer = document.getElementById('traditional-items');
-            sweetsData.traditional.forEach(sweet => {
-                traditionalContainer.appendChild(createSweetItemElement(sweet));
-            });
-        }
-
-        // Create a sweet item element
-        function createSweetItemElement(sweet) {
-            const div = document.createElement('div');
-            div.className = 'sweet-item';
-            div.dataset.id = sweet.id;
-            
-            div.innerHTML = `
-                <div class="sweet-icon">${sweet.icon}</div>
-                <div class="sweet-name">${sweet.name}</div>
-                <div class="sweet-price">$${sweet.price.toFixed(2)}</div>
-                <div class="sweet-controls">
-                    <button class="quantity-btn-small decrease-btn">-</button>
-                    <span class="quantity-display">${currentState.selectedSweets[sweet.id] || 0}</span>
-                    <button class="quantity-btn-small increase-btn">+</button>
+            <div class="update-grid">
+                <div class="grid-item">
+                    <div class="icon">🌐</div>
+                    <h3>UI & API</h3>
+                    <p>Netlify Dashboard and API requests are temporarily unavailable.</p>
                 </div>
-            `;
-            
-            return div;
-        }
+                <div class="grid-item deploy-disabled">
+                    <div class="icon">🚫</div>
+                    <h3>Deploys paused</h3>
+                    <p>Builds and deploys are queued. They will automatically resume once maintenance is complete.</p>
+                </div>
+                <div class="grid-item">
+                    <div class="icon">🔒</div>
+                    <h3>Sites & CDN</h3>
+                    <p>Deployed sites continue to run normally. Edge network is unaffected.</p>
+                </div>
+            </div>
 
-        // Set up event listeners
-        function setupEventListeners() {
-            // Box size selection
-            sizeBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    sizeBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    const size = btn.dataset.size;
-                    currentState.boxSize = size;
-                    currentState.maxCapacity = boxSizes[size].capacity;
-                    
-                    trimExcessSweets();
-                    
-                    if (boxModel) {
-                        const scale = boxSizes[size].scale * 1.5;
-                        boxModel.scale.set(scale, scale, scale);
-                    }
-                    
-                    update3DBox();
-                    updateUI();
-                    
-                    showNotification("Box Size Changed", `Now using ${size} box (${boxSizes[size].capacity} sweets capacity)`);
-                });
-            });
+            <!-- extra realistic note: typical Netlify style for "meanwhille" -->
+            <div style="background: #f4f9fd; border-radius: 50px; padding: 0.8rem 1.6rem; margin: 2rem 0 1rem; display: inline-block; font-size: 0.9rem; border: 1px solid #d6e4ed;">
+                <span style="font-weight: 500;">🛠️ We’ll be back online shortly</span> — thank you for your patience
+            </div>
 
-            // Quantity selection
-            quantityBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    quantityBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    currentState.boxQuantity = parseInt(btn.dataset.quantity);
-                    updateUI();
-                });
-            });
+            <!-- status footer with netlify-like indicator and links -->
+            <div class="status-footer">
+                <div class="status-text">
+                    <span class="netlify-dot"></span> 
+                    <span><strong>Status:</strong> maintenance in progress (2–3 hours)</span>
+                </div>
+                <div>
+                    <a href="#">status.netlify.com</a> · <a href="#">support</a>
+                </div>
+            </div>
 
-            // Sweet item event delegation
-            document.addEventListener('click', (e) => {
-                const sweetItem = e.target.closest('.sweet-item');
-                if (!sweetItem) return;
-                
-                const sweetId = parseInt(sweetItem.dataset.id);
-                
-                let sweet = null;
-                for (const category in sweetsData) {
-                    const found = sweetsData[category].find(s => s.id === sweetId);
-                    if (found) {
-                        sweet = found;
-                        break;
-                    }
-                }
-                
-                if (!sweet) return;
-                
-                if (e.target.classList.contains('increase-btn')) {
-                    increaseSweetQuantity(sweetId, sweet);
-                }
-                
-                if (e.target.classList.contains('decrease-btn')) {
-                    decreaseSweetQuantity(sweetId);
-                }
-            });
+            <!-- subtle note: real netlify pages sometimes show this  -->
+            <div class="footnote">
+                ← this is a planned maintenance window · all systems will recover automatically
+            </div>
+        </div> <!-- end content -->
+    </div> <!-- end container -->
 
-            // Reset button
-            resetBtn.addEventListener('click', () => {
-                resetToDefaults();
-                showNotification("Reset Complete", "All customizations have been reset to default.");
-            });
-
-            // Add to cart button
-            addToCartBtn.addEventListener('click', () => {
-                addToCart();
-            });
-
-            // Viewer controls
-            rotateBtn.addEventListener('click', () => {
-                autoRotate = !autoRotate;
-                rotateBtn.innerHTML = autoRotate ? 
-                    '<i class="fas fa-sync-alt"></i>' : 
-                    '<i class="fas fa-pause"></i>';
-                rotateBtn.style.background = autoRotate ? 
-                    'rgba(108, 229, 255, 0.3)' : 
-                    'rgba(255, 107, 157, 0.3)';
-                
-                statView.textContent = autoRotate ? 'Auto Rotate' : 'Manual';
-                
-                showNotification(autoRotate ? "Auto Rotation On" : "Auto Rotation Off", 
-                    autoRotate ? "Box will now rotate automatically" : "Box rotation is now manual");
-            });
-
-            resetViewBtn.addEventListener('click', () => {
-                controls.reset();
-                if (boxModel) {
-                    boxModel.rotation.set(0, 0, 0);
-                }
-                targetRotationX = 0;
-                targetRotationY = 0;
-                currentRotationX = 0;
-                currentRotationY = 0;
-                
-                showNotification("View Reset", "Camera and box rotation have been reset");
-            });
-
-            zoomInBtn.addEventListener('click', () => {
-                camera.position.z = Math.max(5, camera.position.z - 1);
-            });
-
-            zoomOutBtn.addEventListener('click', () => {
-                camera.position.z = Math.min(30, camera.position.z + 1);
-            });
-        }
-
-        // Increase sweet quantity
-        function increaseSweetQuantity(sweetId, sweet) {
-            const totalSelected = getTotalSelectedSweets();
-            
-            if (totalSelected >= currentState.maxCapacity) {
-                showNotification("Capacity Full", `Maximum capacity reached! Please remove some sweets or choose a larger box.`, "error");
-                return;
-            }
-            
-            if (!currentState.selectedSweets[sweetId]) {
-                currentState.selectedSweets[sweetId] = 1;
-            } else {
-                currentState.selectedSweets[sweetId]++;
-            }
-            
-            update3DBox();
-            updateUI();
-            showNotification("Sweet Added", `Added ${sweet.name} to your box`);
-        }
-
-        // Decrease sweet quantity
-        function decreaseSweetQuantity(sweetId) {
-            if (currentState.selectedSweets[sweetId]) {
-                currentState.selectedSweets[sweetId]--;
-                
-                if (currentState.selectedSweets[sweetId] === 0) {
-                    delete currentState.selectedSweets[sweetId];
-                }
-                
-                update3DBox();
-                updateUI();
-                
-                let sweetName = "Sweet";
-                for (const category in sweetsData) {
-                    const found = sweetsData[category].find(s => s.id === sweetId);
-                    if (found) {
-                        sweetName = found.name;
-                        break;
-                    }
-                }
-                
-                showNotification("Sweet Removed", `Removed ${sweetName} from your box`);
-            }
-        }
-
-        // Get total number of selected sweets
-        function getTotalSelectedSweets() {
-            return Object.values(currentState.selectedSweets).reduce((sum, qty) => sum + qty, 0);
-        }
-
-        // Remove excess sweets if capacity is reduced
-        function trimExcessSweets() {
-            const totalSelected = getTotalSelectedSweets();
-            
-            if (totalSelected <= currentState.maxCapacity) return;
-            
-            const excess = totalSelected - currentState.maxCapacity;
-            const sweetIds = Object.keys(currentState.selectedSweets);
-            
-            let removed = 0;
-            for (let i = 0; i < sweetIds.length && removed < excess; i++) {
-                const id = sweetIds[i];
-                while (currentState.selectedSweets[id] > 0 && removed < excess) {
-                    currentState.selectedSweets[id]--;
-                    removed++;
-                    
-                    if (currentState.selectedSweets[id] === 0) {
-                        delete currentState.selectedSweets[id];
-                        break;
-                    }
-                }
-            }
-            
-            if (removed > 0) {
-                showNotification("Capacity Reduced", `${removed} sweets removed to fit new box size`, "warning");
-            }
-        }
-
-        // Update all UI elements
-        function updateUI() {
-            updateSweetItemControls();
-            updateCategoryCounts();
-            updateOrderSummary();
-            updateStats();
-            
-            capacityInfo.textContent = `Capacity: ${currentState.maxCapacity} sweets`;
-            quantityInfo.textContent = `Current: ${currentState.boxQuantity} box${currentState.boxQuantity > 1 ? 'es' : ''}`;
-        }
-
-        // Update sweet item controls
-        function updateSweetItemControls() {
-            document.querySelectorAll('.sweet-item').forEach(item => {
-                const sweetId = parseInt(item.dataset.id);
-                const quantityDisplay = item.querySelector('.quantity-display');
-                const decreaseBtn = item.querySelector('.decrease-btn');
-                const increaseBtn = item.querySelector('.increase-btn');
-                
-                const quantity = currentState.selectedSweets[sweetId] || 0;
-                quantityDisplay.textContent = quantity;
-                
-                decreaseBtn.disabled = quantity === 0;
-                
-                const totalSelected = getTotalSelectedSweets();
-                increaseBtn.disabled = totalSelected >= currentState.maxCapacity;
-                
-                if (quantity > 0) {
-                    item.classList.add('selected');
-                } else {
-                    item.classList.remove('selected');
-                }
-            });
-        }
-
-        // Update counts for each sweet category
-        function updateCategoryCounts() {
-            let chocolateCountValue = 0;
-            let candyCountValue = 0;
-            let traditionalCountValue = 0;
-            
-            Object.keys(currentState.selectedSweets).forEach(id => {
-                const sweetId = parseInt(id);
-                
-                if (sweetsData.chocolates.find(s => s.id === sweetId)) {
-                    chocolateCountValue += currentState.selectedSweets[sweetId];
-                } else if (sweetsData.candies.find(s => s.id === sweetId)) {
-                    candyCountValue += currentState.selectedSweets[sweetId];
-                } else if (sweetsData.traditional.find(s => s.id === sweetId)) {
-                    traditionalCountValue += currentState.selectedSweets[sweetId];
-                }
-            });
-            
-            chocolateCount.textContent = `Selected: ${chocolateCountValue}`;
-            candyCount.textContent = `Selected: ${candyCountValue}`;
-            traditionalCount.textContent = `Selected: ${traditionalCountValue}`;
-        }
-
-        // Update the order summary
-        function updateOrderSummary() {
-            const totalSelected = getTotalSelectedSweets();
-            const boxData = boxSizes[currentState.boxSize];
-            
-            let sweetsCost = 0;
-            Object.keys(currentState.selectedSweets).forEach(id => {
-                const sweetId = parseInt(id);
-                const quantity = currentState.selectedSweets[sweetId];
-                
-                let sweet = null;
-                for (const category in sweetsData) {
-                    const found = sweetsData[category].find(s => s.id === sweetId);
-                    if (found) {
-                        sweet = found;
-                        break;
-                    }
-                }
-                
-                if (sweet) {
-                    sweetsCost += sweet.price * quantity;
-                }
-            });
-            
-            const basePrice = boxData.basePrice * currentState.boxQuantity;
-            const totalSweetsPrice = sweetsCost * currentState.boxQuantity;
-            const totalPrice = basePrice + totalSweetsPrice;
-            
-            summarySize.textContent = currentState.boxSize.charAt(0).toUpperCase() + currentState.boxSize.slice(1);
-            summaryQuantity.textContent = currentState.boxQuantity;
-            summarySweets.textContent = totalSelected;
-            summaryBasePrice.textContent = `$${basePrice.toFixed(2)}`;
-            summarySweetsPrice.textContent = `$${totalSweetsPrice.toFixed(2)}`;
-            summaryTotalPrice.textContent = `$${totalPrice.toFixed(2)}`;
-        }
-
-        // Update stats in viewer
-        function updateStats() {
-            const totalSelected = getTotalSelectedSweets();
-            statBox.textContent = currentState.boxSize.charAt(0).toUpperCase() + currentState.boxSize.slice(1);
-            statCapacity.textContent = `${totalSelected}/${currentState.maxCapacity}`;
-        }
-
-        // Reset to default state
-        function resetToDefaults() {
-            currentState = {
-                boxSize: "small",
-                boxQuantity: 1,
-                selectedSweets: {},
-                maxCapacity: boxSizes.small.capacity
-            };
-            
-            sizeBtns.forEach(btn => btn.classList.remove('active'));
-            sizeBtns[0].classList.add('active');
-            
-            quantityBtns.forEach(btn => btn.classList.remove('active'));
-            quantityBtns[0].classList.add('active');
-            
-            if (boxModel) {
-                boxModel.scale.set(1.5, 1.5, 1.5);
-            }
-            
-            update3DBox();
-            updateUI();
-        }
-
-        // Add to cart functionality
-        function addToCart() {
-            const totalSelected = getTotalSelectedSweets();
-            
-            if (totalSelected === 0) {
-                showNotification("Empty Box", "Please add some sweets to your box before adding to cart!", "error");
-                return;
-            }
-            
-            const orderData = {
-                boxSize: currentState.boxSize,
-                boxQuantity: currentState.boxQuantity,
-                selectedSweets: currentState.selectedSweets,
-                totalPrice: document.getElementById('summary-total-price').textContent
-            };
-            
-            const sweetCount = Object.values(currentState.selectedSweets).reduce((a, b) => a + b, 0);
-            showNotification("Added to Cart!", `Your ${currentState.boxSize} sweet box (x${currentState.boxQuantity}) with ${sweetCount} sweets has been added to your cart.`, "success");
-            
-            if (boxModel) {
-                const originalY = boxModel.position.y;
-                let bounceHeight = 0.3;
-                let bounceCount = 0;
-                const maxBounces = 3;
-                
-                function bounce() {
-                    if (bounceCount >= maxBounces) {
-                        boxModel.position.y = originalY;
-                        return;
-                    }
-                    
-                    boxModel.position.y = originalY + bounceHeight;
-                    bounceHeight *= 0.7;
-                    bounceCount++;
-                    
-                    setTimeout(bounce, 150);
-                }
-                
-                bounce();
-            }
-        }
-
-        // Show notification
-        function showNotification(title, message, type = "info") {
-            notificationTitle.textContent = title;
-            notificationMessage.textContent = message;
-            
-            if (type === "error") {
-                notification.style.borderLeftColor = "#ff4757";
-                notificationTitle.style.color = "#ff4757";
-            } else if (type === "warning") {
-                notification.style.borderLeftColor = "#ffa502";
-                notificationTitle.style.color = "#ffa502";
-            } else if (type === "success") {
-                notification.style.borderLeftColor = "#2ed573";
-                notificationTitle.style.color = "#2ed573";
-            } else {
-                notification.style.borderLeftColor = "#ff6b9d";
-                notificationTitle.style.color = "#ff6b9d";
-            }
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Initialize the app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initApp);
-    </script>
+    <!-- additional micro detail: netlify‑esque 'deploy preview' unavailable message (optional) but we stay minimal -->
+    <div style="margin-top: 1.2rem; font-size:0.8rem; color:#738694; max-width:640px; text-align:center; border-radius: 30px;">
+        <span>⚡ Netlify — Continuous deployment · Git integration · Edge network</span>
+    </div>
 </body>
 </html>
